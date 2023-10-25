@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<raConfiguration version="7">
+  <raModuleConfiguration>
+    <module id="module.driver.dsmif_channel.645151782">
+      <property id="module.driver.dsmif.channel_name" value="g_dsmif_channel2"/>
+      <property id="module.driver.dsmif.adc_clock" value="module.driver.dsmif.adc_clock.master"/>
+      <property id="module.driver.dsmif.adc_clock_ratio" value="module.driver.dsmif.adc_clock_ratio.pclkh200_20mhz"/>
+      <property id="module.driver.dsmif.adc_edge" value="module.driver.dsmif.adc_edge.positive"/>
+      <property id="module.driver.dsmif.current_filter_order" value="module.driver.dsmif.current_filter_order.order_3rd"/>
+      <property id="module.driver.dsmif.decimation_ratio" value="enum.mcu.dsmif.ratio.64"/>
+      <property id="module.driver.dsmif.iue" value="module.driver.dsmif.iue.disabled"/>
+      <property id="module.driver.dsmif.overcurrent_filter_order" value="module.driver.dsmif.overcurrent_filter_order.order_3rd"/>
+      <property id="module.driver.dsmif.overcurrent_ratio" value="enum.mcu.dsmif.ratio.64"/>
+      <property id="module.driver.dsmif.odeh" value="module.driver.dsmif.odeh.disabled"/>
+      <property id="module.driver.dsmif.overcurrent_upper" value="63487"/>
+      <property id="module.driver.dsmif.odel" value="module.driver.dsmif.odel.disabled"/>
+      <property id="module.driver.dsmif.overcurrent_lower" value="2048"/>
+      <property id="module.driver.dsmif.ioeh" value="module.driver.dsmif.ioeh.disabled"/>
+      <property id="module.driver.dsmif.ioel" value="module.driver.dsmif.ioel.disabled"/>
+      <property id="module.driver.dsmif.sde" value="module.driver.dsmif.sde.disabled"/>
+      <property id="module.driver.dsmif.ise" value="module.driver.dsmif.ise.enabled"/>
+      <property id="module.driver.dsmif.shortcircuit_high" value="1000"/>
+      <property id="module.driver.dsmif.shortcircuit_low" value="1000"/>
+    </module>
+    <module id="module.driver.adc_on_dsmif.53712423">
+      <property id="module.driver.dsmif.default_no" value="1"/>
+      <property id="module.driver.dsmif.name" value="g_dsmif1"/>
+      <property id="module.driver.dsmif.unit" value="1"/>
+      <property id="module.driver.dsmif.mode" value="module.driver.dsmif.mode.synchronization"/>
+      <property id="module.driver.dsmif.capture_a" value="module.driver.dsmif.capture_a.trigger_0"/>
+      <property id="module.driver.dsmif.capture_b" value="module.driver.dsmif.capture_b.no_trigger"/>
+      <property id="module.driver.dsmif.filter_init" value="module.driver.dsmif.filter_init.trigger_0"/>
+      <property id="module.driver.dsmif.filter_init_edge" value="module.driver.dsmif.filter_init_edge.positive"/>
+      <property id="module.driver.dsmif.seeh" value="module.driver.dsmif.seeh.invalid"/>
+      <property id="module.driver.dsmif.sum_error_high_threshold" value="63487"/>
+      <property id="module.driver.dsmif.seel" value="module.driver.dsmif.seel.invalid"/>
+      <property id="module.driver.dsmif.sum_error_low_threshold" value="2048"/>
+      <property id="module.driver.dsmif.p_callback" value="NULL"/>
+      <property id="module.driver.dsmif.ipl" value="_disabled"/>
+      <property id="module.driver.dsmif.iseh" value="module.driver.dsmif.iseh.disabled"/>
+      <property id="module.driver.dsmif.isel" value="module.driver.dsmif.isel.disabled"/>
+      <property id="module.driver.dsmif.sum_error_mode" value="module.driver.dsmif.sum_error_mode.ch_0_1_2"/>
+    </module>
+    <context id="_context.65515938">
+      <stack module="module.driver.adc_on_dsmif.53712423">
+        <stack module="module.driver.dsmif_channel.645151782" requires="module.driver.dsmif.requires.channel0"/>
+      </stack>
+    </context>
+  </raModuleConfiguration>
+</raConfiguration>
