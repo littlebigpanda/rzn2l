@@ -57,9 +57,18 @@ rzn/board/rzn2l_rsk \
 rzn/fsp/src/bsp/cmsis/Device/RENESAS/Source \
 rzn/fsp/src/bsp/mcu/all \
 rzn/fsp/src/bsp/mcu/rzn2l \
+rzn/fsp/src/r_cmt \
 rzn/fsp/src/r_dmac \
 rzn/fsp/src/r_dsmif \
+rzn/fsp/src/r_ether_phy \
+rzn/fsp/src/r_ether_selector \
 rzn/fsp/src/r_ioport \
+rzn/fsp/src/r_usb_basic \
+rzn/fsp/src/r_usb_basic/src/driver \
+rzn/fsp/src/r_usb_basic/src/hw \
+rzn/fsp/src/r_usb_pcdc/src \
+rzn/fsp/src/r_xspi_qspi \
+rzn/fsp/src/rm_ethercat_ssc_port \
 rzn_gen \
 src \
 

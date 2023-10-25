@@ -76,6 +76,13 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn_gen}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn_cfg/fsp_cfg}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn_cfg/fsp_cfg/bsp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn/fsp/src/r_usb_basic/src/hw/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn/fsp/src/r_usb_basic/src/hw}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn/fsp/src/r_usb_basic/src/driver/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn/fsp/src/r_usb_basic/src/driver}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn/fsp/src/r_usb_basic/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn/fsp/src/rm_ethercat_ssc_port}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn_cfg/driver}&quot;"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.input.1056217597" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.input"/>
 							</tool>
@@ -96,6 +103,13 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn_gen}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn_cfg/fsp_cfg}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn_cfg/fsp_cfg/bsp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn/fsp/src/r_usb_basic/src/hw/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn/fsp/src/r_usb_basic/src/hw}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn/fsp/src/r_usb_basic/src/driver/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn/fsp/src/r_usb_basic/src/driver}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn/fsp/src/r_usb_basic/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn/fsp/src/rm_ethercat_ssc_port}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn_cfg/driver}&quot;"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.1560959704" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
 							</tool>
@@ -306,6 +320,13 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn_gen}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn_cfg/fsp_cfg}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn_cfg/fsp_cfg/bsp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn/fsp/src/r_usb_basic/src/hw/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn/fsp/src/r_usb_basic/src/hw}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn/fsp/src/r_usb_basic/src/driver/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn/fsp/src/r_usb_basic/src/driver}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn/fsp/src/r_usb_basic/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn/fsp/src/rm_ethercat_ssc_port}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn_cfg/driver}&quot;"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.input.730272872" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.input"/>
 							</tool>
@@ -326,6 +347,13 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn_gen}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn_cfg/fsp_cfg}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn_cfg/fsp_cfg/bsp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn/fsp/src/r_usb_basic/src/hw/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn/fsp/src/r_usb_basic/src/hw}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn/fsp/src/r_usb_basic/src/driver/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn/fsp/src/r_usb_basic/src/driver}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn/fsp/src/r_usb_basic/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn/fsp/src/rm_ethercat_ssc_port}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/rzn_cfg/driver}&quot;"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.1683885666" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
 							</tool>

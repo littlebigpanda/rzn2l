@@ -12,7 +12,7 @@
     <option key="#FSPVersion#" value="1.2.0"/>
     <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##rzn2l_rsk##xspi0_x1_boot"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
-    <option key="#ToolchainVersion#" value="10.3.1.20210824"/>
+    <option key="#ToolchainVersion#" value="9.3.1.20200408"/>
   </generalSettings>
   <raBspConfiguration>
     <config id="config.board.rzn2lrsk.xspi0_x1">
@@ -296,11 +296,11 @@
     </config>
     <config id="config.bsp.rzn2l">
       <property id="config.bsp.common.fiq" value="0x400"/>
-      <property id="config.bsp.common.irq" value="0x400"/>
+      <property id="config.bsp.common.irq" value="0x1000"/>
       <property id="config.bsp.common.abt" value="0x400"/>
       <property id="config.bsp.common.und" value="0x400"/>
-      <property id="config.bsp.common.sys" value="0x400"/>
-      <property id="config.bsp.common.svc" value="0x400"/>
+      <property id="config.bsp.common.sys" value="0x1000"/>
+      <property id="config.bsp.common.svc" value="0x1000"/>
       <property id="config.bsp.common.heap" value="0x2000"/>
       <property id="config.bsp.common.c_runtime_init" value="config.bsp.common.c_runtime_init.enabled"/>
       <property id="config.bsp.common.tfu_mathlib" value="config.bsp.common.tfu_mathlib.enabled"/>
@@ -327,7 +327,7 @@
     <node id="board.clock.pll0.display" option="board.clock.pll0.display.value"/>
     <node id="board.clock.pll1" option="board.clock.pll1.initial"/>
     <node id="board.clock.pll1.display" option="board.clock.pll1.display.value"/>
-    <node id="board.clock.ethernet.source" option="board.clock.ethernet.source.main"/>
+    <node id="board.clock.ethernet.source" option="board.clock.ethernet.source.pll1"/>
     <node id="board.clock.reference.display" option="board.clock.reference.display.value"/>
     <node id="board.clock.loco.freq" option="board.clock.loco.freq.240k"/>
     <node id="board.clock.clma0.enable" option="board.clock.clma0.enable.enabled"/>
@@ -336,7 +336,7 @@
     <node id="board.clock.clma1.error" option="board.clock.clma1.error.mask"/>
     <node id="board.clock.clma3.enable" option="board.clock.clma3.enable.enabled"/>
     <node id="board.clock.clma1.enable" option="board.clock.clma1.enable.enabled"/>
-    <node id="board.clock.clma2.enable" option="board.clock.clma2.enable.enabled"/>
+    <node id="board.clock.clma2.enable" option="board.clock.clma2.enable.disabled"/>
     <node id="board.clock.clma0.cmpl" mul="1" option="_edit"/>
     <node id="board.clock.clma1.cmpl" mul="1" option="_edit"/>
     <node id="board.clock.clma2.cmpl" mul="1" option="_edit"/>
@@ -347,7 +347,7 @@
     <node id="board.clock.clma2.cmph" mul="1023" option="_edit"/>
     <node id="board.clock.clma3.cmph" mul="1023" option="_edit"/>
     <node id="board.clock.iclk.freq" option="board.clock.iclk.freq.200m"/>
-    <node id="board.clock.cpu0clk.mul" option="board.clock.cpu0clk.mul.1"/>
+    <node id="board.clock.cpu0clk.mul" option="board.clock.cpu0clk.mul.2"/>
     <node id="board.clock.cpu0clk.display" option="board.clock.cpu0clk.display.value"/>
     <node id="board.clock.ckio.div" option="board.clock.ckio.div.4"/>
     <node id="board.clock.ckio.display" option="board.clock.ckio.display.value"/>
@@ -359,7 +359,7 @@
     <node id="board.clock.sci5asyncclk.sel" option="board.clock.sci5asyncclk.sel.1"/>
     <node id="board.clock.spi0asyncclk.sel" option="board.clock.spi0asyncclk.sel.1"/>
     <node id="board.clock.spi1asyncclk.sel" option="board.clock.spi1asyncclk.sel.1"/>
-    <node id="board.clock.spi2asyncclk.sel" option="board.clock.spi2asyncclk.sel.1"/>
+    <node id="board.clock.spi2asyncclk.sel" option="board.clock.spi2asyncclk.sel.0"/>
     <node id="board.clock.spi3asyncclk.sel" option="board.clock.spi3asyncclk.sel.1"/>
     <node id="board.clock.pclkshost.display" option="board.clock.pclkshost.display.value"/>
     <node id="board.clock.pclkgptl.display" option="board.clock.pclkgptl.display.value"/>
@@ -368,22 +368,14 @@
     <node id="board.clock.pclkl.display" option="board.clock.pclkl.display.value"/>
     <node id="board.clock.pclkadc.display" option="board.clock.pclkadc.display.value"/>
     <node id="board.clock.pclkcan.freq" option="board.clock.pclkcan.freq.40m"/>
-    <node id="board.clock.xspi.clk0.freq" option="board.clock.xspi.clk0.freq.12m"/>
-    <node id="board.clock.xspi.clk1.freq" option="board.clock.xspi.clk1.freq.12m"/>
+    <node id="board.clock.xspi.clk0.freq" option="board.clock.xspi.clk0.freq.25m"/>
+    <node id="board.clock.xspi.clk1.freq" option="board.clock.xspi.clk1.freq.25m"/>
     <node id="board.clock.tclk.freq" option="board.clock.tclk.freq.100m"/>
   </raClockConfiguration>
   <raComponentSelection>
-    <component apiversion="" class="Projects" condition="" group="all" subgroup="baremetal_blinky" variant="" vendor="Renesas" version="1.3.0">
-      <description>Simple application that blinks an LED. No RTOS included.</description>
-      <originalPack>Renesas.RZN2L_baremetal_blinky.1.3.0.pack</originalPack>
-    </component>
     <component apiversion="" class="CMSIS" condition="" group="CMSIS5" subgroup="CoreR" variant="" vendor="Arm" version="5.7.0+renesas.1">
       <description>Arm CMSIS Version 5 - Core (R)</description>
       <originalPack>Arm.CMSIS5.5.7.0+renesas.1.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="rzn2l" subgroup="device" variant="R9A07G084M04GBG" vendor="Renesas" version="1.2.0">
-      <description>Board support package for R9A07G084M04GBG</description>
-      <originalPack>Renesas.RZN_mcu_rzn2l.1.2.0.pack</originalPack>
     </component>
     <component apiversion="" class="BSP" condition="" group="rzn2l" subgroup="device" variant="" vendor="Renesas" version="1.2.0">
       <description>Board support package for RZN2L</description>
@@ -393,38 +385,109 @@
       <description>Board support package for RZN2L - FSP Data</description>
       <originalPack>Renesas.RZN_mcu_rzn2l.1.2.0.pack</originalPack>
     </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="rzn2l_rsk" variant="xspi0_x1_boot" vendor="Renesas" version="1.2.0">
-      <description>RSK+RZN2L Board Support Files (xSPI0 x1 boot mode)</description>
-      <originalPack>Renesas.RZN_board_rzn2l_rsk.1.2.0.pack</originalPack>
-    </component>
     <component apiversion="" class="Common" condition="" group="all" subgroup="fsp_common" variant="" vendor="Renesas" version="1.2.0">
       <description>Board Support Package Common Files</description>
+      <originalPack>Renesas.RZN.1.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_cmt" variant="" vendor="Renesas" version="1.2.0">
+      <description>Compare Match Timer</description>
       <originalPack>Renesas.RZN.1.2.0.pack</originalPack>
     </component>
     <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dmac" variant="" vendor="Renesas" version="1.2.0">
       <description>Direct Memory Access Controller</description>
       <originalPack>Renesas.RZN.1.2.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dsmif" variant="" vendor="Renesas" version="1.2.0">
-      <description>Delta Sigma Interface</description>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether_phy" variant="" vendor="Renesas" version="1.2.0">
+      <description>Ethernet PHY</description>
+      <originalPack>Renesas.RZN.1.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether_selector" variant="" vendor="Renesas" version="1.2.0">
+      <description>Ethernet Selector</description>
       <originalPack>Renesas.RZN.1.2.0.pack</originalPack>
     </component>
     <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ioport" variant="" vendor="Renesas" version="1.2.0">
       <description>I/O Port</description>
       <originalPack>Renesas.RZN.1.2.0.pack</originalPack>
     </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_usb_basic" variant="" vendor="Renesas" version="1.2.0">
+      <description>USB Basic</description>
+      <originalPack>Renesas.RZN.1.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_usb_pcdc" variant="" vendor="Renesas" version="1.2.0">
+      <description>USB Peripheral Communications Device Class</description>
+      <originalPack>Renesas.RZN.1.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_ethercat_ssc_port" variant="" vendor="Renesas" version="1.2.0">
+      <description>EtherCAT Slave Stack Code port for RZ microprocessors</description>
+      <originalPack>Renesas.RZN.1.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="rzn2l" subgroup="device" variant="R9A07G084M04GBG" vendor="Renesas" version="1.2.0">
+      <description>Board support package for R9A07G084M04GBG</description>
+      <originalPack>Renesas.RZN_mcu_rzn2l.1.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="rzn2l_rsk" variant="xspi0_x1_boot" vendor="Renesas" version="1.2.0">
+      <description>RSK+RZN2L Board Support Files (xSPI0 x1 boot mode)</description>
+      <originalPack>Renesas.RZN_board_rzn2l_rsk.1.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_xspi_qspi" variant="" vendor="Renesas" version="1.2.0">
+      <description>Quad Serial Peripheral Interface Flash on Expanded Serial Peripheral Interface</description>
+      <originalPack>Renesas.RZN.1.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dsmif" variant="" vendor="Renesas" version="1.2.0">
+      <description>Delta Sigma Interface</description>
+      <originalPack>Renesas.RZN.1.2.0.pack</originalPack>
+    </component>
   </raComponentSelection>
   <raElcConfiguration/>
   <raIcuConfiguration>
-    <interrupt event="event.mtu3.ch0.tgic0" isr="null"/>
-    <interrupt event="event.iic.ch2.iic2_rxi" isr="null"/>
-    <interrupt event="event.iic.ch2.iic2_eei" isr="null"/>
-    <interrupt event="event.iic.ch2.iic2_txi" isr="null"/>
-    <interrupt event="event.iic.ch2.iic2_tei" isr="null"/>
-    <interrupt event="event.iic.ch1.iic1_eei" isr="null"/>
+    <interrupt event="event.mtu3.ch3.tgia3" isr="null"/>
+    <interrupt event="event.sci.ch3.sci3_eri" isr="null"/>
+    <interrupt event="event.sci.ch3.sci3_rxi" isr="null"/>
+    <interrupt event="event.sci.ch3.sci3_txi" isr="null"/>
+    <interrupt event="event.sci.ch3.sci3_tei" isr="null"/>
+    <interrupt event="event.sci.ch1.sci1_eri" isr="null"/>
+    <interrupt event="event.sci.ch1.sci1_rxi" isr="null"/>
+    <interrupt event="event.sci.ch1.sci1_txi" isr="null"/>
+    <interrupt event="event.sci.ch1.sci1_tei" isr="null"/>
+    <interrupt event="event.esc.unit0.esc_sync0" isr="null"/>
+    <interrupt event="event.esc.unit0.esc_sync1" isr="null"/>
+    <interrupt event="event.esc.unit0.esc_cat" isr="null"/>
+    <interrupt event="event.sci.ch0.sci0_eri" isr="null"/>
+    <interrupt event="event.sci.ch0.sci0_rxi" isr="null"/>
+    <interrupt event="event.sci.ch0.sci0_txi" isr="null"/>
+    <interrupt event="event.sci.ch0.sci0_tei" isr="null"/>
+    <interrupt event="event.mtu3.ch0.tgie0" isr="null"/>
     <interrupt event="event.iic.ch1.iic1_rxi" isr="null"/>
     <interrupt event="event.iic.ch1.iic1_txi" isr="null"/>
+    <interrupt event="event.cmt.ch1.cmt1_cmi" isr="null"/>
+    <interrupt event="event.usb.uint0.usb_fi" isr="null"/>
+    <interrupt event="event.usb.uint0.usb_fdma0" isr="null"/>
+    <interrupt event="event.usb.uint0.usb_fdma1" isr="null"/>
+    <interrupt event="event.dsmif.unit0.dsmif0_cdrui" isr="null"/>
+    <interrupt event="event.dsmif.unit1.dsmif1_cdrui" isr="null"/>
+    <interrupt event="event.gpt.ch13.gpt13_ovf" isr="null"/>
+    <interrupt event="event.mtu3.ch4.tciv4" isr="null"/>
+    <interrupt event="event.cmt.ch0.cmt0_cmi" isr="null"/>
+    <interrupt event="event.iic.ch1.iic1_eei" isr="null"/>
     <interrupt event="event.iic.ch1.iic1_tei" isr="null"/>
+    <interrupt event="event.iic.ch2.iic2_eei" isr="null"/>
+    <interrupt event="event.iic.ch2.iic2_rxi" isr="null"/>
+    <interrupt event="event.iic.ch2.iic2_txi" isr="null"/>
+    <interrupt event="event.iic.ch2.iic2_tei" isr="null"/>
+    <interrupt event="event.sci.ch2.sci2_eri" isr="null"/>
+    <interrupt event="event.sci.ch2.sci2_rxi" isr="null"/>
+    <interrupt event="event.sci.ch2.sci2_txi" isr="null"/>
+    <interrupt event="event.sci.ch2.sci2_tei" isr="null"/>
+    <interrupt event="event.sci.ch4.sci4_eri" isr="null"/>
+    <interrupt event="event.sci.ch4.sci4_rxi" isr="null"/>
+    <interrupt event="event.sci.ch4.sci4_txi" isr="null"/>
+    <interrupt event="event.sci.ch4.sci4_tei" isr="null"/>
+    <interrupt event="event.mtu3.ch0.tgia0" isr="null"/>
+    <interrupt event="event.mtu3.ch0.tgib0" isr="null"/>
+    <interrupt event="event.mtu3.ch0.tgic0" isr="null"/>
+    <interrupt event="event.mtu3.ch0.tgid0" isr="null"/>
+    <interrupt event="event.mtu3.ch0.tciv0" isr="null"/>
+    <interrupt event="event.mtu3.ch0.tgif0" isr="null"/>
   </raIcuConfiguration>
   <raModuleConfiguration>
     <module id="module.driver.ioport_on_ioport.0">
@@ -484,7 +547,145 @@
       <property id="module.driver.ioport.operation_single_output_port3" value="Low output"/>
       <property id="module.driver.ioport.edge_detect_single_output_port3" value="Rising edge"/>
     </module>
-    <module id="module.driver.dsmif_channel.1067082289">
+    <module id="module.driver.basic_on_usb.1818228404">
+      <property id="module.driver.basic.name" value="g_basic0"/>
+      <property id="module.driver.usb_basic.usb_mode" value="module.driver.usb_basic.usb_mode.host"/>
+      <property id="module.driver.usb_basic.usb_speed" value="module.driver.usb_basic.usb_speed.hs"/>
+      <property id="module.driver.usb_basic.usb_classtype" value="module.driver.usb_basic.usb_classtype.pcdc"/>
+      <property id="module.driver.usb_basic.p_usb_reg" value="g_usb_descriptor"/>
+      <property id="module.driver.usb_basic.complience_cb" value="NULL"/>
+      <property id="module.driver.usb_basic.ipl" value="board.icu.common.irq.priority30"/>
+      <property id="module.driver.usb_basic.ipl_r" value="board.icu.common.irq.priority30"/>
+      <property id="module.driver.usb_basic.ipl_d0" value="board.icu.common.irq.priority30"/>
+      <property id="module.driver.usb_basic.ipl_d1" value="board.icu.common.irq.priority30"/>
+      <property id="module.driver.usb_basic.rtos_callback" value="NULL"/>
+      <property id="module.driver.usb_basic.other_context" value="NULL"/>
+    </module>
+    <module id="module.driver.pcdc_on_usb.26736013">
+      <property id="module.driver.pcdc.name" value="g_pcdc0"/>
+    </module>
+    <module id="module.driver.ether_selector_on_ether_selector.1393782342">
+      <property id="module.driver.ether_selector.name" value="g_ether_selector1"/>
+      <property id="module.driver.ether_selector.channel" value="module.driver.ether_selector.channel.0"/>
+      <property id="module.driver.ether_selector.phylink" value="module.driver.ether_selector.phylink.low"/>
+      <property id="module.driver.ether_selector.interface_type" value="module.driver.ether_selector.interface_type.rgmii"/>
+      <property id="module.driver.ether_selector.speed" value="module.driver.ether_selector.speed.bps1000m"/>
+      <property id="module.driver.ether_selector.duplex" value="module.driver.ether_selector.duplex.full"/>
+      <property id="module.driver.ether_selector.ref_clock" value="module.driver.ether_selector.ref_clock.input"/>
+    </module>
+    <module id="module.driver.ether_phy_on_ether_phy.1501193633">
+      <property id="module.driver.ether_phy.name" value="g_ether_phy1"/>
+      <property id="module.driver.ether_phy.channel" value="module.driver.ether_phy.channel.1"/>
+      <property id="module.driver.ether_phy.phy_lsi_address" value="1"/>
+      <property id="module.driver.ether_phy.phy_reset_wait_time" value="0x00020000"/>
+      <property id="module.driver.ether_phy.flow_control" value="module.driver.ether_phy.flow_control.disable"/>
+      <property id="module.driver.ether_phy.port_type" value="module.driver.ether_phy.port_type.0"/>
+      <property id="module.driver.ether_phy.phy_chip" value="module.driver.ether_phy.phy_chip.4"/>
+      <property id="module.driver.ether_phy.mdio_type" value="module.driver.ether_phy.mdio_type.0"/>
+      <property id="module.driver.ether_phy.auto_negotiation" value="module.driver.ether_phy.auto_negotiation.1"/>
+      <property id="module.driver.ether_phy.bps" value="module.driver.ether_phy.bps.3"/>
+      <property id="module.driver.ether_phy.duplex" value="module.driver.ether_phy.duplex.1"/>
+      <property id="module.driver.ether_phy.reset_port" value="module.driver.ether_phy.reset_port.PORT_13"/>
+      <property id="module.driver.ether_phy.reset_pin" value="module.driver.ether_phy.reset_pin.PIN_04"/>
+      <property id="module.driver.ether_phy.reset_time" value="15000"/>
+    </module>
+    <module id="module.driver.ether_selector_on_ether_selector.1990378166">
+      <property id="module.driver.ether_selector.name" value="g_ether_selector0"/>
+      <property id="module.driver.ether_selector.channel" value="module.driver.ether_selector.channel.0"/>
+      <property id="module.driver.ether_selector.phylink" value="module.driver.ether_selector.phylink.low"/>
+      <property id="module.driver.ether_selector.interface_type" value="module.driver.ether_selector.interface_type.rgmii"/>
+      <property id="module.driver.ether_selector.speed" value="module.driver.ether_selector.speed.bps1000m"/>
+      <property id="module.driver.ether_selector.duplex" value="module.driver.ether_selector.duplex.full"/>
+      <property id="module.driver.ether_selector.ref_clock" value="module.driver.ether_selector.ref_clock.input"/>
+    </module>
+    <module id="module.driver.ether_phy_on_ether_phy.306442829">
+      <property id="module.driver.ether_phy.name" value="g_ether_phy0"/>
+      <property id="module.driver.ether_phy.channel" value="module.driver.ether_phy.channel.0"/>
+      <property id="module.driver.ether_phy.phy_lsi_address" value="0"/>
+      <property id="module.driver.ether_phy.phy_reset_wait_time" value="0x00020000"/>
+      <property id="module.driver.ether_phy.flow_control" value="module.driver.ether_phy.flow_control.disable"/>
+      <property id="module.driver.ether_phy.port_type" value="module.driver.ether_phy.port_type.0"/>
+      <property id="module.driver.ether_phy.phy_chip" value="module.driver.ether_phy.phy_chip.4"/>
+      <property id="module.driver.ether_phy.mdio_type" value="module.driver.ether_phy.mdio_type.0"/>
+      <property id="module.driver.ether_phy.auto_negotiation" value="module.driver.ether_phy.auto_negotiation.1"/>
+      <property id="module.driver.ether_phy.bps" value="module.driver.ether_phy.bps.3"/>
+      <property id="module.driver.ether_phy.duplex" value="module.driver.ether_phy.duplex.1"/>
+      <property id="module.driver.ether_phy.reset_port" value="module.driver.ether_phy.reset_port.PORT_13"/>
+      <property id="module.driver.ether_phy.reset_pin" value="module.driver.ether_phy.reset_pin.PIN_04"/>
+      <property id="module.driver.ether_phy.reset_time" value="15000"/>
+    </module>
+    <module id="module.middleware.ethercat_ssc_port_on_ethercat_ssc_port.488050280">
+      <property id="module.middleware.ethercat_ssc_port.name" value="g_ethercat_ssc_port0"/>
+      <property id="module.middleware.ethercat_ssc_port.phy_hold_time" value="10"/>
+      <property id="module.middleware.ethercat_ssc_port.phy_wait_time" value="15000"/>
+      <property id="module.middleware.ethercat_ssc_port.phy_offset_address" value="0"/>
+      <property id="module.middleware.ethercat_ssc_port.eepromsize" value="module.middleware.ethercat_ssc_port.eepromsize.under32kbit"/>
+      <property id="module.middleware.ethercat_ssc_port.txc_delay.port0" value="module.middleware.ethercat_ssc_port.txc_delay.port0.delay_00ns"/>
+      <property id="module.middleware.ethercat_ssc_port.txc_delay.port1" value="module.middleware.ethercat_ssc_port.txc_delay.port1.delay_00ns"/>
+      <property id="module.middleware.ethercat_ssc_port.txc_delay.port2" value="module.middleware.ethercat_ssc_port.txc_delay.port2.delay_00ns"/>
+      <property id="module.middleware.ethercat_ssc_port.esc_cat_interrupt_priority" value="board.icu.common.irq.priority12"/>
+      <property id="module.middleware.ethercat_ssc_port.esc_sync0_interrupt_priority" value="board.icu.common.irq.priority5"/>
+      <property id="module.middleware.ethercat_ssc_port.esc_sync1_interrupt_priority" value="board.icu.common.irq.priority5"/>
+      <property id="module.middleware.ethercat_ssc_port.p_callback" value="NULL"/>
+    </module>
+    <module id="module.driver.qspi_on_xspi_qspi.1829643750">
+      <property id="module.driver.xspi_qspi.name" value="g_qspi_flash"/>
+      <property id="module.driver.xspi_qspi.unit" value="1"/>
+      <property id="module.driver.xspi_qspi.chip_select" value="module.driver.xspi_qspi.chip_select.cs0"/>
+      <property id="module.driver.xspi_qspi.flash_size" value="module.driver.xspi_qspi.flash_size.flash_size_16mb"/>
+      <property id="module.driver.xspi_qspi.spi_protocol" value="module.driver.xspi_qspi.spi_protocol.protocol_1s_1s_1s"/>
+      <property id="module.driver.xspi_qspi.address_bytes" value="module.driver.xspi_qspi.address_bytes.address_bytes_3"/>
+      <property id="module.driver.xspi_qspi.dummy_clocks" value="module.driver.xspi_qspi.dummy_clocks.dummy_clocks_0"/>
+      <property id="module.driver.xspi_qspi.prefetch_function" value="module.driver.xspi_qspi.prefetch_function.prefetch_function_enable"/>
+      <property id="module.driver.xspi_qspi.page_program_command" value="0x02"/>
+      <property id="module.driver.xspi_qspi.read_command" value="0x03"/>
+      <property id="module.driver.xspi_qspi.write_enable_command" value="0x06"/>
+      <property id="module.driver.xspi_qspi.status_command" value="0x05"/>
+      <property id="module.driver.xspi_qspi.write_status_bit" value="0"/>
+      <property id="module.driver.xspi_qspi.sector_erase_command" value="0x20"/>
+      <property id="module.driver.xspi_qspi.sector_erase_size" value="4096"/>
+      <property id="module.driver.xspi_qspi.block_erase_command" value="0xD8"/>
+      <property id="module.driver.xspi_qspi.block_erase_size" value="65536"/>
+      <property id="module.driver.xspi_qspi.block_erase_32kb_command" value="0x52"/>
+      <property id="module.driver.xspi_qspi.block_erase_32kb_size" value="32768"/>
+      <property id="module.driver.xspi_qspi.chip_erase_command" value="0xC7"/>
+      <property id="module.driver.xspi_qspi.xip_enter_command" value="0x20"/>
+      <property id="module.driver.xspi_qspi.xip_exit_command" value="0xFF"/>
+      <property id="module.driver.xspi_qspi.command_to_command_interval_clocks" value="module.driver.xspi_qspi.command_to_command_interval_clocks.7_cycles"/>
+      <property id="module.driver.xspi_qspi.cs_pullup_lag" value="module.driver.xspi_qspi.cs_pullup_lag.no_extension"/>
+      <property id="module.driver.xspi_qspi.cs_pulldown_lead" value="module.driver.xspi_qspi.cs_pulldown_lead.no_extension"/>
+    </module>
+    <module id="module.driver.timer_on_cmt.418808105">
+      <property id="module.driver.timer.name" value="g_timer0"/>
+      <property id="module.driver.timer.channel" value="0"/>
+      <property id="module.driver.timer.mode" value="module.driver.timer.mode.mode_periodic"/>
+      <property id="module.driver.timer.period" value="0x10000"/>
+      <property id="module.driver.timer.unit" value="module.driver.timer.unit.unit_period_raw_counts"/>
+      <property id="module.driver.timer.p_callback" value="NULL"/>
+      <property id="module.driver.timer.ipl" value="board.icu.common.irq.priority10"/>
+    </module>
+    <module id="module.driver.dsmif_channel.701475229">
+      <property id="module.driver.dsmif.channel_name" value="g_dsmif_channel_axis2_u"/>
+      <property id="module.driver.dsmif.adc_clock" value="module.driver.dsmif.adc_clock.master"/>
+      <property id="module.driver.dsmif.adc_clock_ratio" value="module.driver.dsmif.adc_clock_ratio.pclkh200_20mhz"/>
+      <property id="module.driver.dsmif.adc_edge" value="module.driver.dsmif.adc_edge.positive"/>
+      <property id="module.driver.dsmif.current_filter_order" value="module.driver.dsmif.current_filter_order.order_3rd"/>
+      <property id="module.driver.dsmif.decimation_ratio" value="enum.mcu.dsmif.ratio.64"/>
+      <property id="module.driver.dsmif.iue" value="module.driver.dsmif.iue.disabled"/>
+      <property id="module.driver.dsmif.overcurrent_filter_order" value="module.driver.dsmif.overcurrent_filter_order.order_3rd"/>
+      <property id="module.driver.dsmif.overcurrent_ratio" value="enum.mcu.dsmif.ratio.4"/>
+      <property id="module.driver.dsmif.odeh" value="module.driver.dsmif.odeh.disabled"/>
+      <property id="module.driver.dsmif.overcurrent_upper" value="0x0"/>
+      <property id="module.driver.dsmif.odel" value="module.driver.dsmif.odel.disabled"/>
+      <property id="module.driver.dsmif.overcurrent_lower" value="0x0"/>
+      <property id="module.driver.dsmif.ioeh" value="module.driver.dsmif.ioeh.disabled"/>
+      <property id="module.driver.dsmif.ioel" value="module.driver.dsmif.ioel.disabled"/>
+      <property id="module.driver.dsmif.sde" value="module.driver.dsmif.sde.disabled"/>
+      <property id="module.driver.dsmif.ise" value="module.driver.dsmif.ise.disabled"/>
+      <property id="module.driver.dsmif.shortcircuit_high" value="0x0"/>
+      <property id="module.driver.dsmif.shortcircuit_low" value="0x0"/>
+    </module>
+    <module id="module.driver.dsmif_channel.592830399">
       <property id="module.driver.dsmif.channel_name" value="g_dsmif_channel_axis1_u"/>
       <property id="module.driver.dsmif.adc_clock" value="module.driver.dsmif.adc_clock.master"/>
       <property id="module.driver.dsmif.adc_clock_ratio" value="module.driver.dsmif.adc_clock_ratio.pclkh200_20mhz"/>
@@ -505,7 +706,7 @@
       <property id="module.driver.dsmif.shortcircuit_high" value="1000"/>
       <property id="module.driver.dsmif.shortcircuit_low" value="1000"/>
     </module>
-    <module id="module.driver.adc_on_dsmif.266165493">
+    <module id="module.driver.adc_on_dsmif.1273615191">
       <property id="module.driver.dsmif.default_no" value="0"/>
       <property id="module.driver.dsmif.name" value="g_dsmif0"/>
       <property id="module.driver.dsmif.unit" value="0"/>
@@ -524,68 +725,7 @@
       <property id="module.driver.dsmif.isel" value="module.driver.dsmif.isel.disabled"/>
       <property id="module.driver.dsmif.sum_error_mode" value="module.driver.dsmif.sum_error_mode.ch_0_1_2"/>
     </module>
-    <module id="module.driver.adc_on_dsmif.785901828">
-      <property id="module.driver.dsmif.default_no" value="1"/>
-      <property id="module.driver.dsmif.name" value="g_dsmif1"/>
-      <property id="module.driver.dsmif.unit" value="1"/>
-      <property id="module.driver.dsmif.mode" value="module.driver.dsmif.mode.synchronization"/>
-      <property id="module.driver.dsmif.capture_a" value="module.driver.dsmif.capture_a.trigger_0"/>
-      <property id="module.driver.dsmif.capture_b" value="module.driver.dsmif.capture_b.no_trigger"/>
-      <property id="module.driver.dsmif.filter_init" value="module.driver.dsmif.filter_init.trigger_0"/>
-      <property id="module.driver.dsmif.filter_init_edge" value="module.driver.dsmif.filter_init_edge.positive"/>
-      <property id="module.driver.dsmif.seeh" value="module.driver.dsmif.seeh.invalid"/>
-      <property id="module.driver.dsmif.sum_error_high_threshold" value="63487"/>
-      <property id="module.driver.dsmif.seel" value="module.driver.dsmif.seel.invalid"/>
-      <property id="module.driver.dsmif.sum_error_low_threshold" value="2048"/>
-      <property id="module.driver.dsmif.p_callback" value="NULL"/>
-      <property id="module.driver.dsmif.ipl" value="_disabled"/>
-      <property id="module.driver.dsmif.iseh" value="module.driver.dsmif.iseh.disabled"/>
-      <property id="module.driver.dsmif.isel" value="module.driver.dsmif.isel.disabled"/>
-      <property id="module.driver.dsmif.sum_error_mode" value="module.driver.dsmif.sum_error_mode.ch_0_1_2"/>
-    </module>
-    <module id="module.driver.dsmif_channel.676443535">
-      <property id="module.driver.dsmif.channel_name" value="g_dsmif_channel_axis2_u"/>
-      <property id="module.driver.dsmif.adc_clock" value="module.driver.dsmif.adc_clock.slave"/>
-      <property id="module.driver.dsmif.adc_clock_ratio" value="module.driver.dsmif.adc_clock_ratio.pclkh200_20mhz"/>
-      <property id="module.driver.dsmif.adc_edge" value="module.driver.dsmif.adc_edge.positive"/>
-      <property id="module.driver.dsmif.current_filter_order" value="module.driver.dsmif.current_filter_order.order_3rd"/>
-      <property id="module.driver.dsmif.decimation_ratio" value="enum.mcu.dsmif.ratio.64"/>
-      <property id="module.driver.dsmif.iue" value="module.driver.dsmif.iue.disabled"/>
-      <property id="module.driver.dsmif.overcurrent_filter_order" value="module.driver.dsmif.overcurrent_filter_order.order_3rd"/>
-      <property id="module.driver.dsmif.overcurrent_ratio" value="enum.mcu.dsmif.ratio.4"/>
-      <property id="module.driver.dsmif.odeh" value="module.driver.dsmif.odeh.disabled"/>
-      <property id="module.driver.dsmif.overcurrent_upper" value="0x0"/>
-      <property id="module.driver.dsmif.odel" value="module.driver.dsmif.odel.disabled"/>
-      <property id="module.driver.dsmif.overcurrent_lower" value="0x0"/>
-      <property id="module.driver.dsmif.ioeh" value="module.driver.dsmif.ioeh.disabled"/>
-      <property id="module.driver.dsmif.ioel" value="module.driver.dsmif.ioel.disabled"/>
-      <property id="module.driver.dsmif.sde" value="module.driver.dsmif.sde.disabled"/>
-      <property id="module.driver.dsmif.ise" value="module.driver.dsmif.ise.disabled"/>
-      <property id="module.driver.dsmif.shortcircuit_high" value="0x0"/>
-      <property id="module.driver.dsmif.shortcircuit_low" value="0x0"/>
-    </module>
-    <module id="module.driver.dsmif_channel.1727689645">
-      <property id="module.driver.dsmif.channel_name" value="g_dsmif_channel_axis1_v"/>
-      <property id="module.driver.dsmif.adc_clock" value="module.driver.dsmif.adc_clock.master"/>
-      <property id="module.driver.dsmif.adc_clock_ratio" value="module.driver.dsmif.adc_clock_ratio.pclkh200_20mhz"/>
-      <property id="module.driver.dsmif.adc_edge" value="module.driver.dsmif.adc_edge.positive"/>
-      <property id="module.driver.dsmif.current_filter_order" value="module.driver.dsmif.current_filter_order.order_3rd"/>
-      <property id="module.driver.dsmif.decimation_ratio" value="enum.mcu.dsmif.ratio.64"/>
-      <property id="module.driver.dsmif.iue" value="module.driver.dsmif.iue.disabled"/>
-      <property id="module.driver.dsmif.overcurrent_filter_order" value="module.driver.dsmif.overcurrent_filter_order.order_3rd"/>
-      <property id="module.driver.dsmif.overcurrent_ratio" value="enum.mcu.dsmif.ratio.4"/>
-      <property id="module.driver.dsmif.odeh" value="module.driver.dsmif.odeh.disabled"/>
-      <property id="module.driver.dsmif.overcurrent_upper" value="0x0"/>
-      <property id="module.driver.dsmif.odel" value="module.driver.dsmif.odel.disabled"/>
-      <property id="module.driver.dsmif.overcurrent_lower" value="0x0"/>
-      <property id="module.driver.dsmif.ioeh" value="module.driver.dsmif.ioeh.disabled"/>
-      <property id="module.driver.dsmif.ioel" value="module.driver.dsmif.ioel.disabled"/>
-      <property id="module.driver.dsmif.sde" value="module.driver.dsmif.sde.disabled"/>
-      <property id="module.driver.dsmif.ise" value="module.driver.dsmif.ise.disabled"/>
-      <property id="module.driver.dsmif.shortcircuit_high" value="0x0"/>
-      <property id="module.driver.dsmif.shortcircuit_low" value="0x0"/>
-    </module>
-    <module id="module.driver.dsmif_channel.299409439">
+    <module id="module.driver.dsmif_channel.832323593">
       <property id="module.driver.dsmif.channel_name" value="g_dsmif_channel_axis2_v"/>
       <property id="module.driver.dsmif.adc_clock" value="module.driver.dsmif.adc_clock.master"/>
       <property id="module.driver.dsmif.adc_clock_ratio" value="module.driver.dsmif.adc_clock_ratio.pclkh200_20mhz"/>
@@ -606,65 +746,47 @@
       <property id="module.driver.dsmif.shortcircuit_high" value="0x0"/>
       <property id="module.driver.dsmif.shortcircuit_low" value="0x0"/>
     </module>
-    <module id="module.driver.transfer_on_dmac.1625710436">
-      <property id="module.driver.transfer.name" value="g_sci_debug_tx_dma"/>
-      <property id="module.driver.transfer.unit" value="0"/>
-      <property id="module.driver.transfer.channel" value="0"/>
-      <property id="module.driver.transfer.mode" value="module.driver.transfer.mode.mode_normal"/>
-      <property id="module.driver.transfer.src_size" value="module.driver.transfer.src_size.size_1_byte"/>
-      <property id="module.driver.transfer.dest_size" value="module.driver.transfer.dest_size.size_1_byte"/>
-      <property id="module.driver.transfer.dest_addr_mode" value="module.driver.transfer.dest_addr_mode.addr_mode_fixed"/>
-      <property id="module.driver.transfer.src_addr_mode" value="module.driver.transfer.src_addr_mode.addr_mode_incremented"/>
-      <property id="module.driver.transfer.p_dest" value="NULL"/>
-      <property id="module.driver.transfer.p_src" value="NULL"/>
-      <property id="module.driver.transfer.length" value="1"/>
-      <property id="module.driver.transfer.activation_event" value="module.driver.dmac.sci0_txi"/>
-      <property id="module.driver.transfer_on_dmac.request_source" value="module.driver.transfer_on_dmac.request_source.dest"/>
-      <property id="module.driver.transfer_on_dmac.low_detection" value="module.driver.transfer_on_dmac.low_detection.disable"/>
-      <property id="module.driver.transfer_on_dmac.high_detection" value="module.driver.transfer_on_dmac.high_detection.enable"/>
-      <property id="module.driver.transfer_on_dmac.level_detection" value="module.driver.transfer_on_dmac.level_detection.edge"/>
-      <property id="module.driver.transfer_on_dmac.ack_mode" value="module.driver.transfer_on_dmac.ack_mode.level"/>
-      <property id="module.driver.transfer.p_callback" value="sci_debug_tx_dma_transfer_end_isr"/>
-      <property id="module.driver.transfer.p_context" value="NULL"/>
-      <property id="module.driver.transfer.irq_detect_type" value="module.driver.transfer.irq_detect_type.level"/>
-      <property id="module.driver.transfer.ipl" value="board.icu.common.irq.priority12"/>
-      <property id="module.driver.transfer_on_dmac.next1_enable" value="module.driver.transfer_on_dmac.next1_enable.disable"/>
-      <property id="module.driver.transfer_on_dmac.p_dest_next1" value="NULL"/>
-      <property id="module.driver.transfer_on_dmac.p_src_next1" value="NULL"/>
-      <property id="module.driver.transfer_on_dmac.length_next1" value="1"/>
-      <property id="module.driver.transfer_on_dmac.transfer_interval" value="0"/>
-      <property id="module.driver.transfer_on_dmac.channel_priority" value="module.driver.transfer_on_dmac.channel_priority.fixed"/>
+    <module id="module.driver.dsmif_channel.1163368979">
+      <property id="module.driver.dsmif.channel_name" value="g_dsmif_channel_axis1_v"/>
+      <property id="module.driver.dsmif.adc_clock" value="module.driver.dsmif.adc_clock.master"/>
+      <property id="module.driver.dsmif.adc_clock_ratio" value="module.driver.dsmif.adc_clock_ratio.pclkh200_20mhz"/>
+      <property id="module.driver.dsmif.adc_edge" value="module.driver.dsmif.adc_edge.positive"/>
+      <property id="module.driver.dsmif.current_filter_order" value="module.driver.dsmif.current_filter_order.order_3rd"/>
+      <property id="module.driver.dsmif.decimation_ratio" value="enum.mcu.dsmif.ratio.64"/>
+      <property id="module.driver.dsmif.iue" value="module.driver.dsmif.iue.disabled"/>
+      <property id="module.driver.dsmif.overcurrent_filter_order" value="module.driver.dsmif.overcurrent_filter_order.order_3rd"/>
+      <property id="module.driver.dsmif.overcurrent_ratio" value="enum.mcu.dsmif.ratio.4"/>
+      <property id="module.driver.dsmif.odeh" value="module.driver.dsmif.odeh.disabled"/>
+      <property id="module.driver.dsmif.overcurrent_upper" value="0x0"/>
+      <property id="module.driver.dsmif.odel" value="module.driver.dsmif.odel.disabled"/>
+      <property id="module.driver.dsmif.overcurrent_lower" value="0x0"/>
+      <property id="module.driver.dsmif.ioeh" value="module.driver.dsmif.ioeh.disabled"/>
+      <property id="module.driver.dsmif.ioel" value="module.driver.dsmif.ioel.disabled"/>
+      <property id="module.driver.dsmif.sde" value="module.driver.dsmif.sde.disabled"/>
+      <property id="module.driver.dsmif.ise" value="module.driver.dsmif.ise.disabled"/>
+      <property id="module.driver.dsmif.shortcircuit_high" value="0x0"/>
+      <property id="module.driver.dsmif.shortcircuit_low" value="0x0"/>
     </module>
-    <module id="module.driver.transfer_on_dmac.1179881306">
-      <property id="module.driver.transfer.name" value="g_sci_zx_tx_dma"/>
-      <property id="module.driver.transfer.unit" value="0"/>
-      <property id="module.driver.transfer.channel" value="1"/>
-      <property id="module.driver.transfer.mode" value="module.driver.transfer.mode.mode_normal"/>
-      <property id="module.driver.transfer.src_size" value="module.driver.transfer.src_size.size_1_byte"/>
-      <property id="module.driver.transfer.dest_size" value="module.driver.transfer.dest_size.size_1_byte"/>
-      <property id="module.driver.transfer.dest_addr_mode" value="module.driver.transfer.dest_addr_mode.addr_mode_fixed"/>
-      <property id="module.driver.transfer.src_addr_mode" value="module.driver.transfer.src_addr_mode.addr_mode_incremented"/>
-      <property id="module.driver.transfer.p_dest" value="NULL"/>
-      <property id="module.driver.transfer.p_src" value="NULL"/>
-      <property id="module.driver.transfer.length" value="1"/>
-      <property id="module.driver.transfer.activation_event" value="module.driver.dmac.sci3_txi"/>
-      <property id="module.driver.transfer_on_dmac.request_source" value="module.driver.transfer_on_dmac.request_source.dest"/>
-      <property id="module.driver.transfer_on_dmac.low_detection" value="module.driver.transfer_on_dmac.low_detection.disable"/>
-      <property id="module.driver.transfer_on_dmac.high_detection" value="module.driver.transfer_on_dmac.high_detection.enable"/>
-      <property id="module.driver.transfer_on_dmac.level_detection" value="module.driver.transfer_on_dmac.level_detection.edge"/>
-      <property id="module.driver.transfer_on_dmac.ack_mode" value="module.driver.transfer_on_dmac.ack_mode.level"/>
-      <property id="module.driver.transfer.p_callback" value="sci_zx_tx_dma_transfer_end_isr"/>
-      <property id="module.driver.transfer.p_context" value="NULL"/>
-      <property id="module.driver.transfer.irq_detect_type" value="module.driver.transfer.irq_detect_type.level"/>
-      <property id="module.driver.transfer.ipl" value="board.icu.common.irq.priority12"/>
-      <property id="module.driver.transfer_on_dmac.next1_enable" value="module.driver.transfer_on_dmac.next1_enable.disable"/>
-      <property id="module.driver.transfer_on_dmac.p_dest_next1" value="NULL"/>
-      <property id="module.driver.transfer_on_dmac.p_src_next1" value="NULL"/>
-      <property id="module.driver.transfer_on_dmac.length_next1" value="1"/>
-      <property id="module.driver.transfer_on_dmac.transfer_interval" value="0"/>
-      <property id="module.driver.transfer_on_dmac.channel_priority" value="module.driver.transfer_on_dmac.channel_priority.fixed"/>
+    <module id="module.driver.adc_on_dsmif.1767295741">
+      <property id="module.driver.dsmif.default_no" value="1"/>
+      <property id="module.driver.dsmif.name" value="g_dsmif1"/>
+      <property id="module.driver.dsmif.unit" value="1"/>
+      <property id="module.driver.dsmif.mode" value="module.driver.dsmif.mode.synchronization"/>
+      <property id="module.driver.dsmif.capture_a" value="module.driver.dsmif.capture_a.trigger_0"/>
+      <property id="module.driver.dsmif.capture_b" value="module.driver.dsmif.capture_b.no_trigger"/>
+      <property id="module.driver.dsmif.filter_init" value="module.driver.dsmif.filter_init.trigger_0"/>
+      <property id="module.driver.dsmif.filter_init_edge" value="module.driver.dsmif.filter_init_edge.positive"/>
+      <property id="module.driver.dsmif.seeh" value="module.driver.dsmif.seeh.invalid"/>
+      <property id="module.driver.dsmif.sum_error_high_threshold" value="63487"/>
+      <property id="module.driver.dsmif.seel" value="module.driver.dsmif.seel.invalid"/>
+      <property id="module.driver.dsmif.sum_error_low_threshold" value="2048"/>
+      <property id="module.driver.dsmif.p_callback" value="NULL"/>
+      <property id="module.driver.dsmif.ipl" value="_disabled"/>
+      <property id="module.driver.dsmif.iseh" value="module.driver.dsmif.iseh.disabled"/>
+      <property id="module.driver.dsmif.isel" value="module.driver.dsmif.isel.disabled"/>
+      <property id="module.driver.dsmif.sum_error_mode" value="module.driver.dsmif.sum_error_mode.ch_0_1_2"/>
     </module>
-    <module id="module.driver.transfer_on_dmac.1676008794">
+    <module id="module.driver.transfer_on_dmac.1824623753">
       <property id="module.driver.transfer.name" value="g_iic_led_tx_dma"/>
       <property id="module.driver.transfer.unit" value="1"/>
       <property id="module.driver.transfer.channel" value="2"/>
@@ -693,22 +815,126 @@
       <property id="module.driver.transfer_on_dmac.transfer_interval" value="0"/>
       <property id="module.driver.transfer_on_dmac.channel_priority" value="module.driver.transfer_on_dmac.channel_priority.fixed"/>
     </module>
+    <module id="module.driver.transfer_on_dmac.845365931">
+      <property id="module.driver.transfer.name" value="g_sci_debug_tx_dma"/>
+      <property id="module.driver.transfer.unit" value="0"/>
+      <property id="module.driver.transfer.channel" value="0"/>
+      <property id="module.driver.transfer.mode" value="module.driver.transfer.mode.mode_normal"/>
+      <property id="module.driver.transfer.src_size" value="module.driver.transfer.src_size.size_1_byte"/>
+      <property id="module.driver.transfer.dest_size" value="module.driver.transfer.dest_size.size_1_byte"/>
+      <property id="module.driver.transfer.dest_addr_mode" value="module.driver.transfer.dest_addr_mode.addr_mode_fixed"/>
+      <property id="module.driver.transfer.src_addr_mode" value="module.driver.transfer.src_addr_mode.addr_mode_incremented"/>
+      <property id="module.driver.transfer.p_dest" value="NULL"/>
+      <property id="module.driver.transfer.p_src" value="NULL"/>
+      <property id="module.driver.transfer.length" value="1"/>
+      <property id="module.driver.transfer.activation_event" value="module.driver.dmac.sci0_txi"/>
+      <property id="module.driver.transfer_on_dmac.request_source" value="module.driver.transfer_on_dmac.request_source.dest"/>
+      <property id="module.driver.transfer_on_dmac.low_detection" value="module.driver.transfer_on_dmac.low_detection.disable"/>
+      <property id="module.driver.transfer_on_dmac.high_detection" value="module.driver.transfer_on_dmac.high_detection.enable"/>
+      <property id="module.driver.transfer_on_dmac.level_detection" value="module.driver.transfer_on_dmac.level_detection.edge"/>
+      <property id="module.driver.transfer_on_dmac.ack_mode" value="module.driver.transfer_on_dmac.ack_mode.level"/>
+      <property id="module.driver.transfer.p_callback" value="sci_debug_tx_dma_transfer_end_isr"/>
+      <property id="module.driver.transfer.p_context" value="NULL"/>
+      <property id="module.driver.transfer.irq_detect_type" value="module.driver.transfer.irq_detect_type.level"/>
+      <property id="module.driver.transfer.ipl" value="board.icu.common.irq.priority12"/>
+      <property id="module.driver.transfer_on_dmac.next1_enable" value="module.driver.transfer_on_dmac.next1_enable.disable"/>
+      <property id="module.driver.transfer_on_dmac.p_dest_next1" value="NULL"/>
+      <property id="module.driver.transfer_on_dmac.p_src_next1" value="NULL"/>
+      <property id="module.driver.transfer_on_dmac.length_next1" value="1"/>
+      <property id="module.driver.transfer_on_dmac.transfer_interval" value="0"/>
+      <property id="module.driver.transfer_on_dmac.channel_priority" value="module.driver.transfer_on_dmac.channel_priority.fixed"/>
+    </module>
+    <module id="module.driver.transfer_on_dmac.314388905">
+      <property id="module.driver.transfer.name" value="g_sci_zx_tx_dma"/>
+      <property id="module.driver.transfer.unit" value="0"/>
+      <property id="module.driver.transfer.channel" value="1"/>
+      <property id="module.driver.transfer.mode" value="module.driver.transfer.mode.mode_normal"/>
+      <property id="module.driver.transfer.src_size" value="module.driver.transfer.src_size.size_1_byte"/>
+      <property id="module.driver.transfer.dest_size" value="module.driver.transfer.dest_size.size_1_byte"/>
+      <property id="module.driver.transfer.dest_addr_mode" value="module.driver.transfer.dest_addr_mode.addr_mode_fixed"/>
+      <property id="module.driver.transfer.src_addr_mode" value="module.driver.transfer.src_addr_mode.addr_mode_incremented"/>
+      <property id="module.driver.transfer.p_dest" value="NULL"/>
+      <property id="module.driver.transfer.p_src" value="NULL"/>
+      <property id="module.driver.transfer.length" value="1"/>
+      <property id="module.driver.transfer.activation_event" value="module.driver.dmac.sci3_txi"/>
+      <property id="module.driver.transfer_on_dmac.request_source" value="module.driver.transfer_on_dmac.request_source.dest"/>
+      <property id="module.driver.transfer_on_dmac.low_detection" value="module.driver.transfer_on_dmac.low_detection.disable"/>
+      <property id="module.driver.transfer_on_dmac.high_detection" value="module.driver.transfer_on_dmac.high_detection.enable"/>
+      <property id="module.driver.transfer_on_dmac.level_detection" value="module.driver.transfer_on_dmac.level_detection.edge"/>
+      <property id="module.driver.transfer_on_dmac.ack_mode" value="module.driver.transfer_on_dmac.ack_mode.level"/>
+      <property id="module.driver.transfer.p_callback" value="sci_zx_tx_dma_transfer_end_isr"/>
+      <property id="module.driver.transfer.p_context" value="NULL"/>
+      <property id="module.driver.transfer.irq_detect_type" value="module.driver.transfer.irq_detect_type.level"/>
+      <property id="module.driver.transfer.ipl" value="board.icu.common.irq.priority12"/>
+      <property id="module.driver.transfer_on_dmac.next1_enable" value="module.driver.transfer_on_dmac.next1_enable.disable"/>
+      <property id="module.driver.transfer_on_dmac.p_dest_next1" value="NULL"/>
+      <property id="module.driver.transfer_on_dmac.p_src_next1" value="NULL"/>
+      <property id="module.driver.transfer_on_dmac.length_next1" value="1"/>
+      <property id="module.driver.transfer_on_dmac.transfer_interval" value="0"/>
+      <property id="module.driver.transfer_on_dmac.channel_priority" value="module.driver.transfer_on_dmac.channel_priority.fixed"/>
+    </module>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
-      <stack module="module.driver.adc_on_dsmif.266165493">
-        <stack module="module.driver.dsmif_channel.1067082289" requires="module.driver.dsmif.requires.channel0"/>
-        <stack module="module.driver.dsmif_channel.676443535" requires="module.driver.dsmif.requires.channel1"/>
+      <stack module="module.driver.pcdc_on_usb.26736013">
+        <stack module="module.driver.basic_on_usb.1818228404" requires="module.driver.basic_on_usb.requires.basic"/>
       </stack>
-      <stack module="module.driver.adc_on_dsmif.785901828">
-        <stack module="module.driver.dsmif_channel.1727689645" requires="module.driver.dsmif.requires.channel1"/>
-        <stack module="module.driver.dsmif_channel.299409439" requires="module.driver.dsmif.requires.channel2"/>
+      <stack module="module.middleware.ethercat_ssc_port_on_ethercat_ssc_port.488050280">
+        <stack module="module.driver.ether_phy_on_ether_phy.306442829" requires="module.middleware.ethercat_ssc_port.requires.ether_phy0">
+          <stack module="module.driver.ether_selector_on_ether_selector.1990378166" requires="module.driver.ether.requires.ether_selector"/>
+        </stack>
+        <stack module="module.driver.ether_phy_on_ether_phy.1501193633" requires="module.middleware.ethercat_ssc_port.requires.ether_phy1">
+          <stack module="module.driver.ether_selector_on_ether_selector.1393782342" requires="module.driver.ether.requires.ether_selector"/>
+        </stack>
+        <stack module="module.driver.timer_on_cmt.418808105" requires="module.middleware.ethercat_ssc_port.requires.timer"/>
       </stack>
-      <stack module="module.driver.transfer_on_dmac.1625710436"/>
-      <stack module="module.driver.transfer_on_dmac.1179881306"/>
-      <stack module="module.driver.transfer_on_dmac.1676008794"/>
+      <stack module="module.driver.qspi_on_xspi_qspi.1829643750"/>
+      <stack module="module.driver.adc_on_dsmif.1273615191">
+        <stack module="module.driver.dsmif_channel.592830399" requires="module.driver.dsmif.requires.channel0"/>
+        <stack module="module.driver.dsmif_channel.701475229" requires="module.driver.dsmif.requires.channel1"/>
+      </stack>
+      <stack module="module.driver.adc_on_dsmif.1767295741">
+        <stack module="module.driver.dsmif_channel.1163368979" requires="module.driver.dsmif.requires.channel1"/>
+        <stack module="module.driver.dsmif_channel.832323593" requires="module.driver.dsmif.requires.channel2"/>
+      </stack>
+      <stack module="module.driver.transfer_on_dmac.1824623753"/>
+      <stack module="module.driver.transfer_on_dmac.845365931"/>
+      <stack module="module.driver.transfer_on_dmac.314388905"/>
     </context>
+    <config id="config.driver.ether_selector">
+      <property id="config.driver.ether_selector.param_checking_enable" value="config.driver.ether_selector.param_checking_enable.bsp"/>
+      <property id="config.driver.ether_selector.mode" value="config.driver.ether_selector.mode.3"/>
+    </config>
+    <config id="config.middleware.ethercat_ssc_port">
+      <property id="config.middleware.ethercat_ssc_port.param_checking_enable" value="config.middleware.ethercat_ssc_port.param_checking_enable.bsp"/>
+      <property id="config.middleware.ethercat_ssc_port.reset_port" value="config.middleware.ethercat_ssc_port.reset_port.0"/>
+    </config>
+    <config id="config.driver.xspi_qspi">
+      <property id="config.driver.xspi_qspi.param_checking_enable" value="config.driver.xspi_qspi.param_checking_enable.bsp"/>
+    </config>
     <config id="config.driver.dmac">
       <property id="config.driver.dmac.param_checking_enable" value="config.driver.dmac.param_checking_enable.bsp"/>
+    </config>
+    <config id="config.driver.ether_phy">
+      <property id="config.driver.ether_phy.param_checking_enable" value="config.driver.ether_phy.param_checking_enable.bsp"/>
+      <property id="config.driver.ether_phy.phy_lsi" value="config.driver.ether_phy.phy_lsi.default,config.driver.ether_phy.phy_lsi.0,config.driver.ether_phy.phy_lsi.1,config.driver.ether_phy.phy_lsi.2,config.driver.ether_phy.phy_lsi.3,config.driver.ether_phy.phy_lsi.4"/>
+    </config>
+    <config id="config.driver.usb_basic">
+      <property id="config.driver.usb_basic.param_checking_enable" value="config.driver.usb_basic.param_checking_enable.bsp"/>
+      <property id="config.driver.usb_basic.buswait" value="config.driver.usb_basic.buswait.7"/>
+      <property id="config.driver.usb_basic.power_source" value="config.driver.usb_basic.power_source.high"/>
+      <property id="config.driver.usb_basic.request" value="config.driver.usb_basic.request.enable"/>
+      <property id="config.driver.usb_basic.dblb" value="config.driver.usb_basic.dblb.enable"/>
+      <property id="config.driver.usb_basic.cntmd" value="config.driver.usb_basic.cntmd.disable"/>
+      <property id="config.driver.usb_basic.dma" value="config.driver.usb_basic.dma.disable"/>
+    </config>
+    <config id="config.driver.usb_pcdc">
+      <property id="config.driver.usb_pcdc.bulk_in" value="config.driver.usb_pcdc.bulk_in.pipe1"/>
+      <property id="config.driver.usb_pcdc.bulk_out" value="config.driver.usb_pcdc.bulk_out.pipe2"/>
+      <property id="config.driver.usb_pcdc.int_in" value="config.driver.usb_pcdc.int_in.pipe6"/>
+    </config>
+    <config id="config.driver.usb_pcdc_class"/>
+    <config id="config.driver.cmt">
+      <property id="config.driver.cmt.param_checking_enable" value="config.driver.cmt.param_checking_enable.bsp"/>
     </config>
     <config id="config.driver.dsmif">
       <property id="config.driver.dsmif.param_checking_enable" value="config.driver.dsmif.param_checking_enable.bsp"/>
@@ -718,105 +944,758 @@
     </config>
   </raModuleConfiguration>
   <raPinConfiguration>
-    <symbolicName propertyId="p00_0.symbolic_name" value="ETH2_RXD3"/>
-    <symbolicName propertyId="p00_1.symbolic_name" value="ETH2_RXDV"/>
-    <symbolicName propertyId="p00_2.symbolic_name" value="ETH2_TXEN"/>
-    <symbolicName propertyId="p00_3.symbolic_name" value="ETH2_REFCLK"/>
-    <symbolicName propertyId="p00_5.symbolic_name" value="ETH2_LINK"/>
-    <symbolicName propertyId="p00_6.symbolic_name" value="ETH2_TXCLK"/>
-    <symbolicName propertyId="p01_2.symbolic_name" value="ETH2_TXD3"/>
-    <symbolicName propertyId="p01_3.symbolic_name" value="ETH2_TXD2"/>
-    <symbolicName propertyId="p01_4.symbolic_name" value="ETH2_TXD1"/>
-    <symbolicName propertyId="p01_5.symbolic_name" value="ETH2_TXD0"/>
-    <symbolicName propertyId="p01_7.symbolic_name" value="CAN_RX"/>
+    <symbolicName propertyId="p00_0.symbolic_name" value="DE2"/>
+    <symbolicName propertyId="p00_1.symbolic_name" value="RX2"/>
+    <symbolicName propertyId="p00_2.symbolic_name" value="TX2"/>
+    <symbolicName propertyId="p00_3.symbolic_name" value="Z1"/>
+    <symbolicName propertyId="p00_4.symbolic_name" value="CLK1_U"/>
+    <symbolicName propertyId="p00_5.symbolic_name" value="DATA1_U"/>
+    <symbolicName propertyId="p00_6.symbolic_name" value="PWM1_UP"/>
+    <symbolicName propertyId="p00_7.symbolic_name" value="PWM1_VP"/>
+    <symbolicName propertyId="p01_0.symbolic_name" value="PWM1_VN"/>
+    <symbolicName propertyId="p01_1.symbolic_name" value="PWM1_UN"/>
+    <symbolicName propertyId="p01_2.symbolic_name" value="PWM1_WP"/>
+    <symbolicName propertyId="p01_3.symbolic_name" value="PWM1_WN"/>
+    <symbolicName propertyId="p01_4.symbolic_name" value="IPM_OC1"/>
+    <symbolicName propertyId="p01_5.symbolic_name" value="DO1"/>
+    <symbolicName propertyId="p01_6.symbolic_name" value="ECAT_ACT0"/>
+    <symbolicName propertyId="p01_7.symbolic_name" value="ECAT1_ACT1"/>
+    <symbolicName propertyId="p02_0.symbolic_name" value="ISO5"/>
+    <symbolicName propertyId="p02_1.symbolic_name" value="SYNC0"/>
     <symbolicName propertyId="p02_2.symbolic_name" value="CAN_TX"/>
+    <symbolicName propertyId="p02_3.symbolic_name" value="FAN"/>
     <symbolicName propertyId="p02_4.symbolic_name" value="TDO"/>
     <symbolicName propertyId="p02_5.symbolic_name" value="TDI"/>
     <symbolicName propertyId="p02_6.symbolic_name" value="TMS"/>
     <symbolicName propertyId="p02_7.symbolic_name" value="TCK"/>
-    <symbolicName propertyId="p03_0.symbolic_name" value="ETH_LED4"/>
-    <symbolicName propertyId="p04_1.symbolic_name" value="LED_RED1"/>
-    <symbolicName propertyId="p04_4.symbolic_name" value="ETH_LED6"/>
-    <symbolicName propertyId="p05_0.symbolic_name" value="ETH_LED7"/>
-    <symbolicName propertyId="p05_2.symbolic_name" value="SCL"/>
+    <symbolicName propertyId="p03_0.symbolic_name" value="PIN_DI1"/>
+    <symbolicName propertyId="p03_5.symbolic_name" value="PIN_STO2"/>
+    <symbolicName propertyId="p03_6.symbolic_name" value="PIN_DI2"/>
+    <symbolicName propertyId="p03_7.symbolic_name" value="PIN_DI3"/>
+    <symbolicName propertyId="p04_0.symbolic_name" value="RX1"/>
+    <symbolicName propertyId="p04_1.symbolic_name" value="KB_SDA"/>
+    <symbolicName propertyId="p04_4.symbolic_name" value="SPI_CLK2"/>
+    <symbolicName propertyId="p04_5.symbolic_name" value="MD0_DE1"/>
+    <symbolicName propertyId="p04_6.symbolic_name" value="MD1"/>
+    <symbolicName propertyId="p04_7.symbolic_name" value="MD2"/>
+    <symbolicName propertyId="p05_0.symbolic_name" value="AC_Loss"/>
+    <symbolicName propertyId="p05_1.symbolic_name" value="DO2"/>
+    <symbolicName propertyId="p05_2.symbolic_name" value="PWM_OE1"/>
     <symbolicName propertyId="p05_3.symbolic_name" value="SDA"/>
-    <symbolicName propertyId="p05_4.symbolic_name" value="SW2"/>
-    <symbolicName propertyId="p05_5.symbolic_name" value="ETH1_LINK"/>
-    <symbolicName propertyId="p05_7.symbolic_name" value="ETH1_TXD2"/>
-    <symbolicName propertyId="p06_0.symbolic_name" value="ETH1_TXD3"/>
-    <symbolicName propertyId="p06_1.symbolic_name" value="ETH1_REFCLK"/>
-    <symbolicName propertyId="p06_2.symbolic_name" value="ETH1_TXD1"/>
-    <symbolicName propertyId="p06_3.symbolic_name" value="ETH1_TXD0"/>
-    <symbolicName propertyId="p06_4.symbolic_name" value="ETH1_TXCLK"/>
-    <symbolicName propertyId="p06_5.symbolic_name" value="ETH1_TXEN"/>
-    <symbolicName propertyId="p06_6.symbolic_name" value="ETH1_RXD0"/>
-    <symbolicName propertyId="p06_7.symbolic_name" value="ETH1_RXD1"/>
-    <symbolicName propertyId="p07_0.symbolic_name" value="ETH1_RXD2"/>
-    <symbolicName propertyId="p07_1.symbolic_name" value="ETH1_RXD3"/>
-    <symbolicName propertyId="p07_2.symbolic_name" value="ETH1_RXDV"/>
-    <symbolicName propertyId="p07_3.symbolic_name" value="ETH1_RXCLK"/>
-    <symbolicName propertyId="p07_4.symbolic_name" value="USB_VBUSIN"/>
-    <symbolicName propertyId="p08_4.symbolic_name" value="ETH0_RXD3"/>
-    <symbolicName propertyId="p08_5.symbolic_name" value="ETH0_RXDV"/>
-    <symbolicName propertyId="p08_6.symbolic_name" value="ETH0_RXCLK"/>
-    <symbolicName propertyId="p08_7.symbolic_name" value="ETH_MDC"/>
-    <symbolicName propertyId="p09_0.symbolic_name" value="ETH_MDIO"/>
-    <symbolicName propertyId="p09_1.symbolic_name" value="ETH0_REFCLK"/>
-    <symbolicName propertyId="p09_3.symbolic_name" value="ETH0_TXD3"/>
-    <symbolicName propertyId="p09_4.symbolic_name" value="ETH0_TXD2"/>
-    <symbolicName propertyId="p09_5.symbolic_name" value="ETH0_TXD1"/>
-    <symbolicName propertyId="p09_6.symbolic_name" value="ETH0_TXD0"/>
-    <symbolicName propertyId="p09_7.symbolic_name" value="ETH0_TXCLK"/>
-    <symbolicName propertyId="p10_0.symbolic_name" value="ETH0_TXEN"/>
-    <symbolicName propertyId="p10_1.symbolic_name" value="ETH0_RXD0"/>
-    <symbolicName propertyId="p10_2.symbolic_name" value="ETH0_RXD1"/>
-    <symbolicName propertyId="p10_3.symbolic_name" value="ETH0_RXD2"/>
-    <symbolicName propertyId="p10_4.symbolic_name" value="ETH0_LINK"/>
-    <symbolicName propertyId="p13_2.symbolic_name" value="EEPROM_SCL"/>
-    <symbolicName propertyId="p13_3.symbolic_name" value="EEPROM_SDA"/>
-    <symbolicName propertyId="p13_5.symbolic_name" value="SW3_Pin2"/>
-    <symbolicName propertyId="p13_6.symbolic_name" value="SW3_Pin1"/>
-    <symbolicName propertyId="p13_7.symbolic_name" value="SW3_Pin4"/>
-    <symbolicName propertyId="p14_0.symbolic_name" value="SW3_Pin3"/>
-    <symbolicName propertyId="p14_2.symbolic_name" value="XSPI0_ECS"/>
-    <symbolicName propertyId="p14_4.symbolic_name" value="XSPI0_DS"/>
-    <symbolicName propertyId="p14_5.symbolic_name" value="XSPI0_CKN"/>
-    <symbolicName propertyId="p14_6.symbolic_name" value="XSPI0_CKP"/>
-    <symbolicName propertyId="p14_7.symbolic_name" value="XSPI0_IO0"/>
-    <symbolicName propertyId="p15_0.symbolic_name" value="XSPI0_IO1"/>
-    <symbolicName propertyId="p15_1.symbolic_name" value="XSPI0_IO2"/>
-    <symbolicName propertyId="p15_2.symbolic_name" value="XSPI0_IO3"/>
-    <symbolicName propertyId="p15_3.symbolic_name" value="XSPI0_IO4"/>
-    <symbolicName propertyId="p15_4.symbolic_name" value="XSPI0_IO5"/>
-    <symbolicName propertyId="p15_5.symbolic_name" value="XSPI0_IO6"/>
-    <symbolicName propertyId="p15_6.symbolic_name" value="XSPI0_IO7"/>
-    <symbolicName propertyId="p15_7.symbolic_name" value="OSPI_CS"/>
-    <symbolicName propertyId="p16_0.symbolic_name" value="ORAM_CS0"/>
-    <symbolicName propertyId="p16_1.symbolic_name" value="XSPI0_RESET0"/>
-    <symbolicName propertyId="p16_3.symbolic_name" value="SW1"/>
-    <symbolicName propertyId="p16_5.symbolic_name" value="UART_USB_TX"/>
-    <symbolicName propertyId="p16_6.symbolic_name" value="UART_USB_RX"/>
-    <symbolicName propertyId="p17_3.symbolic_name" value="LED_RED2"/>
-    <symbolicName propertyId="p17_5.symbolic_name" value="USB_OVRCUR"/>
-    <symbolicName propertyId="p17_7.symbolic_name" value="SCI_RXD"/>
-    <symbolicName propertyId="p18_0.symbolic_name" value="SCI_TXD"/>
-    <symbolicName propertyId="p18_2.symbolic_name" value="LED_GREEN"/>
-    <symbolicName propertyId="p18_4.symbolic_name" value="SCK"/>
-    <symbolicName propertyId="p18_5.symbolic_name" value="MOSI"/>
-    <symbolicName propertyId="p18_6.symbolic_name" value="MISO"/>
-    <symbolicName propertyId="p19_0.symbolic_name" value="USB_VBUSEN"/>
-    <symbolicName propertyId="p20_1.symbolic_name" value="ETH_LED2_MDV0"/>
-    <symbolicName propertyId="p20_2.symbolic_name" value="ETH_LED0_MDV1"/>
-    <symbolicName propertyId="p20_3.symbolic_name" value="ETH_LED1_MDV2"/>
-    <symbolicName propertyId="p20_4.symbolic_name" value="ETH_LED3_MDV3"/>
-    <symbolicName propertyId="p21_1.symbolic_name" value="CS"/>
-    <symbolicName propertyId="p22_1.symbolic_name" value="ETH_LED5"/>
-    <symbolicName propertyId="p22_3.symbolic_name" value="LED_ORANGE"/>
-    <symbolicName propertyId="p23_7.symbolic_name" value="ETH2_RXD0"/>
-    <symbolicName propertyId="p24_0.symbolic_name" value="ETH2_RXD1"/>
-    <symbolicName propertyId="p24_1.symbolic_name" value="ETH2_RXCLK"/>
-    <symbolicName propertyId="p24_2.symbolic_name" value="ETH2_RXD2"/>
-    <pincfg active="true" name="RSK+RZN2L" selected="true" symbol="g_bsp_pin_cfg">
+    <symbolicName propertyId="p05_4.symbolic_name" value="ZX_485_RX"/>
+    <symbolicName propertyId="p05_5.symbolic_name" value="ECAT1_LINK"/>
+    <symbolicName propertyId="p05_6.symbolic_name" value="ECAT1_RXER"/>
+    <symbolicName propertyId="p05_7.symbolic_name" value="ECAT1_TXD2"/>
+    <symbolicName propertyId="p06_0.symbolic_name" value="ECAT1_TXD3"/>
+    <symbolicName propertyId="p06_1.symbolic_name" value="ECAT1_REFCLK"/>
+    <symbolicName propertyId="p06_2.symbolic_name" value="ECAT1_TXD1"/>
+    <symbolicName propertyId="p06_3.symbolic_name" value="ECAT1_TXD0"/>
+    <symbolicName propertyId="p06_4.symbolic_name" value="ECAT1_TXC"/>
+    <symbolicName propertyId="p06_5.symbolic_name" value="ECAT1_TXEN"/>
+    <symbolicName propertyId="p06_6.symbolic_name" value="ECAT1_RXD0"/>
+    <symbolicName propertyId="p06_7.symbolic_name" value="ECAT1_RXD1"/>
+    <symbolicName propertyId="p07_0.symbolic_name" value="ECAT1_RXD2"/>
+    <symbolicName propertyId="p07_1.symbolic_name" value="ECAT1_RXD3"/>
+    <symbolicName propertyId="p07_2.symbolic_name" value="ECAT1_RXDV"/>
+    <symbolicName propertyId="p07_3.symbolic_name" value="ECAT1_RXC"/>
+    <symbolicName propertyId="p07_4.symbolic_name" value="USB_Vbus_IN"/>
+    <symbolicName propertyId="p08_4.symbolic_name" value="ECAT0_RXD3"/>
+    <symbolicName propertyId="p08_5.symbolic_name" value="ECAT0_RXDV"/>
+    <symbolicName propertyId="p08_6.symbolic_name" value="ECAT0_RXC"/>
+    <symbolicName propertyId="p08_7.symbolic_name" value="ECAT0_MDC"/>
+    <symbolicName propertyId="p09_0.symbolic_name" value="ECAT0_MDIO"/>
+    <symbolicName propertyId="p09_1.symbolic_name" value="ECAT0_REFCLK"/>
+    <symbolicName propertyId="p09_2.symbolic_name" value="ECAT0_RXER"/>
+    <symbolicName propertyId="p09_3.symbolic_name" value="ECAT0_TXD3"/>
+    <symbolicName propertyId="p09_4.symbolic_name" value="ECAT0_TXD2"/>
+    <symbolicName propertyId="p09_5.symbolic_name" value="ECAT0_TXD1"/>
+    <symbolicName propertyId="p09_6.symbolic_name" value="ECAT0_TXD0"/>
+    <symbolicName propertyId="p09_7.symbolic_name" value="ECAT0_TXC"/>
+    <symbolicName propertyId="p10_0.symbolic_name" value="ECAT0_TXEN"/>
+    <symbolicName propertyId="p10_1.symbolic_name" value="ECAT0_RXD0"/>
+    <symbolicName propertyId="p10_2.symbolic_name" value="ECAT0_RXD1"/>
+    <symbolicName propertyId="p10_3.symbolic_name" value="ECAT0_RXD2"/>
+    <symbolicName propertyId="p10_4.symbolic_name" value="ECAT0_LINK"/>
+    <symbolicName propertyId="p12_4.symbolic_name" value="DB1"/>
+    <symbolicName propertyId="p13_2.symbolic_name" value="ECAT_EEPROM_CLK"/>
+    <symbolicName propertyId="p13_3.symbolic_name" value="ECAT_EEPROM_DATA"/>
+    <symbolicName propertyId="p13_4.symbolic_name" value="ECAT_RESETOUT"/>
+    <symbolicName propertyId="p13_5.symbolic_name" value="PUL1_A2"/>
+    <symbolicName propertyId="p13_6.symbolic_name" value="DIR1_B2"/>
+    <symbolicName propertyId="p13_7.symbolic_name" value="PUL2_A1"/>
+    <symbolicName propertyId="p14_0.symbolic_name" value="DIR2_B1"/>
+    <symbolicName propertyId="p14_1.symbolic_name" value="SYNC0_DC"/>
+    <symbolicName propertyId="p14_2.symbolic_name" value="BK_FB"/>
+    <symbolicName propertyId="p14_3.symbolic_name" value="BK_CTRL"/>
+    <symbolicName propertyId="p14_4.symbolic_name" value="ECAT_IRQ"/>
+    <symbolicName propertyId="p14_5.symbolic_name" value="OC_Vbus"/>
+    <symbolicName propertyId="p14_6.symbolic_name" value="IOS1"/>
+    <symbolicName propertyId="p14_7.symbolic_name" value="SPI_MISO2"/>
+    <symbolicName propertyId="p15_0.symbolic_name" value="SPI_MOSI2"/>
+    <symbolicName propertyId="p15_1.symbolic_name" value="IOS2"/>
+    <symbolicName propertyId="p15_2.symbolic_name" value="DB2"/>
+    <symbolicName propertyId="p15_3.symbolic_name" value="CLK2_U"/>
+    <symbolicName propertyId="p15_4.symbolic_name" value="DATA2_U"/>
+    <symbolicName propertyId="p15_5.symbolic_name" value="Relay_CTRL"/>
+    <symbolicName propertyId="p15_6.symbolic_name" value="ZX_485_DE"/>
+    <symbolicName propertyId="p15_7.symbolic_name" value="TS_485_DE"/>
+    <symbolicName propertyId="p16_0.symbolic_name" value="SPI_MOSI1"/>
+    <symbolicName propertyId="p16_1.symbolic_name" value="SPI_MISO1"/>
+    <symbolicName propertyId="p16_2.symbolic_name" value="SPI_CLK1"/>
+    <symbolicName propertyId="p16_3.symbolic_name" value="SPI_CS1"/>
+    <symbolicName propertyId="p16_5.symbolic_name" value="TS_485_TX"/>
+    <symbolicName propertyId="p16_6.symbolic_name" value="TS_485_RX"/>
+    <symbolicName propertyId="p16_7.symbolic_name" value="XSPI1_IO0"/>
+    <symbolicName propertyId="p17_0.symbolic_name" value="XSPI1_IO1"/>
+    <symbolicName propertyId="p17_3.symbolic_name" value="XSPI1_IO2"/>
+    <symbolicName propertyId="p17_4.symbolic_name" value="XSPI1_IO3"/>
+    <symbolicName propertyId="p17_5.symbolic_name" value="IOS3"/>
+    <symbolicName propertyId="p17_6.symbolic_name" value="IOS4"/>
+    <symbolicName propertyId="p17_7.symbolic_name" value="XSPI1_CKP"/>
+    <symbolicName propertyId="p18_0.symbolic_name" value="TX1"/>
+    <symbolicName propertyId="p18_1.symbolic_name" value="PIN_DI4"/>
+    <symbolicName propertyId="p18_2.symbolic_name" value="XSPI1_CS"/>
+    <symbolicName propertyId="p18_3.symbolic_name" value="Z2"/>
+    <symbolicName propertyId="p18_4.symbolic_name" value="ZX_485_TX"/>
+    <symbolicName propertyId="p18_5.symbolic_name" value="CAN_RX"/>
+    <symbolicName propertyId="p18_6.symbolic_name" value="KB_SCL"/>
+    <symbolicName propertyId="p19_0.symbolic_name" value="MDV4_ISO6"/>
+    <symbolicName propertyId="p20_1.symbolic_name" value="ECAT_LINK0"/>
+    <symbolicName propertyId="p20_2.symbolic_name" value="ECAT_RUN"/>
+    <symbolicName propertyId="p20_3.symbolic_name" value="ECAT_ERR"/>
+    <symbolicName propertyId="p20_4.symbolic_name" value="ECAT_LINK1"/>
+    <symbolicName propertyId="p21_1.symbolic_name" value="SCL"/>
+    <symbolicName propertyId="p21_2.symbolic_name" value="PWM2_UP"/>
+    <symbolicName propertyId="p21_3.symbolic_name" value="DO4"/>
+    <symbolicName propertyId="p21_4.symbolic_name" value="PWM2_UN"/>
+    <symbolicName propertyId="p21_5.symbolic_name" value="PWM2_VP"/>
+    <symbolicName propertyId="p21_6.symbolic_name" value="PWM2_WP"/>
+    <symbolicName propertyId="p21_7.symbolic_name" value="PWM2_VN"/>
+    <symbolicName propertyId="p22_0.symbolic_name" value="PWM2_WN"/>
+    <symbolicName propertyId="p22_1.symbolic_name" value="IPM_OC2"/>
+    <symbolicName propertyId="p22_2.symbolic_name" value="PIN_STO1"/>
+    <symbolicName propertyId="p22_3.symbolic_name" value="DO3"/>
+    <symbolicName propertyId="p23_7.symbolic_name" value="CLK1_V"/>
+    <symbolicName propertyId="p24_0.symbolic_name" value="DATA1_V"/>
+    <symbolicName propertyId="p24_1.symbolic_name" value="CLK2_V"/>
+    <symbolicName propertyId="p24_2.symbolic_name" value="DATA2_V"/>
+    <comment propertyId="p00_0.comment" value="2轴编码器DE信号"/>
+    <comment propertyId="p00_1.comment" value="2轴编码器RX信号"/>
+    <comment propertyId="p00_2.comment" value="2轴编码器TX信号"/>
+    <comment propertyId="p00_3.comment" value="1轴增量式编码器Z信号"/>
+    <comment propertyId="p00_4.comment" value="1轴U相电流采样时钟信号"/>
+    <comment propertyId="p00_5.comment" value="1轴U相电流采样数据信号"/>
+    <comment propertyId="p00_6.comment" value="1轴PWM信号UP"/>
+    <comment propertyId="p00_7.comment" value="1轴PWM信号VP"/>
+    <comment propertyId="p01_0.comment" value="1轴PWM信号VN"/>
+    <comment propertyId="p01_1.comment" value="1轴PWM信号UN"/>
+    <comment propertyId="p01_2.comment" value="1轴PWM信号WP"/>
+    <comment propertyId="p01_3.comment" value="1轴PWM信号WN"/>
+    <comment propertyId="p01_4.comment" value="1轴IPM过流信号"/>
+    <comment propertyId="p01_5.comment" value="通用DO1"/>
+    <comment propertyId="p01_6.comment" value="ECAT数据指示0(from PHY)"/>
+    <comment propertyId="p01_7.comment" value="ECAT数据指示1(from PHY)"/>
+    <comment propertyId="p02_0.comment" value="芯片间通讯信号5"/>
+    <comment propertyId="p02_1.comment" value="EtherCAT同步信号"/>
+    <comment propertyId="p02_2.comment" value="CAN通讯发送信号"/>
+    <comment propertyId="p02_3.comment" value="风扇控制信号"/>
+    <comment propertyId="p02_4.comment" value="JTAG调试口TDO"/>
+    <comment propertyId="p02_5.comment" value="JTAG调试口TDI"/>
+    <comment propertyId="p02_6.comment" value="JTAG调试口TMS"/>
+    <comment propertyId="p02_7.comment" value="JTAG调试口TCK"/>
+    <comment propertyId="p03_0.comment" value="通用DI1"/>
+    <comment propertyId="p03_5.comment" value="STO2输入信号"/>
+    <comment propertyId="p03_6.comment" value="通用DI2"/>
+    <comment propertyId="p03_7.comment" value="通用DI3"/>
+    <comment propertyId="p04_0.comment" value="1轴编码器RX信号"/>
+    <comment propertyId="p04_1.comment" value="键盘显示数据信号"/>
+    <comment propertyId="p04_4.comment" value="2轴Biss_C(SPI)时钟信号"/>
+    <comment propertyId="p04_5.comment" value="BOOT模式选择与1轴编码器DE信号"/>
+    <comment propertyId="p04_6.comment" value="BOOT模式选择1"/>
+    <comment propertyId="p04_7.comment" value="BOOT模式选择2"/>
+    <comment propertyId="p05_0.comment" value="交流输入缺相检测"/>
+    <comment propertyId="p05_1.comment" value="通用DO2"/>
+    <comment propertyId="p05_2.comment" value="1轴PWM使能信号"/>
+    <comment propertyId="p05_3.comment" value="MCU_EEPROM数据信号"/>
+    <comment propertyId="p05_4.comment" value="RS485总线RX信号"/>
+    <comment propertyId="p05_5.comment" value="ETherCAT端口1连接信号"/>
+    <comment propertyId="p05_6.comment" value="ETherCAT端口1接收错误信号"/>
+    <comment propertyId="p05_7.comment" value="ETherCAT端口1发送数据信号2"/>
+    <comment propertyId="p06_0.comment" value="ETherCAT端口1发送数据信号3"/>
+    <comment propertyId="p06_1.comment" value="ETherCAT端口1时钟信号(To PHY)"/>
+    <comment propertyId="p06_2.comment" value="ETherCAT端口1发送数据信号1"/>
+    <comment propertyId="p06_3.comment" value="ETherCAT端口1发送数据信号0"/>
+    <comment propertyId="p06_4.comment" value="ETherCAT端口1发送完成信号"/>
+    <comment propertyId="p06_5.comment" value="ETherCAT端口1发送使能信号"/>
+    <comment propertyId="p06_6.comment" value="ETherCAT端口1接收数据信号0"/>
+    <comment propertyId="p06_7.comment" value="ETherCAT端口1接收数据信号1"/>
+    <comment propertyId="p07_0.comment" value="ETherCAT端口1接收数据信号2"/>
+    <comment propertyId="p07_1.comment" value="ETherCAT端口1接收数据信号3"/>
+    <comment propertyId="p07_2.comment" value="ETherCAT端口1接收数据有效信号"/>
+    <comment propertyId="p07_3.comment" value="ETherCAT端口1接收数据完成"/>
+    <comment propertyId="p07_4.comment" value="USB电源输入检测"/>
+    <comment propertyId="p08_4.comment" value="ETherCAT端口0接收数据信号3"/>
+    <comment propertyId="p08_5.comment" value="ETherCAT端口0接收数据有效信号"/>
+    <comment propertyId="p08_6.comment" value="ETherCAT端口0接收数据完成"/>
+    <comment propertyId="p08_7.comment" value="ETherCAT PHY管理时钟"/>
+    <comment propertyId="p09_0.comment" value="ETherCAT PHY芯片管理数据"/>
+    <comment propertyId="p09_1.comment" value="ETherCAT端口0时钟信号(To PHY)"/>
+    <comment propertyId="p09_2.comment" value="ETherCAT端口0接收错误"/>
+    <comment propertyId="p09_3.comment" value="ETherCAT端口0发送数据信号3"/>
+    <comment propertyId="p09_4.comment" value="ETherCAT端口0发送数据信号2"/>
+    <comment propertyId="p09_5.comment" value="ETherCAT端口0发送数据信号1"/>
+    <comment propertyId="p09_6.comment" value="ETherCAT端口0发送数据信号0"/>
+    <comment propertyId="p09_7.comment" value="ETherCAT端口0发送完成信号"/>
+    <comment propertyId="p10_0.comment" value="ETherCAT端口0发送使能信号"/>
+    <comment propertyId="p10_1.comment" value="ETherCAT端口0接收数据信号0"/>
+    <comment propertyId="p10_2.comment" value="ETherCAT端口0接收数据信号1"/>
+    <comment propertyId="p10_3.comment" value="ETherCAT端口0接收数据信号2"/>
+    <comment propertyId="p10_4.comment" value="ETherCAT端口0连接信号"/>
+    <comment propertyId="p12_4.comment" value="1轴动态制动信号"/>
+    <comment propertyId="p13_2.comment" value="ETherCAT_EEPROM 时钟信号"/>
+    <comment propertyId="p13_3.comment" value="ETherCAT_EEPROM数据信号"/>
+    <comment propertyId="p13_4.comment" value="ETherCAT复位信号"/>
+    <comment propertyId="p13_5.comment" value="1轴脉冲信号(2轴增量式编码器A信号)"/>
+    <comment propertyId="p13_6.comment" value="1轴方向信号(2轴增量式编码器B信号)"/>
+    <comment propertyId="p13_7.comment" value="1轴增量式编码器A信号"/>
+    <comment propertyId="p14_0.comment" value="1轴增量式编码器B信号"/>
+    <comment propertyId="p14_1.comment" value="ETherCAT SYNC0检测(引出测试点)"/>
+    <comment propertyId="p14_2.comment" value="制动反馈信号"/>
+    <comment propertyId="p14_3.comment" value="制动控制信号"/>
+    <comment propertyId="p14_4.comment" value="EtherCAT中断信号"/>
+    <comment propertyId="p14_5.comment" value="母线过流"/>
+    <comment propertyId="p14_6.comment" value="芯片间通讯信号1"/>
+    <comment propertyId="p14_7.comment" value="2轴Biss_C(SPI)数据输入信号"/>
+    <comment propertyId="p15_0.comment" value="2轴Biss_C(SPI)数据输出信号"/>
+    <comment propertyId="p15_1.comment" value="芯片间通讯信号2"/>
+    <comment propertyId="p15_2.comment" value="2轴动态制动信号"/>
+    <comment propertyId="p15_3.comment" value="2轴U相电流采样时钟信号"/>
+    <comment propertyId="p15_4.comment" value="2轴U相电流采样数据信号"/>
+    <comment propertyId="p15_5.comment" value="软启动"/>
+    <comment propertyId="p15_6.comment" value="RS485总线控制信号DE"/>
+    <comment propertyId="p15_7.comment" value="调试485控制信号"/>
+    <comment propertyId="p16_0.comment" value="1轴Biss-C(SPI)数据输出信号"/>
+    <comment propertyId="p16_1.comment" value="1轴Biss-C(SPI)数据输入信号"/>
+    <comment propertyId="p16_2.comment" value="1轴Biss-C(SPI)时钟信号"/>
+    <comment propertyId="p16_3.comment" value="1轴Biss-C(SPI)片选信号"/>
+    <comment propertyId="p16_5.comment" value="调试485发送信号"/>
+    <comment propertyId="p16_6.comment" value="调试485接收信号"/>
+    <comment propertyId="p16_7.comment" value="MCU外部flash数据信号0"/>
+    <comment propertyId="p17_0.comment" value="MCU外部flash数据信号1"/>
+    <comment propertyId="p17_3.comment" value="MCU外部flash数据信号2"/>
+    <comment propertyId="p17_4.comment" value="MCU外部flash数据信号3"/>
+    <comment propertyId="p17_5.comment" value="芯片间通讯信号3"/>
+    <comment propertyId="p17_6.comment" value="芯片间通讯信号4"/>
+    <comment propertyId="p17_7.comment" value="MCU外部flash时钟信号"/>
+    <comment propertyId="p18_0.comment" value="1轴编码器TX信号"/>
+    <comment propertyId="p18_1.comment" value="通用DI4"/>
+    <comment propertyId="p18_2.comment" value="MCU外部flash片选信号"/>
+    <comment propertyId="p18_3.comment" value="2轴增量编码器Z信号"/>
+    <comment propertyId="p18_4.comment" value="RS485总线TX信号"/>
+    <comment propertyId="p18_5.comment" value="CAN通讯接收信号"/>
+    <comment propertyId="p18_6.comment" value="键盘显示时钟信号"/>
+    <comment propertyId="p19_0.comment" value="QSPI1外设电源选择与芯片间通讯信号6"/>
+    <comment propertyId="p20_1.comment" value="ETherCAT连接指示0"/>
+    <comment propertyId="p20_2.comment" value="ETherCAT运行指示"/>
+    <comment propertyId="p20_3.comment" value="ETherCAT故障指示"/>
+    <comment propertyId="p20_4.comment" value="ETherCAT连接指示1"/>
+    <comment propertyId="p21_1.comment" value="MCU_EEPROM时钟信号"/>
+    <comment propertyId="p21_2.comment" value="2轴PWM信号UP"/>
+    <comment propertyId="p21_3.comment" value="通用DO4"/>
+    <comment propertyId="p21_4.comment" value="2轴PWM信号UN"/>
+    <comment propertyId="p21_5.comment" value="2轴PWM信号VP"/>
+    <comment propertyId="p21_6.comment" value="2轴PWM信号WP"/>
+    <comment propertyId="p21_7.comment" value="2轴PWM信号VN"/>
+    <comment propertyId="p22_0.comment" value="2轴PWM信号WN"/>
+    <comment propertyId="p22_1.comment" value="2轴IPM过流信号"/>
+    <comment propertyId="p22_2.comment" value="STO1输入信号"/>
+    <comment propertyId="p22_3.comment" value="通用DO3"/>
+    <comment propertyId="p23_7.comment" value="1轴V相电流采样时钟信号"/>
+    <comment propertyId="p24_0.comment" value="1轴V相电流采样数据信号"/>
+    <comment propertyId="p24_1.comment" value="2轴V相电流采样时钟信号"/>
+    <comment propertyId="p24_2.comment" value="2轴V相电流采样数据信号"/>
+    <pincfg active="false" name="CN032_RZN2L.pincfg" selected="false" symbol="g_bsp_pin_cfg">
+      <configSetting altId="canfd1.canrx1.p02_3" configurationId="canfd1.canrx1"/>
+      <configSetting altId="canfd1.cantx1.p02_0" configurationId="canfd1.cantx1"/>
+      <configSetting altId="canfd1.mode.enabled.free" configurationId="canfd1.mode"/>
+      <configSetting altId="dsmif0.mclk0.p00_4" configurationId="dsmif0.mclk0"/>
+      <configSetting altId="dsmif0.mdat0.p00_5" configurationId="dsmif0.mdat0"/>
+      <configSetting altId="dsmif0.mode.enabled.free" configurationId="dsmif0.mode"/>
+      <configSetting altId="dsmif2.mclk2.p21_5" configurationId="dsmif2.mclk2"/>
+      <configSetting altId="dsmif2.mdat2.p21_6" configurationId="dsmif2.mdat2"/>
+      <configSetting altId="dsmif2.mode.enabled.free" configurationId="dsmif2.mode"/>
+      <configSetting altId="dsmif3.mclk3.p21_7" configurationId="dsmif3.mclk3"/>
+      <configSetting altId="dsmif3.mdat3.p22_0" configurationId="dsmif3.mdat3"/>
+      <configSetting altId="dsmif3.mode.enabled.free" configurationId="dsmif3.mode"/>
+      <configSetting altId="ether_esc.esc_i2cclk.p13_2" configurationId="ether_esc.esc_i2cclk"/>
+      <configSetting altId="ether_esc.esc_i2cdata.p13_3" configurationId="ether_esc.esc_i2cdata"/>
+      <configSetting altId="ether_esc.esc_lederr.p20_3" configurationId="ether_esc.esc_lederr"/>
+      <configSetting altId="ether_esc.esc_ledrun.p20_2" configurationId="ether_esc.esc_ledrun"/>
+      <configSetting altId="ether_esc.esc_linkact0.p20_1" configurationId="ether_esc.esc_linkact0"/>
+      <configSetting altId="ether_esc.esc_linkact1.p20_4" configurationId="ether_esc.esc_linkact1"/>
+      <configSetting altId="ether_esc.esc_phylink0.p10_4" configurationId="ether_esc.esc_phylink0"/>
+      <configSetting altId="ether_esc.esc_phylink1.p05_5" configurationId="ether_esc.esc_phylink1"/>
+      <configSetting altId="ether_esc.mode.custom_40_1.8v_41.free" configurationId="ether_esc.mode"/>
+      <configSetting altId="ether_eth0.eth0_refclk.p09_1" configurationId="ether_eth0.eth0_refclk"/>
+      <configSetting altId="ether_eth0.eth0_rxclk_ref_clk_rxc.p08_6" configurationId="ether_eth0.eth0_rxclk_ref_clk_rxc"/>
+      <configSetting altId="ether_eth0.eth0_rxd0.p10_1" configurationId="ether_eth0.eth0_rxd0"/>
+      <configSetting altId="ether_eth0.eth0_rxd1.p10_2" configurationId="ether_eth0.eth0_rxd1"/>
+      <configSetting altId="ether_eth0.eth0_rxd2.p10_3" configurationId="ether_eth0.eth0_rxd2"/>
+      <configSetting altId="ether_eth0.eth0_rxd3.p08_4" configurationId="ether_eth0.eth0_rxd3"/>
+      <configSetting altId="ether_eth0.eth0_rxdv_crsdv_rxctl.p08_5" configurationId="ether_eth0.eth0_rxdv_crsdv_rxctl"/>
+      <configSetting altId="ether_eth0.eth0_txclk_txc.p09_7" configurationId="ether_eth0.eth0_txclk_txc"/>
+      <configSetting altId="ether_eth0.eth0_txd0.p09_6" configurationId="ether_eth0.eth0_txd0"/>
+      <configSetting altId="ether_eth0.eth0_txd1.p09_5" configurationId="ether_eth0.eth0_txd1"/>
+      <configSetting altId="ether_eth0.eth0_txd2.p09_4" configurationId="ether_eth0.eth0_txd2"/>
+      <configSetting altId="ether_eth0.eth0_txd3.p09_3" configurationId="ether_eth0.eth0_txd3"/>
+      <configSetting altId="ether_eth0.eth0_txen_txctl.p10_0" configurationId="ether_eth0.eth0_txen_txctl"/>
+      <configSetting altId="ether_eth0.mode.custom_40_1.8v_41.free" configurationId="ether_eth0.mode"/>
+      <configSetting altId="ether_eth1.eth1_refclk.p06_1" configurationId="ether_eth1.eth1_refclk"/>
+      <configSetting altId="ether_eth1.eth1_rxclk_ref_clk_rxc.p07_3" configurationId="ether_eth1.eth1_rxclk_ref_clk_rxc"/>
+      <configSetting altId="ether_eth1.eth1_rxd0.p06_6" configurationId="ether_eth1.eth1_rxd0"/>
+      <configSetting altId="ether_eth1.eth1_rxd1.p06_7" configurationId="ether_eth1.eth1_rxd1"/>
+      <configSetting altId="ether_eth1.eth1_rxd2.p07_0" configurationId="ether_eth1.eth1_rxd2"/>
+      <configSetting altId="ether_eth1.eth1_rxd3.p07_1" configurationId="ether_eth1.eth1_rxd3"/>
+      <configSetting altId="ether_eth1.eth1_rxdv_crsdv_rxctl.p07_2" configurationId="ether_eth1.eth1_rxdv_crsdv_rxctl"/>
+      <configSetting altId="ether_eth1.eth1_txclk_txc.p06_4" configurationId="ether_eth1.eth1_txclk_txc"/>
+      <configSetting altId="ether_eth1.eth1_txd0.p06_3" configurationId="ether_eth1.eth1_txd0"/>
+      <configSetting altId="ether_eth1.eth1_txd1.p06_2" configurationId="ether_eth1.eth1_txd1"/>
+      <configSetting altId="ether_eth1.eth1_txd2.p05_7" configurationId="ether_eth1.eth1_txd2"/>
+      <configSetting altId="ether_eth1.eth1_txd3.p06_0" configurationId="ether_eth1.eth1_txd3"/>
+      <configSetting altId="ether_eth1.eth1_txen_txctl.p06_5" configurationId="ether_eth1.eth1_txen_txctl"/>
+      <configSetting altId="ether_eth1.mode.custom_40_1.8v_41.free" configurationId="ether_eth1.mode"/>
+      <configSetting altId="ether_gmac.gmac_mdc.p08_7" configurationId="ether_gmac.gmac_mdc"/>
+      <configSetting altId="ether_gmac.gmac_mdio.p09_0" configurationId="ether_gmac.gmac_mdio"/>
+      <configSetting altId="ether_gmac.mode.custom_40_1.8v_41.free" configurationId="ether_gmac.mode"/>
+      <configSetting altId="iic0.mode.custom.free" configurationId="iic0.mode"/>
+      <configSetting altId="iic1.iic_scl1.p21_1" configurationId="iic1.iic_scl1"/>
+      <configSetting altId="iic1.iic_sda1.p21_2" configurationId="iic1.iic_sda1"/>
+      <configSetting altId="iic1.mode.enabled.free" configurationId="iic1.mode"/>
+      <configSetting altId="iic2.mode.custom.free" configurationId="iic2.mode"/>
+      <configSetting altId="irq.irq0.p09_2" configurationId="irq.irq0"/>
+      <configSetting altId="irq.irq1.p18_4" configurationId="irq.irq1"/>
+      <configSetting altId="irq.irq12.p05_6" configurationId="irq.irq12"/>
+      <configSetting altId="irq.irq6.p14_2" configurationId="irq.irq6"/>
+      <configSetting altId="irq.mode.custom.free" configurationId="irq.mode"/>
+      <configSetting altId="jtag_fslash_swd.mode.jtag.free" configurationId="jtag_fslash_swd.mode"/>
+      <configSetting altId="jtag_fslash_swd.tck_swclk.p02_7" configurationId="jtag_fslash_swd.tck_swclk"/>
+      <configSetting altId="jtag_fslash_swd.tdi.p02_5" configurationId="jtag_fslash_swd.tdi"/>
+      <configSetting altId="jtag_fslash_swd.tdo.p02_4" configurationId="jtag_fslash_swd.tdo"/>
+      <configSetting altId="jtag_fslash_swd.tms_swdio.p02_6" configurationId="jtag_fslash_swd.tms_swdio"/>
+      <configSetting altId="mtu3.mode.custom.free" configurationId="mtu3.mode"/>
+      <configSetting altId="mtu3.mtclka.p13_5" configurationId="mtu3.mtclka"/>
+      <configSetting altId="mtu3.mtclkb.p13_6" configurationId="mtu3.mtclkb"/>
+      <configSetting altId="mtu3.mtclkc.p13_7" configurationId="mtu3.mtclkc"/>
+      <configSetting altId="mtu3.mtclkd.p14_0" configurationId="mtu3.mtclkd"/>
+      <configSetting altId="mtu32.mode.custom.free" configurationId="mtu32.mode"/>
+      <configSetting altId="mtu32.mtioc2a.p02_2" configurationId="mtu32.mtioc2a"/>
+      <configSetting altId="mtu33.mode.custom.free" configurationId="mtu33.mode"/>
+      <configSetting altId="mtu33.mtioc3b.p00_6" configurationId="mtu33.mtioc3b"/>
+      <configSetting altId="mtu33.mtioc3d.p01_1" configurationId="mtu33.mtioc3d"/>
+      <configSetting altId="mtu34.mode.custom.free" configurationId="mtu34.mode"/>
+      <configSetting altId="mtu34.mtioc4a.p00_7" configurationId="mtu34.mtioc4a"/>
+      <configSetting altId="mtu34.mtioc4b.p01_2" configurationId="mtu34.mtioc4b"/>
+      <configSetting altId="mtu34.mtioc4c.p01_0" configurationId="mtu34.mtioc4c"/>
+      <configSetting altId="mtu34.mtioc4d.p01_3" configurationId="mtu34.mtioc4d"/>
+      <configSetting altId="mtu36.mode.custom.free" configurationId="mtu36.mode"/>
+      <configSetting altId="mtu36.mtioc6c.p21_3" configurationId="mtu36.mtioc6c"/>
+      <configSetting altId="mtu_poe3.mode.custom.free" configurationId="mtu_poe3.mode"/>
+      <configSetting altId="mtu_poe3.poe0_hash.p01_4" configurationId="mtu_poe3.poe0_hash"/>
+      <configSetting altId="p00_0.output.toinput.low" configurationId="p00_0"/>
+      <configSetting altId="p00_0.gpio_mode.gpio_mode_out.toinput.low" configurationId="p00_0.gpio_mode"/>
+      <configSetting altId="p00_1.input" configurationId="p00_1"/>
+      <configSetting altId="p00_1.gpio_mode.gpio_mode_in" configurationId="p00_1.gpio_mode"/>
+      <configSetting altId="p00_2.input" configurationId="p00_2"/>
+      <configSetting altId="p00_2.gpio_mode.gpio_mode_in" configurationId="p00_2.gpio_mode"/>
+      <configSetting altId="p00_3.output.toinput.low" configurationId="p00_3"/>
+      <configSetting altId="p00_3.gpio_mode.gpio_mode_out.toinput.low" configurationId="p00_3.gpio_mode"/>
+      <configSetting altId="p00_4.dsmif0.mclk0" configurationId="p00_4"/>
+      <configSetting altId="p00_4.gpio_speed.gpio_speed_middle" configurationId="p00_4.gpio_drivecapacity"/>
+      <configSetting altId="p00_4.gpio_mode.gpio_mode_peripheral" configurationId="p00_4.gpio_mode"/>
+      <configSetting altId="p00_5.dsmif0.mdat0" configurationId="p00_5"/>
+      <configSetting altId="p00_5.gpio_speed.gpio_speed_middle" configurationId="p00_5.gpio_drivecapacity"/>
+      <configSetting altId="p00_5.gpio_mode.gpio_mode_peripheral" configurationId="p00_5.gpio_mode"/>
+      <configSetting altId="p00_6.mtu33.mtioc3b" configurationId="p00_6"/>
+      <configSetting altId="p00_6.gpio_mode.gpio_mode_peripheral" configurationId="p00_6.gpio_mode"/>
+      <configSetting altId="p00_7.mtu34.mtioc4a" configurationId="p00_7"/>
+      <configSetting altId="p00_7.gpio_speed.gpio_speed_middle" configurationId="p00_7.gpio_drivecapacity"/>
+      <configSetting altId="p00_7.gpio_mode.gpio_mode_peripheral" configurationId="p00_7.gpio_mode"/>
+      <configSetting altId="p01_0.mtu34.mtioc4c" configurationId="p01_0"/>
+      <configSetting altId="p01_0.gpio_speed.gpio_speed_middle" configurationId="p01_0.gpio_drivecapacity"/>
+      <configSetting altId="p01_0.gpio_mode.gpio_mode_peripheral" configurationId="p01_0.gpio_mode"/>
+      <configSetting altId="p01_1.mtu33.mtioc3d" configurationId="p01_1"/>
+      <configSetting altId="p01_1.gpio_speed.gpio_speed_middle" configurationId="p01_1.gpio_drivecapacity"/>
+      <configSetting altId="p01_1.gpio_mode.gpio_mode_peripheral" configurationId="p01_1.gpio_mode"/>
+      <configSetting altId="p01_2.mtu34.mtioc4b" configurationId="p01_2"/>
+      <configSetting altId="p01_2.gpio_mode.gpio_mode_peripheral" configurationId="p01_2.gpio_mode"/>
+      <configSetting altId="p01_3.mtu34.mtioc4d" configurationId="p01_3"/>
+      <configSetting altId="p01_3.gpio_mode.gpio_mode_peripheral" configurationId="p01_3.gpio_mode"/>
+      <configSetting altId="p01_4.mtu_poe3.poe0_hash" configurationId="p01_4"/>
+      <configSetting altId="p01_4.gpio_mode.gpio_mode_peripheral" configurationId="p01_4.gpio_mode"/>
+      <configSetting altId="p01_5.output.toinput.low" configurationId="p01_5"/>
+      <configSetting altId="p01_5.gpio_mode.gpio_mode_out.toinput.low" configurationId="p01_5.gpio_mode"/>
+      <configSetting altId="p02_0.canfd1.cantx1" configurationId="p02_0"/>
+      <configSetting altId="p02_0.gpio_speed.gpio_speed_middle" configurationId="p02_0.gpio_drivecapacity"/>
+      <configSetting altId="p02_0.gpio_mode.gpio_mode_peripheral" configurationId="p02_0.gpio_mode"/>
+      <configSetting altId="p02_1.sci1.de1" configurationId="p02_1"/>
+      <configSetting altId="p02_1.gpio_speed.gpio_speed_high" configurationId="p02_1.gpio_drivecapacity"/>
+      <configSetting altId="p02_1.gpio_mode.gpio_mode_peripheral" configurationId="p02_1.gpio_mode"/>
+      <configSetting altId="p02_1.sr.sr.fast" configurationId="p02_1.sr"/>
+      <configSetting altId="p02_2.mtu32.mtioc2a" configurationId="p02_2"/>
+      <configSetting altId="p02_2.gpio_speed.gpio_speed_middle" configurationId="p02_2.gpio_drivecapacity"/>
+      <configSetting altId="p02_2.gpio_mode.gpio_mode_peripheral" configurationId="p02_2.gpio_mode"/>
+      <configSetting altId="p02_3.canfd1.canrx1" configurationId="p02_3"/>
+      <configSetting altId="p02_3.gpio_speed.gpio_speed_middle" configurationId="p02_3.gpio_drivecapacity"/>
+      <configSetting altId="p02_3.gpio_mode.gpio_mode_peripheral" configurationId="p02_3.gpio_mode"/>
+      <configSetting altId="p02_4.jtag_fslash_swd.tdo" configurationId="p02_4"/>
+      <configSetting altId="p02_4.gpio_speed.gpio_speed_high" configurationId="p02_4.gpio_drivecapacity"/>
+      <configSetting altId="p02_4.gpio_mode.gpio_mode_peripheral" configurationId="p02_4.gpio_mode"/>
+      <configSetting altId="p02_4.sr.sr.fast" configurationId="p02_4.sr"/>
+      <configSetting altId="p02_5.jtag_fslash_swd.tdi" configurationId="p02_5"/>
+      <configSetting altId="p02_5.gpio_speed.gpio_speed_high" configurationId="p02_5.gpio_drivecapacity"/>
+      <configSetting altId="p02_5.gpio_mode.gpio_mode_peripheral" configurationId="p02_5.gpio_mode"/>
+      <configSetting altId="p02_5.sr.sr.fast" configurationId="p02_5.sr"/>
+      <configSetting altId="p02_6.jtag_fslash_swd.tms_swdio" configurationId="p02_6"/>
+      <configSetting altId="p02_6.gpio_speed.gpio_speed_high" configurationId="p02_6.gpio_drivecapacity"/>
+      <configSetting altId="p02_6.gpio_mode.gpio_mode_peripheral" configurationId="p02_6.gpio_mode"/>
+      <configSetting altId="p02_6.sr.sr.fast" configurationId="p02_6.sr"/>
+      <configSetting altId="p02_7.jtag_fslash_swd.tck_swclk" configurationId="p02_7"/>
+      <configSetting altId="p02_7.gpio_speed.gpio_speed_high" configurationId="p02_7.gpio_drivecapacity"/>
+      <configSetting altId="p02_7.gpio_mode.gpio_mode_peripheral" configurationId="p02_7.gpio_mode"/>
+      <configSetting altId="p02_7.sr.sr.fast" configurationId="p02_7.sr"/>
+      <configSetting altId="p03_0.output.toinput.low" configurationId="p03_0"/>
+      <configSetting altId="p03_0.gpio_mode.gpio_mode_out.toinput.low" configurationId="p03_0.gpio_mode"/>
+      <configSetting altId="p03_0.gpio_region.region.nonsafety" configurationId="p03_0.gpio_region"/>
+      <configSetting altId="p03_6.input" configurationId="p03_6"/>
+      <configSetting altId="p03_6.gpio_mode.gpio_mode_in" configurationId="p03_6.gpio_mode"/>
+      <configSetting altId="p03_7.input" configurationId="p03_7"/>
+      <configSetting altId="p03_7.gpio_mode.gpio_mode_in" configurationId="p03_7.gpio_mode"/>
+      <configSetting altId="p04_0.sci3.rxd_miso3" configurationId="p04_0"/>
+      <configSetting altId="p04_0.gpio_speed.gpio_speed_high" configurationId="p04_0.gpio_drivecapacity"/>
+      <configSetting altId="p04_0.gpio_mode.gpio_mode_peripheral" configurationId="p04_0.gpio_mode"/>
+      <configSetting altId="p04_0.gpio_pupd.gpio_pupd_ip_up" configurationId="p04_0.gpio_pupd"/>
+      <configSetting altId="p04_0.sr.sr.fast" configurationId="p04_0.sr"/>
+      <configSetting altId="p04_1.sci3.txd_mosi3" configurationId="p04_1"/>
+      <configSetting altId="p04_1.gpio_speed.gpio_speed_high" configurationId="p04_1.gpio_drivecapacity"/>
+      <configSetting altId="p04_1.gpio_mode.gpio_mode_peripheral" configurationId="p04_1.gpio_mode"/>
+      <configSetting altId="p04_1.gpio_pupd.gpio_pupd_ip_up" configurationId="p04_1.gpio_pupd"/>
+      <configSetting altId="p04_1.sr.sr.fast" configurationId="p04_1.sr"/>
+      <configSetting altId="p04_4.output.toinput.low" configurationId="p04_4"/>
+      <configSetting altId="p04_4.gpio_mode.gpio_mode_out.toinput.low" configurationId="p04_4.gpio_mode"/>
+      <configSetting altId="p04_4.gpio_region.region.nonsafety" configurationId="p04_4.gpio_region"/>
+      <configSetting altId="p05_0.output.toinput.low" configurationId="p05_0"/>
+      <configSetting altId="p05_0.gpio_mode.gpio_mode_out.toinput.low" configurationId="p05_0.gpio_mode"/>
+      <configSetting altId="p05_0.gpio_region.region.nonsafety" configurationId="p05_0.gpio_region"/>
+      <configSetting altId="p05_1.input" configurationId="p05_1"/>
+      <configSetting altId="p05_1.gpio_mode.gpio_mode_in" configurationId="p05_1.gpio_mode"/>
+      <configSetting altId="p05_2.input" configurationId="p05_2"/>
+      <configSetting altId="p05_2.gpio_mode.gpio_mode_in" configurationId="p05_2.gpio_mode"/>
+      <configSetting altId="p05_3.input" configurationId="p05_3"/>
+      <configSetting altId="p05_3.gpio_mode.gpio_mode_in" configurationId="p05_3.gpio_mode"/>
+      <configSetting altId="p05_5.ether_esc.esc_phylink1" configurationId="p05_5"/>
+      <configSetting altId="p05_5.gpio_mode.gpio_mode_peripheral" configurationId="p05_5.gpio_mode"/>
+      <configSetting altId="p05_6.irq.irq12" configurationId="p05_6"/>
+      <configSetting altId="p05_6.gpio_mode.gpio_mode_peripheral" configurationId="p05_6.gpio_mode"/>
+      <configSetting altId="p05_7.ether_eth1.eth1_txd2" configurationId="p05_7"/>
+      <configSetting altId="p05_7.gpio_speed.gpio_speed_high" configurationId="p05_7.gpio_drivecapacity"/>
+      <configSetting altId="p05_7.gpio_mode.gpio_mode_peripheral" configurationId="p05_7.gpio_mode"/>
+      <configSetting altId="p05_7.sr.sr.fast" configurationId="p05_7.sr"/>
+      <configSetting altId="p06_0.ether_eth1.eth1_txd3" configurationId="p06_0"/>
+      <configSetting altId="p06_0.gpio_speed.gpio_speed_high" configurationId="p06_0.gpio_drivecapacity"/>
+      <configSetting altId="p06_0.gpio_mode.gpio_mode_peripheral" configurationId="p06_0.gpio_mode"/>
+      <configSetting altId="p06_0.sr.sr.fast" configurationId="p06_0.sr"/>
+      <configSetting altId="p06_1.ether_eth1.eth1_refclk" configurationId="p06_1"/>
+      <configSetting altId="p06_1.gpio_mode.gpio_mode_peripheral" configurationId="p06_1.gpio_mode"/>
+      <configSetting altId="p06_1.sr.sr.fast" configurationId="p06_1.sr"/>
+      <configSetting altId="p06_2.ether_eth1.eth1_txd1" configurationId="p06_2"/>
+      <configSetting altId="p06_2.gpio_speed.gpio_speed_high" configurationId="p06_2.gpio_drivecapacity"/>
+      <configSetting altId="p06_2.gpio_mode.gpio_mode_peripheral" configurationId="p06_2.gpio_mode"/>
+      <configSetting altId="p06_2.sr.sr.fast" configurationId="p06_2.sr"/>
+      <configSetting altId="p06_3.ether_eth1.eth1_txd0" configurationId="p06_3"/>
+      <configSetting altId="p06_3.gpio_speed.gpio_speed_high" configurationId="p06_3.gpio_drivecapacity"/>
+      <configSetting altId="p06_3.gpio_mode.gpio_mode_peripheral" configurationId="p06_3.gpio_mode"/>
+      <configSetting altId="p06_3.sr.sr.fast" configurationId="p06_3.sr"/>
+      <configSetting altId="p06_4.ether_eth1.eth1_txclk_txc" configurationId="p06_4"/>
+      <configSetting altId="p06_4.gpio_speed.gpio_speed_high" configurationId="p06_4.gpio_drivecapacity"/>
+      <configSetting altId="p06_4.gpio_mode.gpio_mode_peripheral" configurationId="p06_4.gpio_mode"/>
+      <configSetting altId="p06_4.sr.sr.fast" configurationId="p06_4.sr"/>
+      <configSetting altId="p06_5.ether_eth1.eth1_txen_txctl" configurationId="p06_5"/>
+      <configSetting altId="p06_5.gpio_mode.gpio_mode_peripheral" configurationId="p06_5.gpio_mode"/>
+      <configSetting altId="p06_6.ether_eth1.eth1_rxd0" configurationId="p06_6"/>
+      <configSetting altId="p06_6.gpio_mode.gpio_mode_peripheral" configurationId="p06_6.gpio_mode"/>
+      <configSetting altId="p06_7.ether_eth1.eth1_rxd1" configurationId="p06_7"/>
+      <configSetting altId="p06_7.gpio_mode.gpio_mode_peripheral" configurationId="p06_7.gpio_mode"/>
+      <configSetting altId="p07_0.ether_eth1.eth1_rxd2" configurationId="p07_0"/>
+      <configSetting altId="p07_0.gpio_mode.gpio_mode_peripheral" configurationId="p07_0.gpio_mode"/>
+      <configSetting altId="p07_1.ether_eth1.eth1_rxd3" configurationId="p07_1"/>
+      <configSetting altId="p07_1.gpio_mode.gpio_mode_peripheral" configurationId="p07_1.gpio_mode"/>
+      <configSetting altId="p07_2.ether_eth1.eth1_rxdv_crsdv_rxctl" configurationId="p07_2"/>
+      <configSetting altId="p07_2.gpio_mode.gpio_mode_peripheral" configurationId="p07_2.gpio_mode"/>
+      <configSetting altId="p07_3.ether_eth1.eth1_rxclk_ref_clk_rxc" configurationId="p07_3"/>
+      <configSetting altId="p07_3.gpio_mode.gpio_mode_peripheral" configurationId="p07_3.gpio_mode"/>
+      <configSetting altId="p07_4.usb_hs.usb_vbusin" configurationId="p07_4"/>
+      <configSetting altId="p07_4.gpio_mode.gpio_mode_peripheral" configurationId="p07_4.gpio_mode"/>
+      <configSetting altId="p08_4.ether_eth0.eth0_rxd3" configurationId="p08_4"/>
+      <configSetting altId="p08_4.gpio_mode.gpio_mode_peripheral" configurationId="p08_4.gpio_mode"/>
+      <configSetting altId="p08_5.ether_eth0.eth0_rxdv_crsdv_rxctl" configurationId="p08_5"/>
+      <configSetting altId="p08_5.gpio_mode.gpio_mode_peripheral" configurationId="p08_5.gpio_mode"/>
+      <configSetting altId="p08_6.ether_eth0.eth0_rxclk_ref_clk_rxc" configurationId="p08_6"/>
+      <configSetting altId="p08_6.gpio_mode.gpio_mode_peripheral" configurationId="p08_6.gpio_mode"/>
+      <configSetting altId="p08_7.ether_gmac.gmac_mdc" configurationId="p08_7"/>
+      <configSetting altId="p08_7.gpio_mode.gpio_mode_peripheral" configurationId="p08_7.gpio_mode"/>
+      <configSetting altId="p09_0.ether_gmac.gmac_mdio" configurationId="p09_0"/>
+      <configSetting altId="p09_0.gpio_mode.gpio_mode_peripheral" configurationId="p09_0.gpio_mode"/>
+      <configSetting altId="p09_1.ether_eth0.eth0_refclk" configurationId="p09_1"/>
+      <configSetting altId="p09_1.gpio_mode.gpio_mode_peripheral" configurationId="p09_1.gpio_mode"/>
+      <configSetting altId="p09_1.sr.sr.fast" configurationId="p09_1.sr"/>
+      <configSetting altId="p09_2.irq.irq0" configurationId="p09_2"/>
+      <configSetting altId="p09_2.gpio_mode.gpio_mode_peripheral" configurationId="p09_2.gpio_mode"/>
+      <configSetting altId="p09_3.ether_eth0.eth0_txd3" configurationId="p09_3"/>
+      <configSetting altId="p09_3.gpio_speed.gpio_speed_high" configurationId="p09_3.gpio_drivecapacity"/>
+      <configSetting altId="p09_3.gpio_mode.gpio_mode_peripheral" configurationId="p09_3.gpio_mode"/>
+      <configSetting altId="p09_3.sr.sr.fast" configurationId="p09_3.sr"/>
+      <configSetting altId="p09_4.ether_eth0.eth0_txd2" configurationId="p09_4"/>
+      <configSetting altId="p09_4.gpio_speed.gpio_speed_high" configurationId="p09_4.gpio_drivecapacity"/>
+      <configSetting altId="p09_4.gpio_mode.gpio_mode_peripheral" configurationId="p09_4.gpio_mode"/>
+      <configSetting altId="p09_4.sr.sr.fast" configurationId="p09_4.sr"/>
+      <configSetting altId="p09_5.ether_eth0.eth0_txd1" configurationId="p09_5"/>
+      <configSetting altId="p09_5.gpio_speed.gpio_speed_high" configurationId="p09_5.gpio_drivecapacity"/>
+      <configSetting altId="p09_5.gpio_mode.gpio_mode_peripheral" configurationId="p09_5.gpio_mode"/>
+      <configSetting altId="p09_5.sr.sr.fast" configurationId="p09_5.sr"/>
+      <configSetting altId="p09_6.ether_eth0.eth0_txd0" configurationId="p09_6"/>
+      <configSetting altId="p09_6.gpio_speed.gpio_speed_high" configurationId="p09_6.gpio_drivecapacity"/>
+      <configSetting altId="p09_6.gpio_mode.gpio_mode_peripheral" configurationId="p09_6.gpio_mode"/>
+      <configSetting altId="p09_6.sr.sr.fast" configurationId="p09_6.sr"/>
+      <configSetting altId="p09_7.ether_eth0.eth0_txclk_txc" configurationId="p09_7"/>
+      <configSetting altId="p09_7.gpio_speed.gpio_speed_high" configurationId="p09_7.gpio_drivecapacity"/>
+      <configSetting altId="p09_7.gpio_mode.gpio_mode_peripheral" configurationId="p09_7.gpio_mode"/>
+      <configSetting altId="p09_7.sr.sr.fast" configurationId="p09_7.sr"/>
+      <configSetting altId="p10_0.ether_eth0.eth0_txen_txctl" configurationId="p10_0"/>
+      <configSetting altId="p10_0.gpio_mode.gpio_mode_peripheral" configurationId="p10_0.gpio_mode"/>
+      <configSetting altId="p10_1.ether_eth0.eth0_rxd0" configurationId="p10_1"/>
+      <configSetting altId="p10_1.gpio_mode.gpio_mode_peripheral" configurationId="p10_1.gpio_mode"/>
+      <configSetting altId="p10_2.ether_eth0.eth0_rxd1" configurationId="p10_2"/>
+      <configSetting altId="p10_2.gpio_mode.gpio_mode_peripheral" configurationId="p10_2.gpio_mode"/>
+      <configSetting altId="p10_3.ether_eth0.eth0_rxd2" configurationId="p10_3"/>
+      <configSetting altId="p10_3.gpio_mode.gpio_mode_peripheral" configurationId="p10_3.gpio_mode"/>
+      <configSetting altId="p10_4.ether_esc.esc_phylink0" configurationId="p10_4"/>
+      <configSetting altId="p10_4.gpio_mode.gpio_mode_peripheral" configurationId="p10_4.gpio_mode"/>
+      <configSetting altId="p12_4.input" configurationId="p12_4"/>
+      <configSetting altId="p12_4.gpio_mode.gpio_mode_in" configurationId="p12_4.gpio_mode"/>
+      <configSetting altId="p13_2.ether_esc.esc_i2cclk" configurationId="p13_2"/>
+      <configSetting altId="p13_2.gpio_mode.gpio_mode_peripheral" configurationId="p13_2.gpio_mode"/>
+      <configSetting altId="p13_3.ether_esc.esc_i2cdata" configurationId="p13_3"/>
+      <configSetting altId="p13_3.gpio_mode.gpio_mode_peripheral" configurationId="p13_3.gpio_mode"/>
+      <configSetting altId="p13_4.output.high" configurationId="p13_4"/>
+      <configSetting altId="p13_4.gpio_mode.gpio_mode_out.high" configurationId="p13_4.gpio_mode"/>
+      <configSetting altId="p13_5.mtu3.mtclka" configurationId="p13_5"/>
+      <configSetting altId="p13_5.gpio_speed.gpio_speed_middle" configurationId="p13_5.gpio_drivecapacity"/>
+      <configSetting altId="p13_5.gpio_mode.gpio_mode_peripheral" configurationId="p13_5.gpio_mode"/>
+      <configSetting altId="p13_6.mtu3.mtclkb" configurationId="p13_6"/>
+      <configSetting altId="p13_6.gpio_speed.gpio_speed_middle" configurationId="p13_6.gpio_drivecapacity"/>
+      <configSetting altId="p13_6.gpio_mode.gpio_mode_peripheral" configurationId="p13_6.gpio_mode"/>
+      <configSetting altId="p13_7.mtu3.mtclkc" configurationId="p13_7"/>
+      <configSetting altId="p13_7.gpio_speed.gpio_speed_middle" configurationId="p13_7.gpio_drivecapacity"/>
+      <configSetting altId="p13_7.gpio_mode.gpio_mode_peripheral" configurationId="p13_7.gpio_mode"/>
+      <configSetting altId="p14_0.mtu3.mtclkd" configurationId="p14_0"/>
+      <configSetting altId="p14_0.gpio_speed.gpio_speed_middle" configurationId="p14_0.gpio_drivecapacity"/>
+      <configSetting altId="p14_0.gpio_mode.gpio_mode_peripheral" configurationId="p14_0.gpio_mode"/>
+      <configSetting altId="p14_1.input" configurationId="p14_1"/>
+      <configSetting altId="p14_1.gpio_mode.gpio_mode_in" configurationId="p14_1.gpio_mode"/>
+      <configSetting altId="p14_2.irq.irq6" configurationId="p14_2"/>
+      <configSetting altId="p14_2.gpio_mode.gpio_mode_peripheral" configurationId="p14_2.gpio_mode"/>
+      <configSetting altId="p14_3.input" configurationId="p14_3"/>
+      <configSetting altId="p14_3.gpio_mode.gpio_mode_in" configurationId="p14_3.gpio_mode"/>
+      <configSetting altId="p14_6.xspi0.xspi0_ckp" configurationId="p14_6"/>
+      <configSetting altId="p14_6.gpio_speed.gpio_speed_high" configurationId="p14_6.gpio_drivecapacity"/>
+      <configSetting altId="p14_6.gpio_mode.gpio_mode_peripheral" configurationId="p14_6.gpio_mode"/>
+      <configSetting altId="p14_6.smt.smt.enable" configurationId="p14_6.smt"/>
+      <configSetting altId="p14_6.sr.sr.fast" configurationId="p14_6.sr"/>
+      <configSetting altId="p14_7.xspi0.xspi0_io0" configurationId="p14_7"/>
+      <configSetting altId="p14_7.gpio_speed.gpio_speed_high" configurationId="p14_7.gpio_drivecapacity"/>
+      <configSetting altId="p14_7.gpio_mode.gpio_mode_peripheral" configurationId="p14_7.gpio_mode"/>
+      <configSetting altId="p14_7.smt.smt.enable" configurationId="p14_7.smt"/>
+      <configSetting altId="p14_7.sr.sr.fast" configurationId="p14_7.sr"/>
+      <configSetting altId="p15_0.xspi0.xspi0_io1" configurationId="p15_0"/>
+      <configSetting altId="p15_0.gpio_speed.gpio_speed_high" configurationId="p15_0.gpio_drivecapacity"/>
+      <configSetting altId="p15_0.gpio_mode.gpio_mode_peripheral" configurationId="p15_0.gpio_mode"/>
+      <configSetting altId="p15_0.smt.smt.enable" configurationId="p15_0.smt"/>
+      <configSetting altId="p15_0.sr.sr.fast" configurationId="p15_0.sr"/>
+      <configSetting altId="p15_1.xspi0.xspi0_io2" configurationId="p15_1"/>
+      <configSetting altId="p15_1.gpio_speed.gpio_speed_high" configurationId="p15_1.gpio_drivecapacity"/>
+      <configSetting altId="p15_1.gpio_mode.gpio_mode_peripheral" configurationId="p15_1.gpio_mode"/>
+      <configSetting altId="p15_1.smt.smt.enable" configurationId="p15_1.smt"/>
+      <configSetting altId="p15_1.sr.sr.fast" configurationId="p15_1.sr"/>
+      <configSetting altId="p15_2.xspi0.xspi0_io3" configurationId="p15_2"/>
+      <configSetting altId="p15_2.gpio_speed.gpio_speed_high" configurationId="p15_2.gpio_drivecapacity"/>
+      <configSetting altId="p15_2.gpio_mode.gpio_mode_peripheral" configurationId="p15_2.gpio_mode"/>
+      <configSetting altId="p15_2.smt.smt.enable" configurationId="p15_2.smt"/>
+      <configSetting altId="p15_2.sr.sr.fast" configurationId="p15_2.sr"/>
+      <configSetting altId="p15_7.xspi0.xspi0_cs0_hash" configurationId="p15_7"/>
+      <configSetting altId="p15_7.gpio_speed.gpio_speed_high" configurationId="p15_7.gpio_drivecapacity"/>
+      <configSetting altId="p15_7.gpio_mode.gpio_mode_peripheral" configurationId="p15_7.gpio_mode"/>
+      <configSetting altId="p15_7.smt.smt.enable" configurationId="p15_7.smt"/>
+      <configSetting altId="p15_7.sr.sr.fast" configurationId="p15_7.sr"/>
+      <configSetting altId="p16_5.sci0.txd_mosi0" configurationId="p16_5"/>
+      <configSetting altId="p16_5.gpio_speed.gpio_speed_high" configurationId="p16_5.gpio_drivecapacity"/>
+      <configSetting altId="p16_5.gpio_mode.gpio_mode_peripheral" configurationId="p16_5.gpio_mode"/>
+      <configSetting altId="p16_5.gpio_pupd.gpio_pupd_ip_up" configurationId="p16_5.gpio_pupd"/>
+      <configSetting altId="p16_5.sr.sr.fast" configurationId="p16_5.sr"/>
+      <configSetting altId="p16_6.sci0.rxd_miso0" configurationId="p16_6"/>
+      <configSetting altId="p16_6.gpio_speed.gpio_speed_high" configurationId="p16_6.gpio_drivecapacity"/>
+      <configSetting altId="p16_6.gpio_mode.gpio_mode_peripheral" configurationId="p16_6.gpio_mode"/>
+      <configSetting altId="p16_6.gpio_pupd.gpio_pupd_ip_up" configurationId="p16_6.gpio_pupd"/>
+      <configSetting altId="p16_6.sr.sr.fast" configurationId="p16_6.sr"/>
+      <configSetting altId="p16_7.output.toinput.low" configurationId="p16_7"/>
+      <configSetting altId="p16_7.gpio_mode.gpio_mode_out.toinput.low" configurationId="p16_7.gpio_mode"/>
+      <configSetting altId="p17_3.input" configurationId="p17_3"/>
+      <configSetting altId="p17_3.gpio_mode.gpio_mode_in" configurationId="p17_3.gpio_mode"/>
+      <configSetting altId="p17_4.output.toinput.low" configurationId="p17_4"/>
+      <configSetting altId="p17_4.gpio_mode.gpio_mode_out.toinput.low" configurationId="p17_4.gpio_mode"/>
+      <configSetting altId="p17_5.output.toinput.low" configurationId="p17_5"/>
+      <configSetting altId="p17_5.gpio_mode.gpio_mode_out.toinput.low" configurationId="p17_5.gpio_mode"/>
+      <configSetting altId="p17_7.output.toinput.low" configurationId="p17_7"/>
+      <configSetting altId="p17_7.gpio_mode.gpio_mode_out.toinput.low" configurationId="p17_7.gpio_mode"/>
+      <configSetting altId="p18_0.input" configurationId="p18_0"/>
+      <configSetting altId="p18_0.gpio_mode.gpio_mode_in" configurationId="p18_0.gpio_mode"/>
+      <configSetting altId="p18_1.input" configurationId="p18_1"/>
+      <configSetting altId="p18_1.gpio_mode.gpio_mode_in" configurationId="p18_1.gpio_mode"/>
+      <configSetting altId="p18_1.gpio_pupd.gpio_pupd_ip_up" configurationId="p18_1.gpio_pupd"/>
+      <configSetting altId="p18_2.output.toinput.high" configurationId="p18_2"/>
+      <configSetting altId="p18_2.gpio_mode.gpio_mode_out.toinput.high" configurationId="p18_2.gpio_mode"/>
+      <configSetting altId="p18_3.output.toinput.high" configurationId="p18_3"/>
+      <configSetting altId="p18_3.gpio_mode.gpio_mode_out.toinput.high" configurationId="p18_3.gpio_mode"/>
+      <configSetting altId="p18_4.irq.irq1" configurationId="p18_4"/>
+      <configSetting altId="p18_4.gpio_mode.gpio_mode_peripheral" configurationId="p18_4.gpio_mode"/>
+      <configSetting altId="p18_5.output.toinput.high" configurationId="p18_5"/>
+      <configSetting altId="p18_5.gpio_mode.gpio_mode_out.toinput.high" configurationId="p18_5.gpio_mode"/>
+      <configSetting altId="p18_6.input" configurationId="p18_6"/>
+      <configSetting altId="p18_6.gpio_mode.gpio_mode_in" configurationId="p18_6.gpio_mode"/>
+      <configSetting altId="p18_6.gpio_pupd.gpio_pupd_ip_up" configurationId="p18_6.gpio_pupd"/>
+      <configSetting altId="p20_1.ether_esc.esc_linkact0" configurationId="p20_1"/>
+      <configSetting altId="p20_1.gpio_mode.gpio_mode_peripheral" configurationId="p20_1.gpio_mode"/>
+      <configSetting altId="p20_2.ether_esc.esc_ledrun" configurationId="p20_2"/>
+      <configSetting altId="p20_2.gpio_mode.gpio_mode_peripheral" configurationId="p20_2.gpio_mode"/>
+      <configSetting altId="p20_3.ether_esc.esc_lederr" configurationId="p20_3"/>
+      <configSetting altId="p20_3.gpio_mode.gpio_mode_peripheral" configurationId="p20_3.gpio_mode"/>
+      <configSetting altId="p20_4.ether_esc.esc_linkact1" configurationId="p20_4"/>
+      <configSetting altId="p20_4.gpio_mode.gpio_mode_peripheral" configurationId="p20_4.gpio_mode"/>
+      <configSetting altId="p21_1.iic1.iic_scl1" configurationId="p21_1"/>
+      <configSetting altId="p21_1.gpio_speed.gpio_speed_high" configurationId="p21_1.gpio_drivecapacity"/>
+      <configSetting altId="p21_1.gpio_mode.gpio_mode_peripheral" configurationId="p21_1.gpio_mode"/>
+      <configSetting altId="p21_1.sr.sr.fast" configurationId="p21_1.sr"/>
+      <configSetting altId="p21_2.iic1.iic_sda1" configurationId="p21_2"/>
+      <configSetting altId="p21_2.gpio_speed.gpio_speed_high" configurationId="p21_2.gpio_drivecapacity"/>
+      <configSetting altId="p21_2.gpio_mode.gpio_mode_peripheral" configurationId="p21_2.gpio_mode"/>
+      <configSetting altId="p21_2.sr.sr.fast" configurationId="p21_2.sr"/>
+      <configSetting altId="p21_3.mtu36.mtioc6c" configurationId="p21_3"/>
+      <configSetting altId="p21_3.gpio_speed.gpio_speed_middle" configurationId="p21_3.gpio_drivecapacity"/>
+      <configSetting altId="p21_3.gpio_mode.gpio_mode_peripheral" configurationId="p21_3.gpio_mode"/>
+      <configSetting altId="p21_5.dsmif2.mclk2" configurationId="p21_5"/>
+      <configSetting altId="p21_5.gpio_speed.gpio_speed_middle" configurationId="p21_5.gpio_drivecapacity"/>
+      <configSetting altId="p21_5.gpio_mode.gpio_mode_peripheral" configurationId="p21_5.gpio_mode"/>
+      <configSetting altId="p21_6.dsmif2.mdat2" configurationId="p21_6"/>
+      <configSetting altId="p21_6.gpio_speed.gpio_speed_middle" configurationId="p21_6.gpio_drivecapacity"/>
+      <configSetting altId="p21_6.gpio_mode.gpio_mode_peripheral" configurationId="p21_6.gpio_mode"/>
+      <configSetting altId="p21_7.dsmif3.mclk3" configurationId="p21_7"/>
+      <configSetting altId="p21_7.gpio_speed.gpio_speed_middle" configurationId="p21_7.gpio_drivecapacity"/>
+      <configSetting altId="p21_7.gpio_mode.gpio_mode_peripheral" configurationId="p21_7.gpio_mode"/>
+      <configSetting altId="p22_0.dsmif3.mdat3" configurationId="p22_0"/>
+      <configSetting altId="p22_0.gpio_speed.gpio_speed_middle" configurationId="p22_0.gpio_drivecapacity"/>
+      <configSetting altId="p22_0.gpio_mode.gpio_mode_peripheral" configurationId="p22_0.gpio_mode"/>
+      <configSetting altId="p22_1.output.toinput.low" configurationId="p22_1"/>
+      <configSetting altId="p22_1.gpio_mode.gpio_mode_out.toinput.low" configurationId="p22_1.gpio_mode"/>
+      <configSetting altId="p22_1.gpio_region.region.nonsafety" configurationId="p22_1.gpio_region"/>
+      <configSetting altId="p22_2.input" configurationId="p22_2"/>
+      <configSetting altId="p22_2.gpio_mode.gpio_mode_in" configurationId="p22_2.gpio_mode"/>
+      <configSetting altId="p22_3.output.toinput.low" configurationId="p22_3"/>
+      <configSetting altId="p22_3.gpio_mode.gpio_mode_out.toinput.low" configurationId="p22_3.gpio_mode"/>
+      <configSetting altId="p23_7.output.toinput.low" configurationId="p23_7"/>
+      <configSetting altId="p23_7.gpio_mode.gpio_mode_out.toinput.low" configurationId="p23_7.gpio_mode"/>
+      <configSetting altId="p24_0.sci1.rxd_miso1" configurationId="p24_0"/>
+      <configSetting altId="p24_0.gpio_speed.gpio_speed_high" configurationId="p24_0.gpio_drivecapacity"/>
+      <configSetting altId="p24_0.gpio_mode.gpio_mode_peripheral" configurationId="p24_0.gpio_mode"/>
+      <configSetting altId="p24_0.gpio_pupd.gpio_pupd_ip_up" configurationId="p24_0.gpio_pupd"/>
+      <configSetting altId="p24_0.sr.sr.fast" configurationId="p24_0.sr"/>
+      <configSetting altId="p24_1.output.toinput.low" configurationId="p24_1"/>
+      <configSetting altId="p24_1.gpio_mode.gpio_mode_out.toinput.low" configurationId="p24_1.gpio_mode"/>
+      <configSetting altId="p24_2.sci1.txd_mosi1" configurationId="p24_2"/>
+      <configSetting altId="p24_2.gpio_speed.gpio_speed_high" configurationId="p24_2.gpio_drivecapacity"/>
+      <configSetting altId="p24_2.gpio_mode.gpio_mode_peripheral" configurationId="p24_2.gpio_mode"/>
+      <configSetting altId="p24_2.gpio_pupd.gpio_pupd_ip_up" configurationId="p24_2.gpio_pupd"/>
+      <configSetting altId="p24_2.sr.sr.fast" configurationId="p24_2.sr"/>
+      <configSetting altId="sci0.mode.asynchronousmode.free" configurationId="sci0.mode"/>
+      <configSetting altId="sci0.rxd_miso0.p16_6" configurationId="sci0.rxd_miso0"/>
+      <configSetting altId="sci0.txd_mosi0.p16_5" configurationId="sci0.txd_mosi0"/>
+      <configSetting altId="sci1.de1.p02_1" configurationId="sci1.de1"/>
+      <configSetting altId="sci1.mode.asynchronousmode.free" configurationId="sci1.mode"/>
+      <configSetting altId="sci1.rxd_miso1.p24_0" configurationId="sci1.rxd_miso1"/>
+      <configSetting altId="sci1.txd_mosi1.p24_2" configurationId="sci1.txd_mosi1"/>
+      <configSetting altId="sci3.mode.asynchronousmode.free" configurationId="sci3.mode"/>
+      <configSetting altId="sci3.rxd_miso3.p04_0" configurationId="sci3.rxd_miso3"/>
+      <configSetting altId="sci3.txd_mosi3.p04_1" configurationId="sci3.txd_mosi3"/>
+      <configSetting altId="system.mode.custom.free" configurationId="system.mode"/>
+      <configSetting altId="usb_hs.mode.custom.free" configurationId="usb_hs.mode"/>
+      <configSetting altId="usb_hs.usb_vbusin.p07_4" configurationId="usb_hs.usb_vbusin"/>
+      <configSetting altId="xspi0.mode.custom_40_3.3v_41.free" configurationId="xspi0.mode"/>
+      <configSetting altId="xspi0.xspi0_ckp.p14_6" configurationId="xspi0.xspi0_ckp"/>
+      <configSetting altId="xspi0.xspi0_cs0_hash.p15_7" configurationId="xspi0.xspi0_cs0_hash"/>
+      <configSetting altId="xspi0.xspi0_io0.p14_7" configurationId="xspi0.xspi0_io0"/>
+      <configSetting altId="xspi0.xspi0_io1.p15_0" configurationId="xspi0.xspi0_io1"/>
+      <configSetting altId="xspi0.xspi0_io2.p15_1" configurationId="xspi0.xspi0_io2"/>
+      <configSetting altId="xspi0.xspi0_io3.p15_2" configurationId="xspi0.xspi0_io3"/>
+      <lockSetting id="ether_esc.esc_i2cclk" lock="true"/>
+      <lockSetting id="ether_esc.esc_i2cdata" lock="true"/>
+      <lockSetting id="sci0.rxd_miso0" lock="true"/>
+      <lockSetting id="sci0.txd_mosi0" lock="true"/>
+      <lockSetting id="sci1.rxd_miso1" lock="true"/>
+      <lockSetting id="sci1.txd_mosi1" lock="true"/>
+      <lockSetting id="xspi0.xspi0_ckp" lock="true"/>
+      <lockSetting id="xspi0.xspi0_cs0_hash" lock="true"/>
+      <lockSetting id="xspi0.xspi0_io0" lock="true"/>
+      <lockSetting id="xspi0.xspi0_io1" lock="true"/>
+      <lockSetting id="xspi0.xspi0_io2" lock="true"/>
+      <lockSetting id="xspi0.xspi0_io3" lock="true"/>
+    </pincfg>
+    <pincfg active="false" name="R9A07G084M04GBG.pincfg" selected="false" symbol="">
+      <configSetting altId="jtag_fslash_swd.mode.jtag.free" configurationId="jtag_fslash_swd.mode"/>
+      <configSetting altId="jtag_fslash_swd.tck_swclk.p02_7" configurationId="jtag_fslash_swd.tck_swclk"/>
+      <configSetting altId="jtag_fslash_swd.tdi.p02_5" configurationId="jtag_fslash_swd.tdi"/>
+      <configSetting altId="jtag_fslash_swd.tdo.p02_4" configurationId="jtag_fslash_swd.tdo"/>
+      <configSetting altId="jtag_fslash_swd.tms_swdio.p02_6" configurationId="jtag_fslash_swd.tms_swdio"/>
+      <configSetting altId="p02_4.jtag_fslash_swd.tdo" configurationId="p02_4"/>
+      <configSetting altId="p02_4.gpio_speed.gpio_speed_high" configurationId="p02_4.gpio_drivecapacity"/>
+      <configSetting altId="p02_4.gpio_mode.gpio_mode_peripheral" configurationId="p02_4.gpio_mode"/>
+      <configSetting altId="p02_4.sr.sr.fast" configurationId="p02_4.sr"/>
+      <configSetting altId="p02_5.jtag_fslash_swd.tdi" configurationId="p02_5"/>
+      <configSetting altId="p02_5.gpio_mode.gpio_mode_peripheral" configurationId="p02_5.gpio_mode"/>
+      <configSetting altId="p02_6.jtag_fslash_swd.tms_swdio" configurationId="p02_6"/>
+      <configSetting altId="p02_6.gpio_speed.gpio_speed_high" configurationId="p02_6.gpio_drivecapacity"/>
+      <configSetting altId="p02_6.gpio_mode.gpio_mode_peripheral" configurationId="p02_6.gpio_mode"/>
+      <configSetting altId="p02_6.sr.sr.fast" configurationId="p02_6.sr"/>
+      <configSetting altId="p02_7.jtag_fslash_swd.tck_swclk" configurationId="p02_7"/>
+      <configSetting altId="p02_7.gpio_mode.gpio_mode_peripheral" configurationId="p02_7.gpio_mode"/>
+    </pincfg>
+    <pincfg active="false" name="R9A07G084M08GBG.pincfg" selected="false" symbol="">
+      <configSetting altId="jtag_fslash_swd.mode.jtag.free" configurationId="jtag_fslash_swd.mode"/>
+      <configSetting altId="jtag_fslash_swd.tck_swclk.p02_7" configurationId="jtag_fslash_swd.tck_swclk"/>
+      <configSetting altId="jtag_fslash_swd.tdi.p02_5" configurationId="jtag_fslash_swd.tdi"/>
+      <configSetting altId="jtag_fslash_swd.tdo.p02_4" configurationId="jtag_fslash_swd.tdo"/>
+      <configSetting altId="jtag_fslash_swd.tms_swdio.p02_6" configurationId="jtag_fslash_swd.tms_swdio"/>
+      <configSetting altId="p02_4.jtag_fslash_swd.tdo" configurationId="p02_4"/>
+      <configSetting altId="p02_4.gpio_speed.gpio_speed_high" configurationId="p02_4.gpio_drivecapacity"/>
+      <configSetting altId="p02_4.gpio_mode.gpio_mode_peripheral" configurationId="p02_4.gpio_mode"/>
+      <configSetting altId="p02_4.sr.sr.fast" configurationId="p02_4.sr"/>
+      <configSetting altId="p02_5.jtag_fslash_swd.tdi" configurationId="p02_5"/>
+      <configSetting altId="p02_5.gpio_mode.gpio_mode_peripheral" configurationId="p02_5.gpio_mode"/>
+      <configSetting altId="p02_6.jtag_fslash_swd.tms_swdio" configurationId="p02_6"/>
+      <configSetting altId="p02_6.gpio_speed.gpio_speed_high" configurationId="p02_6.gpio_drivecapacity"/>
+      <configSetting altId="p02_6.gpio_mode.gpio_mode_peripheral" configurationId="p02_6.gpio_mode"/>
+      <configSetting altId="p02_6.sr.sr.fast" configurationId="p02_6.sr"/>
+      <configSetting altId="p02_7.jtag_fslash_swd.tck_swclk" configurationId="p02_7"/>
+      <configSetting altId="p02_7.gpio_mode.gpio_mode_peripheral" configurationId="p02_7.gpio_mode"/>
+    </pincfg>
+    <pincfg active="false" name="RSK+RZN2L" selected="false" symbol="">
       <configSetting altId="canfd0.canrx0.p01_7" configurationId="canfd0.canrx0"/>
       <configSetting altId="canfd0.cantx0.p02_2" configurationId="canfd0.cantx0"/>
       <configSetting altId="canfd0.mode.enabled.free" configurationId="canfd0.mode"/>
@@ -1190,24 +2069,707 @@
       <configSetting altId="xspi0.xspi0_io7.p15_6" configurationId="xspi0.xspi0_io7"/>
       <configSetting altId="xspi0.xspi0_reset0_hash.p16_1" configurationId="xspi0.xspi0_reset0_hash"/>
     </pincfg>
-    <pincfg active="false" name="R9A07G084M04GBG.pincfg" selected="false" symbol="">
+    <pincfg active="true" name="servov5_rzn2l.pincfg" selected="true" symbol="g_bsp_pin_cfg">
+      <configSetting altId="canfd0.canrx0.p18_5" configurationId="canfd0.canrx0"/>
+      <configSetting altId="canfd0.cantx0.p02_2" configurationId="canfd0.cantx0"/>
+      <configSetting altId="canfd0.mode.enabled.free" configurationId="canfd0.mode"/>
+      <configSetting altId="dsmif0.mclk0.p00_4" configurationId="dsmif0.mclk0"/>
+      <configSetting altId="dsmif0.mdat0.p00_5" configurationId="dsmif0.mdat0"/>
+      <configSetting altId="dsmif0.mode.enabled.free" configurationId="dsmif0.mode"/>
+      <configSetting altId="dsmif1.mclk1.p15_3" configurationId="dsmif1.mclk1"/>
+      <configSetting altId="dsmif1.mdat1.p15_4" configurationId="dsmif1.mdat1"/>
+      <configSetting altId="dsmif1.mode.custom.free" configurationId="dsmif1.mode"/>
+      <configSetting altId="dsmif4.mclk4.p23_7" configurationId="dsmif4.mclk4"/>
+      <configSetting altId="dsmif4.mdat4.p24_0" configurationId="dsmif4.mdat4"/>
+      <configSetting altId="dsmif4.mode.custom.free" configurationId="dsmif4.mode"/>
+      <configSetting altId="dsmif5.mclk5.p24_1" configurationId="dsmif5.mclk5"/>
+      <configSetting altId="dsmif5.mdat5.p24_2" configurationId="dsmif5.mdat5"/>
+      <configSetting altId="dsmif5.mode.custom.free" configurationId="dsmif5.mode"/>
+      <configSetting altId="ether_esc.esc_i2cclk.p13_2" configurationId="ether_esc.esc_i2cclk"/>
+      <configSetting altId="ether_esc.esc_i2cdata.p13_3" configurationId="ether_esc.esc_i2cdata"/>
+      <configSetting altId="ether_esc.esc_irq.p14_4" configurationId="ether_esc.esc_irq"/>
+      <configSetting altId="ether_esc.esc_lederr.p20_3" configurationId="ether_esc.esc_lederr"/>
+      <configSetting altId="ether_esc.esc_ledrun.p20_2" configurationId="ether_esc.esc_ledrun"/>
+      <configSetting altId="ether_esc.esc_linkact0.p20_1" configurationId="ether_esc.esc_linkact0"/>
+      <configSetting altId="ether_esc.esc_linkact1.p20_4" configurationId="ether_esc.esc_linkact1"/>
+      <configSetting altId="ether_esc.esc_phylink0.p10_4" configurationId="ether_esc.esc_phylink0"/>
+      <configSetting altId="ether_esc.esc_phylink1.p05_5" configurationId="ether_esc.esc_phylink1"/>
+      <configSetting altId="ether_esc.esc_sync0.p02_1" configurationId="ether_esc.esc_sync0"/>
+      <configSetting altId="ether_esc.mode.custom_40_1.8v_41.free" configurationId="ether_esc.mode"/>
+      <configSetting altId="ether_eth0.eth0_refclk.p09_1" configurationId="ether_eth0.eth0_refclk"/>
+      <configSetting altId="ether_eth0.eth0_rxclk_ref_clk_rxc.p08_6" configurationId="ether_eth0.eth0_rxclk_ref_clk_rxc"/>
+      <configSetting altId="ether_eth0.eth0_rxd0.p10_1" configurationId="ether_eth0.eth0_rxd0"/>
+      <configSetting altId="ether_eth0.eth0_rxd1.p10_2" configurationId="ether_eth0.eth0_rxd1"/>
+      <configSetting altId="ether_eth0.eth0_rxd2.p10_3" configurationId="ether_eth0.eth0_rxd2"/>
+      <configSetting altId="ether_eth0.eth0_rxd3.p08_4" configurationId="ether_eth0.eth0_rxd3"/>
+      <configSetting altId="ether_eth0.eth0_rxdv_crsdv_rxctl.p08_5" configurationId="ether_eth0.eth0_rxdv_crsdv_rxctl"/>
+      <configSetting altId="ether_eth0.eth0_rxer.p09_2" configurationId="ether_eth0.eth0_rxer"/>
+      <configSetting altId="ether_eth0.eth0_txclk_txc.p09_7" configurationId="ether_eth0.eth0_txclk_txc"/>
+      <configSetting altId="ether_eth0.eth0_txd0.p09_6" configurationId="ether_eth0.eth0_txd0"/>
+      <configSetting altId="ether_eth0.eth0_txd1.p09_5" configurationId="ether_eth0.eth0_txd1"/>
+      <configSetting altId="ether_eth0.eth0_txd2.p09_4" configurationId="ether_eth0.eth0_txd2"/>
+      <configSetting altId="ether_eth0.eth0_txd3.p09_3" configurationId="ether_eth0.eth0_txd3"/>
+      <configSetting altId="ether_eth0.eth0_txen_txctl.p10_0" configurationId="ether_eth0.eth0_txen_txctl"/>
+      <configSetting altId="ether_eth0.mode.custom_40_1.8v_41.free" configurationId="ether_eth0.mode"/>
+      <configSetting altId="ether_eth1.eth1_refclk.p06_1" configurationId="ether_eth1.eth1_refclk"/>
+      <configSetting altId="ether_eth1.eth1_rxclk_ref_clk_rxc.p07_3" configurationId="ether_eth1.eth1_rxclk_ref_clk_rxc"/>
+      <configSetting altId="ether_eth1.eth1_rxd0.p06_6" configurationId="ether_eth1.eth1_rxd0"/>
+      <configSetting altId="ether_eth1.eth1_rxd1.p06_7" configurationId="ether_eth1.eth1_rxd1"/>
+      <configSetting altId="ether_eth1.eth1_rxd2.p07_0" configurationId="ether_eth1.eth1_rxd2"/>
+      <configSetting altId="ether_eth1.eth1_rxd3.p07_1" configurationId="ether_eth1.eth1_rxd3"/>
+      <configSetting altId="ether_eth1.eth1_rxdv_crsdv_rxctl.p07_2" configurationId="ether_eth1.eth1_rxdv_crsdv_rxctl"/>
+      <configSetting altId="ether_eth1.eth1_rxer.p05_6" configurationId="ether_eth1.eth1_rxer"/>
+      <configSetting altId="ether_eth1.eth1_txclk_txc.p06_4" configurationId="ether_eth1.eth1_txclk_txc"/>
+      <configSetting altId="ether_eth1.eth1_txd0.p06_3" configurationId="ether_eth1.eth1_txd0"/>
+      <configSetting altId="ether_eth1.eth1_txd1.p06_2" configurationId="ether_eth1.eth1_txd1"/>
+      <configSetting altId="ether_eth1.eth1_txd2.p05_7" configurationId="ether_eth1.eth1_txd2"/>
+      <configSetting altId="ether_eth1.eth1_txd3.p06_0" configurationId="ether_eth1.eth1_txd3"/>
+      <configSetting altId="ether_eth1.eth1_txen_txctl.p06_5" configurationId="ether_eth1.eth1_txen_txctl"/>
+      <configSetting altId="ether_eth1.mode.custom_40_1.8v_41.free" configurationId="ether_eth1.mode"/>
+      <configSetting altId="ether_gmac.gmac_mdc.p08_7" configurationId="ether_gmac.gmac_mdc"/>
+      <configSetting altId="ether_gmac.gmac_mdio.p09_0" configurationId="ether_gmac.gmac_mdio"/>
+      <configSetting altId="ether_gmac.mode.custom_40_1.8v_41.free" configurationId="ether_gmac.mode"/>
+      <configSetting altId="iic0.mode.custom.free" configurationId="iic0.mode"/>
+      <configSetting altId="iic1.iic_scl1.p21_1" configurationId="iic1.iic_scl1"/>
+      <configSetting altId="iic1.iic_sda1.p05_3" configurationId="iic1.iic_sda1"/>
+      <configSetting altId="iic1.mode.enabled.free" configurationId="iic1.mode"/>
+      <configSetting altId="iic2.iic_scl2.p18_6" configurationId="iic2.iic_scl2"/>
+      <configSetting altId="iic2.iic_sda2.p04_1" configurationId="iic2.iic_sda2"/>
+      <configSetting altId="iic2.mode.custom.free" configurationId="iic2.mode"/>
+      <configSetting altId="irq.mode.custom.free" configurationId="irq.mode"/>
       <configSetting altId="jtag_fslash_swd.mode.jtag.free" configurationId="jtag_fslash_swd.mode"/>
       <configSetting altId="jtag_fslash_swd.tck_swclk.p02_7" configurationId="jtag_fslash_swd.tck_swclk"/>
       <configSetting altId="jtag_fslash_swd.tdi.p02_5" configurationId="jtag_fslash_swd.tdi"/>
       <configSetting altId="jtag_fslash_swd.tdo.p02_4" configurationId="jtag_fslash_swd.tdo"/>
       <configSetting altId="jtag_fslash_swd.tms_swdio.p02_6" configurationId="jtag_fslash_swd.tms_swdio"/>
+      <configSetting altId="mtu3.mode.custom.free" configurationId="mtu3.mode"/>
+      <configSetting altId="mtu3.mtclka.p13_5" configurationId="mtu3.mtclka"/>
+      <configSetting altId="mtu3.mtclkb.p13_6" configurationId="mtu3.mtclkb"/>
+      <configSetting altId="mtu3.mtclkc.p13_7" configurationId="mtu3.mtclkc"/>
+      <configSetting altId="mtu3.mtclkd.p14_0" configurationId="mtu3.mtclkd"/>
+      <configSetting altId="mtu30.mode.custom.free" configurationId="mtu30.mode"/>
+      <configSetting altId="mtu32.mode.custom.free" configurationId="mtu32.mode"/>
+      <configSetting altId="mtu33.mode.custom.free" configurationId="mtu33.mode"/>
+      <configSetting altId="mtu33.mtioc3b.p00_6" configurationId="mtu33.mtioc3b"/>
+      <configSetting altId="mtu33.mtioc3d.p01_1" configurationId="mtu33.mtioc3d"/>
+      <configSetting altId="mtu34.mode.custom.free" configurationId="mtu34.mode"/>
+      <configSetting altId="mtu34.mtioc4a.p00_7" configurationId="mtu34.mtioc4a"/>
+      <configSetting altId="mtu34.mtioc4b.p01_2" configurationId="mtu34.mtioc4b"/>
+      <configSetting altId="mtu34.mtioc4c.p01_0" configurationId="mtu34.mtioc4c"/>
+      <configSetting altId="mtu34.mtioc4d.p01_3" configurationId="mtu34.mtioc4d"/>
+      <configSetting altId="mtu36.mode.custom.free" configurationId="mtu36.mode"/>
+      <configSetting altId="mtu36.mtioc6b.p21_2" configurationId="mtu36.mtioc6b"/>
+      <configSetting altId="mtu36.mtioc6d.p21_4" configurationId="mtu36.mtioc6d"/>
+      <configSetting altId="mtu37.mode.custom.free" configurationId="mtu37.mode"/>
+      <configSetting altId="mtu37.mtioc7a.p21_5" configurationId="mtu37.mtioc7a"/>
+      <configSetting altId="mtu37.mtioc7b.p21_6" configurationId="mtu37.mtioc7b"/>
+      <configSetting altId="mtu37.mtioc7c.p21_7" configurationId="mtu37.mtioc7c"/>
+      <configSetting altId="mtu37.mtioc7d.p22_0" configurationId="mtu37.mtioc7d"/>
+      <configSetting altId="mtu38.mode.custom.free" configurationId="mtu38.mode"/>
+      <configSetting altId="mtu38.mtioc8a.p14_1" configurationId="mtu38.mtioc8a"/>
+      <configSetting altId="mtu_poe3.mode.custom.free" configurationId="mtu_poe3.mode"/>
+      <configSetting altId="mtu_poe3.poe0_hash.p01_4" configurationId="mtu_poe3.poe0_hash"/>
+      <configSetting altId="mtu_poe3.poe4_hash.p22_1" configurationId="mtu_poe3.poe4_hash"/>
+      <configSetting altId="mtu_poe3.poe8_hash.p14_5" configurationId="mtu_poe3.poe8_hash"/>
+      <configSetting altId="p00_0.sci2.de2" configurationId="p00_0"/>
+      <configSetting altId="p00_0.gpio_speed.gpio_speed_high" configurationId="p00_0.gpio_drivecapacity"/>
+      <configSetting altId="p00_0.gpio_mode.gpio_mode_peripheral" configurationId="p00_0.gpio_mode"/>
+      <configSetting altId="p00_0.sr.sr.fast" configurationId="p00_0.sr"/>
+      <configSetting altId="p00_1.sci2.rxd_miso2" configurationId="p00_1"/>
+      <configSetting altId="p00_1.gpio_speed.gpio_speed_high" configurationId="p00_1.gpio_drivecapacity"/>
+      <configSetting altId="p00_1.gpio_mode.gpio_mode_peripheral" configurationId="p00_1.gpio_mode"/>
+      <configSetting altId="p00_1.sr.sr.fast" configurationId="p00_1.sr"/>
+      <configSetting altId="p00_2.sci2.txd_mosi2" configurationId="p00_2"/>
+      <configSetting altId="p00_2.gpio_speed.gpio_speed_high" configurationId="p00_2.gpio_drivecapacity"/>
+      <configSetting altId="p00_2.gpio_mode.gpio_mode_peripheral" configurationId="p00_2.gpio_mode"/>
+      <configSetting altId="p00_2.sr.sr.fast" configurationId="p00_2.sr"/>
+      <configSetting altId="p00_3.input" configurationId="p00_3"/>
+      <configSetting altId="p00_3.gpio_mode.gpio_mode_in" configurationId="p00_3.gpio_mode"/>
+      <configSetting altId="p00_4.dsmif0.mclk0" configurationId="p00_4"/>
+      <configSetting altId="p00_4.gpio_speed.gpio_speed_middle" configurationId="p00_4.gpio_drivecapacity"/>
+      <configSetting altId="p00_4.gpio_mode.gpio_mode_peripheral" configurationId="p00_4.gpio_mode"/>
+      <configSetting altId="p00_5.dsmif0.mdat0" configurationId="p00_5"/>
+      <configSetting altId="p00_5.gpio_speed.gpio_speed_middle" configurationId="p00_5.gpio_drivecapacity"/>
+      <configSetting altId="p00_5.gpio_mode.gpio_mode_peripheral" configurationId="p00_5.gpio_mode"/>
+      <configSetting altId="p00_6.mtu33.mtioc3b" configurationId="p00_6"/>
+      <configSetting altId="p00_6.gpio_mode.gpio_mode_peripheral" configurationId="p00_6.gpio_mode"/>
+      <configSetting altId="p00_7.mtu34.mtioc4a" configurationId="p00_7"/>
+      <configSetting altId="p00_7.gpio_speed.gpio_speed_middle" configurationId="p00_7.gpio_drivecapacity"/>
+      <configSetting altId="p00_7.gpio_mode.gpio_mode_peripheral" configurationId="p00_7.gpio_mode"/>
+      <configSetting altId="p01_0.mtu34.mtioc4c" configurationId="p01_0"/>
+      <configSetting altId="p01_0.gpio_speed.gpio_speed_middle" configurationId="p01_0.gpio_drivecapacity"/>
+      <configSetting altId="p01_0.gpio_mode.gpio_mode_peripheral" configurationId="p01_0.gpio_mode"/>
+      <configSetting altId="p01_1.mtu33.mtioc3d" configurationId="p01_1"/>
+      <configSetting altId="p01_1.gpio_speed.gpio_speed_middle" configurationId="p01_1.gpio_drivecapacity"/>
+      <configSetting altId="p01_1.gpio_mode.gpio_mode_peripheral" configurationId="p01_1.gpio_mode"/>
+      <configSetting altId="p01_2.mtu34.mtioc4b" configurationId="p01_2"/>
+      <configSetting altId="p01_2.gpio_mode.gpio_mode_peripheral" configurationId="p01_2.gpio_mode"/>
+      <configSetting altId="p01_3.mtu34.mtioc4d" configurationId="p01_3"/>
+      <configSetting altId="p01_3.gpio_mode.gpio_mode_peripheral" configurationId="p01_3.gpio_mode"/>
+      <configSetting altId="p01_4.mtu_poe3.poe0_hash" configurationId="p01_4"/>
+      <configSetting altId="p01_4.gpio_mode.gpio_mode_peripheral" configurationId="p01_4.gpio_mode"/>
+      <configSetting altId="p01_5.output.toinput.high" configurationId="p01_5"/>
+      <configSetting altId="p01_5.gpio_mode.gpio_mode_out.toinput.high" configurationId="p01_5.gpio_mode"/>
+      <configSetting altId="p01_6.input" configurationId="p01_6"/>
+      <configSetting altId="p01_6.gpio_mode.gpio_mode_in" configurationId="p01_6.gpio_mode"/>
+      <configSetting altId="p01_7.input" configurationId="p01_7"/>
+      <configSetting altId="p01_7.gpio_mode.gpio_mode_in" configurationId="p01_7.gpio_mode"/>
+      <configSetting altId="p02_0.input" configurationId="p02_0"/>
+      <configSetting altId="p02_0.gpio_mode.gpio_mode_in" configurationId="p02_0.gpio_mode"/>
+      <configSetting altId="p02_1.ether_esc.esc_sync0" configurationId="p02_1"/>
+      <configSetting altId="p02_1.gpio_mode.gpio_mode_peripheral" configurationId="p02_1.gpio_mode"/>
+      <configSetting altId="p02_2.canfd0.cantx0" configurationId="p02_2"/>
+      <configSetting altId="p02_2.gpio_speed.gpio_speed_middle" configurationId="p02_2.gpio_drivecapacity"/>
+      <configSetting altId="p02_2.gpio_mode.gpio_mode_peripheral" configurationId="p02_2.gpio_mode"/>
+      <configSetting altId="p02_2.sr.sr.fast" configurationId="p02_2.sr"/>
+      <configSetting altId="p02_3.output.toinput.high" configurationId="p02_3"/>
+      <configSetting altId="p02_3.gpio_mode.gpio_mode_out.toinput.high" configurationId="p02_3.gpio_mode"/>
       <configSetting altId="p02_4.jtag_fslash_swd.tdo" configurationId="p02_4"/>
       <configSetting altId="p02_4.gpio_speed.gpio_speed_high" configurationId="p02_4.gpio_drivecapacity"/>
       <configSetting altId="p02_4.gpio_mode.gpio_mode_peripheral" configurationId="p02_4.gpio_mode"/>
       <configSetting altId="p02_4.sr.sr.fast" configurationId="p02_4.sr"/>
       <configSetting altId="p02_5.jtag_fslash_swd.tdi" configurationId="p02_5"/>
+      <configSetting altId="p02_5.gpio_speed.gpio_speed_high" configurationId="p02_5.gpio_drivecapacity"/>
       <configSetting altId="p02_5.gpio_mode.gpio_mode_peripheral" configurationId="p02_5.gpio_mode"/>
+      <configSetting altId="p02_5.sr.sr.fast" configurationId="p02_5.sr"/>
       <configSetting altId="p02_6.jtag_fslash_swd.tms_swdio" configurationId="p02_6"/>
       <configSetting altId="p02_6.gpio_speed.gpio_speed_high" configurationId="p02_6.gpio_drivecapacity"/>
       <configSetting altId="p02_6.gpio_mode.gpio_mode_peripheral" configurationId="p02_6.gpio_mode"/>
       <configSetting altId="p02_6.sr.sr.fast" configurationId="p02_6.sr"/>
       <configSetting altId="p02_7.jtag_fslash_swd.tck_swclk" configurationId="p02_7"/>
+      <configSetting altId="p02_7.gpio_speed.gpio_speed_high" configurationId="p02_7.gpio_drivecapacity"/>
       <configSetting altId="p02_7.gpio_mode.gpio_mode_peripheral" configurationId="p02_7.gpio_mode"/>
+      <configSetting altId="p02_7.sr.sr.fast" configurationId="p02_7.sr"/>
+      <configSetting altId="p03_0.input" configurationId="p03_0"/>
+      <configSetting altId="p03_0.gpio_mode.gpio_mode_in" configurationId="p03_0.gpio_mode"/>
+      <configSetting altId="p03_5.input" configurationId="p03_5"/>
+      <configSetting altId="p03_5.gpio_mode.gpio_mode_in" configurationId="p03_5.gpio_mode"/>
+      <configSetting altId="p03_6.input" configurationId="p03_6"/>
+      <configSetting altId="p03_6.gpio_mode.gpio_mode_in" configurationId="p03_6.gpio_mode"/>
+      <configSetting altId="p03_7.input" configurationId="p03_7"/>
+      <configSetting altId="p03_7.gpio_mode.gpio_mode_in" configurationId="p03_7.gpio_mode"/>
+      <configSetting altId="p04_0.sci3.rxd_miso3" configurationId="p04_0"/>
+      <configSetting altId="p04_0.gpio_speed.gpio_speed_high" configurationId="p04_0.gpio_drivecapacity"/>
+      <configSetting altId="p04_0.gpio_mode.gpio_mode_peripheral" configurationId="p04_0.gpio_mode"/>
+      <configSetting altId="p04_0.gpio_pupd.gpio_pupd_ip_up" configurationId="p04_0.gpio_pupd"/>
+      <configSetting altId="p04_0.sr.sr.fast" configurationId="p04_0.sr"/>
+      <configSetting altId="p04_1.iic2.iic_sda2" configurationId="p04_1"/>
+      <configSetting altId="p04_1.gpio_speed.gpio_speed_middle" configurationId="p04_1.gpio_drivecapacity"/>
+      <configSetting altId="p04_1.gpio_mode.gpio_mode_peripheral" configurationId="p04_1.gpio_mode"/>
+      <configSetting altId="p04_1.gpio_pupd.gpio_pupd_ip_up" configurationId="p04_1.gpio_pupd"/>
+      <configSetting altId="p04_1.sr.sr.fast" configurationId="p04_1.sr"/>
+      <configSetting altId="p04_4.spi1.spi_rspck1" configurationId="p04_4"/>
+      <configSetting altId="p04_4.gpio_speed.gpio_speed_high" configurationId="p04_4.gpio_drivecapacity"/>
+      <configSetting altId="p04_4.gpio_mode.gpio_mode_peripheral" configurationId="p04_4.gpio_mode"/>
+      <configSetting altId="p04_4.sr.sr.fast" configurationId="p04_4.sr"/>
+      <configSetting altId="p04_5.sci3.de3" configurationId="p04_5"/>
+      <configSetting altId="p04_5.gpio_speed.gpio_speed_high" configurationId="p04_5.gpio_drivecapacity"/>
+      <configSetting altId="p04_5.gpio_mode.gpio_mode_peripheral" configurationId="p04_5.gpio_mode"/>
+      <configSetting altId="p04_5.sr.sr.fast" configurationId="p04_5.sr"/>
+      <configSetting altId="p05_0.input" configurationId="p05_0"/>
+      <configSetting altId="p05_0.gpio_mode.gpio_mode_in" configurationId="p05_0.gpio_mode"/>
+      <configSetting altId="p05_1.output.toinput.high" configurationId="p05_1"/>
+      <configSetting altId="p05_1.gpio_mode.gpio_mode_out.toinput.high" configurationId="p05_1.gpio_mode"/>
+      <configSetting altId="p05_2.output.toinput.high" configurationId="p05_2"/>
+      <configSetting altId="p05_2.gpio_mode.gpio_mode_out.toinput.high" configurationId="p05_2.gpio_mode"/>
+      <configSetting altId="p05_3.iic1.iic_sda1" configurationId="p05_3"/>
+      <configSetting altId="p05_3.gpio_speed.gpio_speed_middle" configurationId="p05_3.gpio_drivecapacity"/>
+      <configSetting altId="p05_3.gpio_mode.gpio_mode_peripheral" configurationId="p05_3.gpio_mode"/>
+      <configSetting altId="p05_4.sci4.rxd_miso4" configurationId="p05_4"/>
+      <configSetting altId="p05_4.gpio_speed.gpio_speed_high" configurationId="p05_4.gpio_drivecapacity"/>
+      <configSetting altId="p05_4.gpio_mode.gpio_mode_peripheral" configurationId="p05_4.gpio_mode"/>
+      <configSetting altId="p05_4.sr.sr.fast" configurationId="p05_4.sr"/>
+      <configSetting altId="p05_5.ether_esc.esc_phylink1" configurationId="p05_5"/>
+      <configSetting altId="p05_5.gpio_mode.gpio_mode_peripheral" configurationId="p05_5.gpio_mode"/>
+      <configSetting altId="p05_6.ether_eth1.eth1_rxer" configurationId="p05_6"/>
+      <configSetting altId="p05_6.gpio_mode.gpio_mode_peripheral" configurationId="p05_6.gpio_mode"/>
+      <configSetting altId="p05_7.ether_eth1.eth1_txd2" configurationId="p05_7"/>
+      <configSetting altId="p05_7.gpio_speed.gpio_speed_high" configurationId="p05_7.gpio_drivecapacity"/>
+      <configSetting altId="p05_7.gpio_mode.gpio_mode_peripheral" configurationId="p05_7.gpio_mode"/>
+      <configSetting altId="p05_7.sr.sr.fast" configurationId="p05_7.sr"/>
+      <configSetting altId="p06_0.ether_eth1.eth1_txd3" configurationId="p06_0"/>
+      <configSetting altId="p06_0.gpio_speed.gpio_speed_high" configurationId="p06_0.gpio_drivecapacity"/>
+      <configSetting altId="p06_0.gpio_mode.gpio_mode_peripheral" configurationId="p06_0.gpio_mode"/>
+      <configSetting altId="p06_0.sr.sr.fast" configurationId="p06_0.sr"/>
+      <configSetting altId="p06_1.ether_eth1.eth1_refclk" configurationId="p06_1"/>
+      <configSetting altId="p06_1.gpio_mode.gpio_mode_peripheral" configurationId="p06_1.gpio_mode"/>
+      <configSetting altId="p06_1.sr.sr.fast" configurationId="p06_1.sr"/>
+      <configSetting altId="p06_2.ether_eth1.eth1_txd1" configurationId="p06_2"/>
+      <configSetting altId="p06_2.gpio_speed.gpio_speed_high" configurationId="p06_2.gpio_drivecapacity"/>
+      <configSetting altId="p06_2.gpio_mode.gpio_mode_peripheral" configurationId="p06_2.gpio_mode"/>
+      <configSetting altId="p06_2.sr.sr.fast" configurationId="p06_2.sr"/>
+      <configSetting altId="p06_3.ether_eth1.eth1_txd0" configurationId="p06_3"/>
+      <configSetting altId="p06_3.gpio_speed.gpio_speed_high" configurationId="p06_3.gpio_drivecapacity"/>
+      <configSetting altId="p06_3.gpio_mode.gpio_mode_peripheral" configurationId="p06_3.gpio_mode"/>
+      <configSetting altId="p06_3.sr.sr.fast" configurationId="p06_3.sr"/>
+      <configSetting altId="p06_4.ether_eth1.eth1_txclk_txc" configurationId="p06_4"/>
+      <configSetting altId="p06_4.gpio_speed.gpio_speed_high" configurationId="p06_4.gpio_drivecapacity"/>
+      <configSetting altId="p06_4.gpio_mode.gpio_mode_peripheral" configurationId="p06_4.gpio_mode"/>
+      <configSetting altId="p06_4.sr.sr.fast" configurationId="p06_4.sr"/>
+      <configSetting altId="p06_5.ether_eth1.eth1_txen_txctl" configurationId="p06_5"/>
+      <configSetting altId="p06_5.gpio_mode.gpio_mode_peripheral" configurationId="p06_5.gpio_mode"/>
+      <configSetting altId="p06_6.ether_eth1.eth1_rxd0" configurationId="p06_6"/>
+      <configSetting altId="p06_6.gpio_mode.gpio_mode_peripheral" configurationId="p06_6.gpio_mode"/>
+      <configSetting altId="p06_7.ether_eth1.eth1_rxd1" configurationId="p06_7"/>
+      <configSetting altId="p06_7.gpio_mode.gpio_mode_peripheral" configurationId="p06_7.gpio_mode"/>
+      <configSetting altId="p07_0.ether_eth1.eth1_rxd2" configurationId="p07_0"/>
+      <configSetting altId="p07_0.gpio_mode.gpio_mode_peripheral" configurationId="p07_0.gpio_mode"/>
+      <configSetting altId="p07_1.ether_eth1.eth1_rxd3" configurationId="p07_1"/>
+      <configSetting altId="p07_1.gpio_mode.gpio_mode_peripheral" configurationId="p07_1.gpio_mode"/>
+      <configSetting altId="p07_2.ether_eth1.eth1_rxdv_crsdv_rxctl" configurationId="p07_2"/>
+      <configSetting altId="p07_2.gpio_mode.gpio_mode_peripheral" configurationId="p07_2.gpio_mode"/>
+      <configSetting altId="p07_3.ether_eth1.eth1_rxclk_ref_clk_rxc" configurationId="p07_3"/>
+      <configSetting altId="p07_3.gpio_mode.gpio_mode_peripheral" configurationId="p07_3.gpio_mode"/>
+      <configSetting altId="p07_4.usb_hs.usb_vbusin" configurationId="p07_4"/>
+      <configSetting altId="p07_4.gpio_mode.gpio_mode_peripheral" configurationId="p07_4.gpio_mode"/>
+      <configSetting altId="p08_4.ether_eth0.eth0_rxd3" configurationId="p08_4"/>
+      <configSetting altId="p08_4.gpio_mode.gpio_mode_peripheral" configurationId="p08_4.gpio_mode"/>
+      <configSetting altId="p08_5.ether_eth0.eth0_rxdv_crsdv_rxctl" configurationId="p08_5"/>
+      <configSetting altId="p08_5.gpio_mode.gpio_mode_peripheral" configurationId="p08_5.gpio_mode"/>
+      <configSetting altId="p08_6.ether_eth0.eth0_rxclk_ref_clk_rxc" configurationId="p08_6"/>
+      <configSetting altId="p08_6.gpio_mode.gpio_mode_peripheral" configurationId="p08_6.gpio_mode"/>
+      <configSetting altId="p08_7.ether_gmac.gmac_mdc" configurationId="p08_7"/>
+      <configSetting altId="p08_7.gpio_mode.gpio_mode_peripheral" configurationId="p08_7.gpio_mode"/>
+      <configSetting altId="p09_0.ether_gmac.gmac_mdio" configurationId="p09_0"/>
+      <configSetting altId="p09_0.gpio_mode.gpio_mode_peripheral" configurationId="p09_0.gpio_mode"/>
+      <configSetting altId="p09_1.ether_eth0.eth0_refclk" configurationId="p09_1"/>
+      <configSetting altId="p09_1.gpio_mode.gpio_mode_peripheral" configurationId="p09_1.gpio_mode"/>
+      <configSetting altId="p09_1.sr.sr.fast" configurationId="p09_1.sr"/>
+      <configSetting altId="p09_2.ether_eth0.eth0_rxer" configurationId="p09_2"/>
+      <configSetting altId="p09_2.gpio_mode.gpio_mode_peripheral" configurationId="p09_2.gpio_mode"/>
+      <configSetting altId="p09_3.ether_eth0.eth0_txd3" configurationId="p09_3"/>
+      <configSetting altId="p09_3.gpio_speed.gpio_speed_high" configurationId="p09_3.gpio_drivecapacity"/>
+      <configSetting altId="p09_3.gpio_mode.gpio_mode_peripheral" configurationId="p09_3.gpio_mode"/>
+      <configSetting altId="p09_3.sr.sr.fast" configurationId="p09_3.sr"/>
+      <configSetting altId="p09_4.ether_eth0.eth0_txd2" configurationId="p09_4"/>
+      <configSetting altId="p09_4.gpio_speed.gpio_speed_high" configurationId="p09_4.gpio_drivecapacity"/>
+      <configSetting altId="p09_4.gpio_mode.gpio_mode_peripheral" configurationId="p09_4.gpio_mode"/>
+      <configSetting altId="p09_4.sr.sr.fast" configurationId="p09_4.sr"/>
+      <configSetting altId="p09_5.ether_eth0.eth0_txd1" configurationId="p09_5"/>
+      <configSetting altId="p09_5.gpio_speed.gpio_speed_high" configurationId="p09_5.gpio_drivecapacity"/>
+      <configSetting altId="p09_5.gpio_mode.gpio_mode_peripheral" configurationId="p09_5.gpio_mode"/>
+      <configSetting altId="p09_5.sr.sr.fast" configurationId="p09_5.sr"/>
+      <configSetting altId="p09_6.ether_eth0.eth0_txd0" configurationId="p09_6"/>
+      <configSetting altId="p09_6.gpio_speed.gpio_speed_high" configurationId="p09_6.gpio_drivecapacity"/>
+      <configSetting altId="p09_6.gpio_mode.gpio_mode_peripheral" configurationId="p09_6.gpio_mode"/>
+      <configSetting altId="p09_6.sr.sr.fast" configurationId="p09_6.sr"/>
+      <configSetting altId="p09_7.ether_eth0.eth0_txclk_txc" configurationId="p09_7"/>
+      <configSetting altId="p09_7.gpio_speed.gpio_speed_high" configurationId="p09_7.gpio_drivecapacity"/>
+      <configSetting altId="p09_7.gpio_mode.gpio_mode_peripheral" configurationId="p09_7.gpio_mode"/>
+      <configSetting altId="p09_7.sr.sr.fast" configurationId="p09_7.sr"/>
+      <configSetting altId="p10_0.ether_eth0.eth0_txen_txctl" configurationId="p10_0"/>
+      <configSetting altId="p10_0.gpio_mode.gpio_mode_peripheral" configurationId="p10_0.gpio_mode"/>
+      <configSetting altId="p10_1.ether_eth0.eth0_rxd0" configurationId="p10_1"/>
+      <configSetting altId="p10_1.gpio_mode.gpio_mode_peripheral" configurationId="p10_1.gpio_mode"/>
+      <configSetting altId="p10_2.ether_eth0.eth0_rxd1" configurationId="p10_2"/>
+      <configSetting altId="p10_2.gpio_mode.gpio_mode_peripheral" configurationId="p10_2.gpio_mode"/>
+      <configSetting altId="p10_3.ether_eth0.eth0_rxd2" configurationId="p10_3"/>
+      <configSetting altId="p10_3.gpio_mode.gpio_mode_peripheral" configurationId="p10_3.gpio_mode"/>
+      <configSetting altId="p10_4.ether_esc.esc_phylink0" configurationId="p10_4"/>
+      <configSetting altId="p10_4.gpio_mode.gpio_mode_peripheral" configurationId="p10_4.gpio_mode"/>
+      <configSetting altId="p12_4.output.toinput.high" configurationId="p12_4"/>
+      <configSetting altId="p12_4.gpio_mode.gpio_mode_out.toinput.high" configurationId="p12_4.gpio_mode"/>
+      <configSetting altId="p13_2.ether_esc.esc_i2cclk" configurationId="p13_2"/>
+      <configSetting altId="p13_2.gpio_mode.gpio_mode_peripheral" configurationId="p13_2.gpio_mode"/>
+      <configSetting altId="p13_3.ether_esc.esc_i2cdata" configurationId="p13_3"/>
+      <configSetting altId="p13_3.gpio_mode.gpio_mode_peripheral" configurationId="p13_3.gpio_mode"/>
+      <configSetting altId="p13_4.output.high" configurationId="p13_4"/>
+      <configSetting altId="p13_4.gpio_mode.gpio_mode_out.high" configurationId="p13_4.gpio_mode"/>
+      <configSetting altId="p13_5.mtu3.mtclka" configurationId="p13_5"/>
+      <configSetting altId="p13_5.gpio_speed.gpio_speed_middle" configurationId="p13_5.gpio_drivecapacity"/>
+      <configSetting altId="p13_5.gpio_mode.gpio_mode_peripheral" configurationId="p13_5.gpio_mode"/>
+      <configSetting altId="p13_6.mtu3.mtclkb" configurationId="p13_6"/>
+      <configSetting altId="p13_6.gpio_speed.gpio_speed_middle" configurationId="p13_6.gpio_drivecapacity"/>
+      <configSetting altId="p13_6.gpio_mode.gpio_mode_peripheral" configurationId="p13_6.gpio_mode"/>
+      <configSetting altId="p13_7.mtu3.mtclkc" configurationId="p13_7"/>
+      <configSetting altId="p13_7.gpio_speed.gpio_speed_middle" configurationId="p13_7.gpio_drivecapacity"/>
+      <configSetting altId="p13_7.gpio_mode.gpio_mode_peripheral" configurationId="p13_7.gpio_mode"/>
+      <configSetting altId="p14_0.mtu3.mtclkd" configurationId="p14_0"/>
+      <configSetting altId="p14_0.gpio_speed.gpio_speed_middle" configurationId="p14_0.gpio_drivecapacity"/>
+      <configSetting altId="p14_0.gpio_mode.gpio_mode_peripheral" configurationId="p14_0.gpio_mode"/>
+      <configSetting altId="p14_1.mtu38.mtioc8a" configurationId="p14_1"/>
+      <configSetting altId="p14_1.gpio_speed.gpio_speed_middle" configurationId="p14_1.gpio_drivecapacity"/>
+      <configSetting altId="p14_1.gpio_mode.gpio_mode_peripheral" configurationId="p14_1.gpio_mode"/>
+      <configSetting altId="p14_2.input" configurationId="p14_2"/>
+      <configSetting altId="p14_2.gpio_mode.gpio_mode_in" configurationId="p14_2.gpio_mode"/>
+      <configSetting altId="p14_3.output.toinput.high" configurationId="p14_3"/>
+      <configSetting altId="p14_3.gpio_mode.gpio_mode_out.toinput.high" configurationId="p14_3.gpio_mode"/>
+      <configSetting altId="p14_4.ether_esc.esc_irq" configurationId="p14_4"/>
+      <configSetting altId="p14_4.gpio_mode.gpio_mode_peripheral" configurationId="p14_4.gpio_mode"/>
+      <configSetting altId="p14_5.mtu_poe3.poe8_hash" configurationId="p14_5"/>
+      <configSetting altId="p14_5.gpio_mode.gpio_mode_peripheral" configurationId="p14_5.gpio_mode"/>
+      <configSetting altId="p14_6.input" configurationId="p14_6"/>
+      <configSetting altId="p14_6.gpio_mode.gpio_mode_in" configurationId="p14_6.gpio_mode"/>
+      <configSetting altId="p14_7.spi1.spi_miso1" configurationId="p14_7"/>
+      <configSetting altId="p14_7.gpio_speed.gpio_speed_high" configurationId="p14_7.gpio_drivecapacity"/>
+      <configSetting altId="p14_7.gpio_mode.gpio_mode_peripheral" configurationId="p14_7.gpio_mode"/>
+      <configSetting altId="p14_7.smt.smt.enable" configurationId="p14_7.smt"/>
+      <configSetting altId="p14_7.sr.sr.fast" configurationId="p14_7.sr"/>
+      <configSetting altId="p15_0.spi1.spi_mosi1" configurationId="p15_0"/>
+      <configSetting altId="p15_0.gpio_speed.gpio_speed_high" configurationId="p15_0.gpio_drivecapacity"/>
+      <configSetting altId="p15_0.gpio_mode.gpio_mode_peripheral" configurationId="p15_0.gpio_mode"/>
+      <configSetting altId="p15_0.sr.sr.fast" configurationId="p15_0.sr"/>
+      <configSetting altId="p15_1.input" configurationId="p15_1"/>
+      <configSetting altId="p15_1.gpio_mode.gpio_mode_in" configurationId="p15_1.gpio_mode"/>
+      <configSetting altId="p15_2.output.toinput.high" configurationId="p15_2"/>
+      <configSetting altId="p15_2.gpio_mode.gpio_mode_out.toinput.high" configurationId="p15_2.gpio_mode"/>
+      <configSetting altId="p15_3.dsmif1.mclk1" configurationId="p15_3"/>
+      <configSetting altId="p15_3.gpio_mode.gpio_mode_peripheral" configurationId="p15_3.gpio_mode"/>
+      <configSetting altId="p15_4.dsmif1.mdat1" configurationId="p15_4"/>
+      <configSetting altId="p15_4.gpio_mode.gpio_mode_peripheral" configurationId="p15_4.gpio_mode"/>
+      <configSetting altId="p15_5.output.toinput.high" configurationId="p15_5"/>
+      <configSetting altId="p15_5.gpio_mode.gpio_mode_out.toinput.high" configurationId="p15_5.gpio_mode"/>
+      <configSetting altId="p15_6.output.toinput.low" configurationId="p15_6"/>
+      <configSetting altId="p15_6.gpio_mode.gpio_mode_out.toinput.low" configurationId="p15_6.gpio_mode"/>
+      <configSetting altId="p15_7.output.toinput.low" configurationId="p15_7"/>
+      <configSetting altId="p15_7.gpio_mode.gpio_mode_out.toinput.low" configurationId="p15_7.gpio_mode"/>
+      <configSetting altId="p16_0.spi3.spi_mosi3" configurationId="p16_0"/>
+      <configSetting altId="p16_0.gpio_speed.gpio_speed_high" configurationId="p16_0.gpio_drivecapacity"/>
+      <configSetting altId="p16_0.gpio_mode.gpio_mode_peripheral" configurationId="p16_0.gpio_mode"/>
+      <configSetting altId="p16_0.sr.sr.fast" configurationId="p16_0.sr"/>
+      <configSetting altId="p16_1.spi3.spi_miso3" configurationId="p16_1"/>
+      <configSetting altId="p16_1.gpio_speed.gpio_speed_high" configurationId="p16_1.gpio_drivecapacity"/>
+      <configSetting altId="p16_1.gpio_mode.gpio_mode_peripheral" configurationId="p16_1.gpio_mode"/>
+      <configSetting altId="p16_1.sr.sr.fast" configurationId="p16_1.sr"/>
+      <configSetting altId="p16_2.spi3.spi_rspck3" configurationId="p16_2"/>
+      <configSetting altId="p16_2.gpio_speed.gpio_speed_high" configurationId="p16_2.gpio_drivecapacity"/>
+      <configSetting altId="p16_2.gpio_mode.gpio_mode_peripheral" configurationId="p16_2.gpio_mode"/>
+      <configSetting altId="p16_2.sr.sr.fast" configurationId="p16_2.sr"/>
+      <configSetting altId="p16_3.spi3.spi_ssl30" configurationId="p16_3"/>
+      <configSetting altId="p16_3.gpio_speed.gpio_speed_high" configurationId="p16_3.gpio_drivecapacity"/>
+      <configSetting altId="p16_3.gpio_mode.gpio_mode_peripheral" configurationId="p16_3.gpio_mode"/>
+      <configSetting altId="p16_3.sr.sr.fast" configurationId="p16_3.sr"/>
+      <configSetting altId="p16_5.sci0.txd_mosi0" configurationId="p16_5"/>
+      <configSetting altId="p16_5.gpio_speed.gpio_speed_high" configurationId="p16_5.gpio_drivecapacity"/>
+      <configSetting altId="p16_5.gpio_mode.gpio_mode_peripheral" configurationId="p16_5.gpio_mode"/>
+      <configSetting altId="p16_5.gpio_pupd.gpio_pupd_ip_up" configurationId="p16_5.gpio_pupd"/>
+      <configSetting altId="p16_5.sr.sr.fast" configurationId="p16_5.sr"/>
+      <configSetting altId="p16_6.sci0.rxd_miso0" configurationId="p16_6"/>
+      <configSetting altId="p16_6.gpio_speed.gpio_speed_high" configurationId="p16_6.gpio_drivecapacity"/>
+      <configSetting altId="p16_6.gpio_mode.gpio_mode_peripheral" configurationId="p16_6.gpio_mode"/>
+      <configSetting altId="p16_6.gpio_pupd.gpio_pupd_ip_up" configurationId="p16_6.gpio_pupd"/>
+      <configSetting altId="p16_6.sr.sr.fast" configurationId="p16_6.sr"/>
+      <configSetting altId="p16_7.xspi1.xspi1_io0" configurationId="p16_7"/>
+      <configSetting altId="p16_7.gpio_speed.gpio_speed_high" configurationId="p16_7.gpio_drivecapacity"/>
+      <configSetting altId="p16_7.gpio_mode.gpio_mode_peripheral" configurationId="p16_7.gpio_mode"/>
+      <configSetting altId="p16_7.smt.smt.enable" configurationId="p16_7.smt"/>
+      <configSetting altId="p16_7.sr.sr.fast" configurationId="p16_7.sr"/>
+      <configSetting altId="p17_0.xspi1.xspi1_io1" configurationId="p17_0"/>
+      <configSetting altId="p17_0.gpio_speed.gpio_speed_high" configurationId="p17_0.gpio_drivecapacity"/>
+      <configSetting altId="p17_0.gpio_mode.gpio_mode_peripheral" configurationId="p17_0.gpio_mode"/>
+      <configSetting altId="p17_0.smt.smt.enable" configurationId="p17_0.smt"/>
+      <configSetting altId="p17_0.sr.sr.fast" configurationId="p17_0.sr"/>
+      <configSetting altId="p17_3.xspi1.xspi1_io2" configurationId="p17_3"/>
+      <configSetting altId="p17_3.gpio_speed.gpio_speed_high" configurationId="p17_3.gpio_drivecapacity"/>
+      <configSetting altId="p17_3.gpio_mode.gpio_mode_peripheral" configurationId="p17_3.gpio_mode"/>
+      <configSetting altId="p17_3.smt.smt.enable" configurationId="p17_3.smt"/>
+      <configSetting altId="p17_3.sr.sr.fast" configurationId="p17_3.sr"/>
+      <configSetting altId="p17_4.xspi1.xspi1_io3" configurationId="p17_4"/>
+      <configSetting altId="p17_4.gpio_speed.gpio_speed_high" configurationId="p17_4.gpio_drivecapacity"/>
+      <configSetting altId="p17_4.gpio_mode.gpio_mode_peripheral" configurationId="p17_4.gpio_mode"/>
+      <configSetting altId="p17_4.smt.smt.enable" configurationId="p17_4.smt"/>
+      <configSetting altId="p17_4.sr.sr.fast" configurationId="p17_4.sr"/>
+      <configSetting altId="p17_5.input" configurationId="p17_5"/>
+      <configSetting altId="p17_5.gpio_mode.gpio_mode_in" configurationId="p17_5.gpio_mode"/>
+      <configSetting altId="p17_6.input" configurationId="p17_6"/>
+      <configSetting altId="p17_6.gpio_mode.gpio_mode_in" configurationId="p17_6.gpio_mode"/>
+      <configSetting altId="p17_7.xspi1.xspi1_ckp" configurationId="p17_7"/>
+      <configSetting altId="p17_7.gpio_speed.gpio_speed_high" configurationId="p17_7.gpio_drivecapacity"/>
+      <configSetting altId="p17_7.gpio_mode.gpio_mode_peripheral" configurationId="p17_7.gpio_mode"/>
+      <configSetting altId="p17_7.smt.smt.enable" configurationId="p17_7.smt"/>
+      <configSetting altId="p17_7.sr.sr.fast" configurationId="p17_7.sr"/>
+      <configSetting altId="p18_0.sci3.txd_mosi3" configurationId="p18_0"/>
+      <configSetting altId="p18_0.gpio_speed.gpio_speed_high" configurationId="p18_0.gpio_drivecapacity"/>
+      <configSetting altId="p18_0.gpio_mode.gpio_mode_peripheral" configurationId="p18_0.gpio_mode"/>
+      <configSetting altId="p18_0.sr.sr.fast" configurationId="p18_0.sr"/>
+      <configSetting altId="p18_1.input" configurationId="p18_1"/>
+      <configSetting altId="p18_1.gpio_mode.gpio_mode_in" configurationId="p18_1.gpio_mode"/>
+      <configSetting altId="p18_2.xspi1.xspi1_cs0_hash" configurationId="p18_2"/>
+      <configSetting altId="p18_2.gpio_speed.gpio_speed_high" configurationId="p18_2.gpio_drivecapacity"/>
+      <configSetting altId="p18_2.gpio_mode.gpio_mode_peripheral" configurationId="p18_2.gpio_mode"/>
+      <configSetting altId="p18_2.smt.smt.enable" configurationId="p18_2.smt"/>
+      <configSetting altId="p18_2.sr.sr.fast" configurationId="p18_2.sr"/>
+      <configSetting altId="p18_3.input" configurationId="p18_3"/>
+      <configSetting altId="p18_3.gpio_mode.gpio_mode_in" configurationId="p18_3.gpio_mode"/>
+      <configSetting altId="p18_4.sci4.txd_mosi4" configurationId="p18_4"/>
+      <configSetting altId="p18_4.gpio_speed.gpio_speed_high" configurationId="p18_4.gpio_drivecapacity"/>
+      <configSetting altId="p18_4.gpio_mode.gpio_mode_peripheral" configurationId="p18_4.gpio_mode"/>
+      <configSetting altId="p18_4.sr.sr.fast" configurationId="p18_4.sr"/>
+      <configSetting altId="p18_5.canfd0.canrx0" configurationId="p18_5"/>
+      <configSetting altId="p18_5.gpio_mode.gpio_mode_peripheral" configurationId="p18_5.gpio_mode"/>
+      <configSetting altId="p18_6.iic2.iic_scl2" configurationId="p18_6"/>
+      <configSetting altId="p18_6.gpio_mode.gpio_mode_peripheral" configurationId="p18_6.gpio_mode"/>
+      <configSetting altId="p19_0.input" configurationId="p19_0"/>
+      <configSetting altId="p19_0.gpio_mode.gpio_mode_in" configurationId="p19_0.gpio_mode"/>
+      <configSetting altId="p20_1.ether_esc.esc_linkact0" configurationId="p20_1"/>
+      <configSetting altId="p20_1.gpio_mode.gpio_mode_peripheral" configurationId="p20_1.gpio_mode"/>
+      <configSetting altId="p20_2.ether_esc.esc_ledrun" configurationId="p20_2"/>
+      <configSetting altId="p20_2.gpio_mode.gpio_mode_peripheral" configurationId="p20_2.gpio_mode"/>
+      <configSetting altId="p20_3.ether_esc.esc_lederr" configurationId="p20_3"/>
+      <configSetting altId="p20_3.gpio_mode.gpio_mode_peripheral" configurationId="p20_3.gpio_mode"/>
+      <configSetting altId="p20_4.ether_esc.esc_linkact1" configurationId="p20_4"/>
+      <configSetting altId="p20_4.gpio_mode.gpio_mode_peripheral" configurationId="p20_4.gpio_mode"/>
+      <configSetting altId="p21_1.iic1.iic_scl1" configurationId="p21_1"/>
+      <configSetting altId="p21_1.gpio_speed.gpio_speed_high" configurationId="p21_1.gpio_drivecapacity"/>
+      <configSetting altId="p21_1.gpio_mode.gpio_mode_peripheral" configurationId="p21_1.gpio_mode"/>
+      <configSetting altId="p21_1.sr.sr.fast" configurationId="p21_1.sr"/>
+      <configSetting altId="p21_2.mtu36.mtioc6b" configurationId="p21_2"/>
+      <configSetting altId="p21_2.gpio_speed.gpio_speed_middle" configurationId="p21_2.gpio_drivecapacity"/>
+      <configSetting altId="p21_2.gpio_mode.gpio_mode_peripheral" configurationId="p21_2.gpio_mode"/>
+      <configSetting altId="p21_2.sr.sr.fast" configurationId="p21_2.sr"/>
+      <configSetting altId="p21_3.output.toinput.high" configurationId="p21_3"/>
+      <configSetting altId="p21_3.gpio_mode.gpio_mode_out.toinput.high" configurationId="p21_3.gpio_mode"/>
+      <configSetting altId="p21_4.mtu36.mtioc6d" configurationId="p21_4"/>
+      <configSetting altId="p21_4.gpio_speed.gpio_speed_middle" configurationId="p21_4.gpio_drivecapacity"/>
+      <configSetting altId="p21_4.gpio_mode.gpio_mode_peripheral" configurationId="p21_4.gpio_mode"/>
+      <configSetting altId="p21_5.mtu37.mtioc7a" configurationId="p21_5"/>
+      <configSetting altId="p21_5.gpio_speed.gpio_speed_middle" configurationId="p21_5.gpio_drivecapacity"/>
+      <configSetting altId="p21_5.gpio_mode.gpio_mode_peripheral" configurationId="p21_5.gpio_mode"/>
+      <configSetting altId="p21_6.mtu37.mtioc7b" configurationId="p21_6"/>
+      <configSetting altId="p21_6.gpio_speed.gpio_speed_middle" configurationId="p21_6.gpio_drivecapacity"/>
+      <configSetting altId="p21_6.gpio_mode.gpio_mode_peripheral" configurationId="p21_6.gpio_mode"/>
+      <configSetting altId="p21_7.mtu37.mtioc7c" configurationId="p21_7"/>
+      <configSetting altId="p21_7.gpio_speed.gpio_speed_middle" configurationId="p21_7.gpio_drivecapacity"/>
+      <configSetting altId="p21_7.gpio_mode.gpio_mode_peripheral" configurationId="p21_7.gpio_mode"/>
+      <configSetting altId="p22_0.mtu37.mtioc7d" configurationId="p22_0"/>
+      <configSetting altId="p22_0.gpio_speed.gpio_speed_middle" configurationId="p22_0.gpio_drivecapacity"/>
+      <configSetting altId="p22_0.gpio_mode.gpio_mode_peripheral" configurationId="p22_0.gpio_mode"/>
+      <configSetting altId="p22_1.mtu_poe3.poe4_hash" configurationId="p22_1"/>
+      <configSetting altId="p22_1.gpio_mode.gpio_mode_peripheral" configurationId="p22_1.gpio_mode"/>
+      <configSetting altId="p22_2.input" configurationId="p22_2"/>
+      <configSetting altId="p22_2.gpio_mode.gpio_mode_in" configurationId="p22_2.gpio_mode"/>
+      <configSetting altId="p22_3.output.toinput.high" configurationId="p22_3"/>
+      <configSetting altId="p22_3.gpio_mode.gpio_mode_out.toinput.high" configurationId="p22_3.gpio_mode"/>
+      <configSetting altId="p23_7.dsmif4.mclk4" configurationId="p23_7"/>
+      <configSetting altId="p23_7.gpio_mode.gpio_mode_peripheral" configurationId="p23_7.gpio_mode"/>
+      <configSetting altId="p24_0.dsmif4.mdat4" configurationId="p24_0"/>
+      <configSetting altId="p24_0.gpio_mode.gpio_mode_peripheral" configurationId="p24_0.gpio_mode"/>
+      <configSetting altId="p24_1.dsmif5.mclk5" configurationId="p24_1"/>
+      <configSetting altId="p24_1.gpio_mode.gpio_mode_peripheral" configurationId="p24_1.gpio_mode"/>
+      <configSetting altId="p24_2.dsmif5.mdat5" configurationId="p24_2"/>
+      <configSetting altId="p24_2.gpio_speed.gpio_speed_high" configurationId="p24_2.gpio_drivecapacity"/>
+      <configSetting altId="p24_2.gpio_mode.gpio_mode_peripheral" configurationId="p24_2.gpio_mode"/>
+      <configSetting altId="p24_2.sr.sr.fast" configurationId="p24_2.sr"/>
+      <configSetting altId="sci0.mode.asynchronousmode.free" configurationId="sci0.mode"/>
+      <configSetting altId="sci0.rxd_miso0.p16_6" configurationId="sci0.rxd_miso0"/>
+      <configSetting altId="sci0.txd_mosi0.p16_5" configurationId="sci0.txd_mosi0"/>
+      <configSetting altId="sci1.mode.asynchronousmode.free" configurationId="sci1.mode"/>
+      <configSetting altId="sci2.de2.p00_0" configurationId="sci2.de2"/>
+      <configSetting altId="sci2.mode.asynchronousmode.free" configurationId="sci2.mode"/>
+      <configSetting altId="sci2.rxd_miso2.p00_1" configurationId="sci2.rxd_miso2"/>
+      <configSetting altId="sci2.txd_mosi2.p00_2" configurationId="sci2.txd_mosi2"/>
+      <configSetting altId="sci3.de3.p04_5" configurationId="sci3.de3"/>
+      <configSetting altId="sci3.mode.asynchronousmode.free" configurationId="sci3.mode"/>
+      <configSetting altId="sci3.rxd_miso3.p04_0" configurationId="sci3.rxd_miso3"/>
+      <configSetting altId="sci3.txd_mosi3.p18_0" configurationId="sci3.txd_mosi3"/>
+      <configSetting altId="sci4.mode.asynchronousmode.free" configurationId="sci4.mode"/>
+      <configSetting altId="sci4.rxd_miso4.p05_4" configurationId="sci4.rxd_miso4"/>
+      <configSetting altId="sci4.txd_mosi4.p18_4" configurationId="sci4.txd_mosi4"/>
+      <configSetting altId="spi1.mode.custom.free" configurationId="spi1.mode"/>
+      <configSetting altId="spi1.spi_miso1.p14_7" configurationId="spi1.spi_miso1"/>
+      <configSetting altId="spi1.spi_mosi1.p15_0" configurationId="spi1.spi_mosi1"/>
+      <configSetting altId="spi1.spi_rspck1.p04_4" configurationId="spi1.spi_rspck1"/>
+      <configSetting altId="spi2.mode.custom.free" configurationId="spi2.mode"/>
+      <configSetting altId="spi3.mode.custom.free" configurationId="spi3.mode"/>
+      <configSetting altId="spi3.spi_miso3.p16_1" configurationId="spi3.spi_miso3"/>
+      <configSetting altId="spi3.spi_mosi3.p16_0" configurationId="spi3.spi_mosi3"/>
+      <configSetting altId="spi3.spi_rspck3.p16_2" configurationId="spi3.spi_rspck3"/>
+      <configSetting altId="spi3.spi_ssl30.p16_3" configurationId="spi3.spi_ssl30"/>
+      <configSetting altId="system.mode.custom.free" configurationId="system.mode"/>
+      <configSetting altId="usb_hs.mode.custom.free" configurationId="usb_hs.mode"/>
+      <configSetting altId="usb_hs.usb_vbusin.p07_4" configurationId="usb_hs.usb_vbusin"/>
+      <configSetting altId="xspi0.mode.custom_40_3.3v_41.free" configurationId="xspi0.mode"/>
+      <configSetting altId="xspi1.mode.custom_40_3.3v_41.free" configurationId="xspi1.mode"/>
+      <configSetting altId="xspi1.xspi1_ckp.p17_7" configurationId="xspi1.xspi1_ckp"/>
+      <configSetting altId="xspi1.xspi1_cs0_hash.p18_2" configurationId="xspi1.xspi1_cs0_hash"/>
+      <configSetting altId="xspi1.xspi1_io0.p16_7" configurationId="xspi1.xspi1_io0"/>
+      <configSetting altId="xspi1.xspi1_io1.p17_0" configurationId="xspi1.xspi1_io1"/>
+      <configSetting altId="xspi1.xspi1_io2.p17_3" configurationId="xspi1.xspi1_io2"/>
+      <configSetting altId="xspi1.xspi1_io3.p17_4" configurationId="xspi1.xspi1_io3"/>
+      <lockSetting id="ether_esc.esc_i2cclk" lock="true"/>
+      <lockSetting id="ether_esc.esc_i2cdata" lock="true"/>
+      <lockSetting id="ether_eth0.eth0_refclk" lock="true"/>
+      <lockSetting id="ether_eth0.eth0_rxclk_ref_clk_rxc" lock="true"/>
+      <lockSetting id="ether_eth0.eth0_rxd0" lock="true"/>
+      <lockSetting id="ether_eth0.eth0_rxd1" lock="true"/>
+      <lockSetting id="ether_eth0.eth0_rxd2" lock="true"/>
+      <lockSetting id="ether_eth0.eth0_rxd3" lock="true"/>
+      <lockSetting id="ether_eth0.eth0_rxdv_crsdv_rxctl" lock="true"/>
+      <lockSetting id="ether_eth0.eth0_rxer" lock="true"/>
+      <lockSetting id="ether_eth0.eth0_txclk_txc" lock="true"/>
+      <lockSetting id="ether_eth0.eth0_txd0" lock="true"/>
+      <lockSetting id="ether_eth0.eth0_txd1" lock="true"/>
+      <lockSetting id="ether_eth0.eth0_txd2" lock="true"/>
+      <lockSetting id="ether_eth0.eth0_txd3" lock="true"/>
+      <lockSetting id="ether_eth0.eth0_txen_txctl" lock="true"/>
+      <lockSetting id="ether_eth1.eth1_refclk" lock="true"/>
+      <lockSetting id="ether_eth1.eth1_rxclk_ref_clk_rxc" lock="true"/>
+      <lockSetting id="ether_eth1.eth1_rxd0" lock="true"/>
+      <lockSetting id="ether_eth1.eth1_rxd1" lock="true"/>
+      <lockSetting id="ether_eth1.eth1_rxd2" lock="true"/>
+      <lockSetting id="ether_eth1.eth1_rxd3" lock="true"/>
+      <lockSetting id="ether_eth1.eth1_rxdv_crsdv_rxctl" lock="true"/>
+      <lockSetting id="ether_eth1.eth1_rxer" lock="true"/>
+      <lockSetting id="ether_eth1.eth1_txclk_txc" lock="true"/>
+      <lockSetting id="ether_eth1.eth1_txd0" lock="true"/>
+      <lockSetting id="ether_eth1.eth1_txd1" lock="true"/>
+      <lockSetting id="ether_eth1.eth1_txd2" lock="true"/>
+      <lockSetting id="ether_eth1.eth1_txd3" lock="true"/>
+      <lockSetting id="ether_eth1.eth1_txen_txctl" lock="true"/>
+      <lockSetting id="mtu3.mtclka" lock="true"/>
+      <lockSetting id="mtu3.mtclkb" lock="true"/>
+      <lockSetting id="mtu3.mtclkc" lock="true"/>
+      <lockSetting id="mtu3.mtclkd" lock="true"/>
+      <lockSetting id="mtu33.mtioc3b" lock="true"/>
+      <lockSetting id="mtu33.mtioc3d" lock="true"/>
+      <lockSetting id="mtu_poe3.poe0_hash" lock="true"/>
+      <pinNumberSetting comment="1轴PWM信号VN" pinNumber="A2"/>
+      <pinNumberSetting comment="2轴编码器TX信号" pinNumber="A3"/>
+      <pinNumberSetting comment="1轴U相电流采样时钟信号" pinNumber="A4"/>
+      <pinNumberSetting comment="1轴V相电流采样数据信号" pinNumber="A5"/>
+      <pinNumberSetting comment="2轴IPM过流信号" pinNumber="A6"/>
+      <pinNumberSetting comment="2轴PWM信号WN" pinNumber="A7"/>
+      <pinNumberSetting comment="通用DO4" pinNumber="A8"/>
+      <pinNumberSetting comment="ETherCAT连接指示1" pinNumber="A9"/>
+      <pinNumberSetting comment="外部AI3" pinNumber="A11"/>
+      <pinNumberSetting comment="外部AI1" pinNumber="A12"/>
+      <pinNumberSetting comment="散热器温度采样" pinNumber="A13"/>
+      <pinNumberSetting comment="2轴V相" pinNumber="A14"/>
+      <pinNumberSetting comment="通用DO1" pinNumber="B1"/>
+      <pinNumberSetting comment="1轴PWM信号WP" pinNumber="B2"/>
+      <pinNumberSetting comment="1轴增量式编码器Z信号" pinNumber="B3"/>
+      <pinNumberSetting comment="1轴U相电流采样数据信号" pinNumber="B4"/>
+      <pinNumberSetting comment="2轴V相电流采样时钟信号" pinNumber="B5"/>
+      <pinNumberSetting comment="通用DO3" pinNumber="B6"/>
+      <pinNumberSetting comment="2轴PWM信号VN" pinNumber="B7"/>
+      <pinNumberSetting comment="MCU_EEPROM时钟信号" pinNumber="B8"/>
+      <pinNumberSetting comment="ETherCAT连接指示0" pinNumber="B9"/>
+      <pinNumberSetting comment="外部AI2" pinNumber="B10"/>
+      <pinNumberSetting comment="2轴NTC" pinNumber="B11"/>
+      <pinNumberSetting comment="1轴V相" pinNumber="B12"/>
+      <pinNumberSetting comment="1轴U相" pinNumber="B13"/>
+      <pinNumberSetting comment="母线电压采样" pinNumber="B14"/>
+      <pinNumberSetting comment="QSPI1外设电源选择与芯片间通讯信号6" pinNumber="B15"/>
+      <pinNumberSetting comment="ETherCAT数据指示1(连接PYH芯片)" pinNumber="C1"/>
+      <pinNumberSetting comment="1轴PWM信号WN" pinNumber="C2"/>
+      <pinNumberSetting comment="1轴PWM信号UP" pinNumber="C3"/>
+      <pinNumberSetting comment="2轴编码器DE信号" pinNumber="C4"/>
+      <pinNumberSetting comment="2轴V相电流采样数据信号" pinNumber="C5"/>
+      <pinNumberSetting comment="STO1输入信号" pinNumber="C6"/>
+      <pinNumberSetting comment="2轴PWM信号VP" pinNumber="C7"/>
+      <pinNumberSetting comment="2轴PWM信号UP" pinNumber="C8"/>
+      <pinNumberSetting comment="外部AI4" pinNumber="C9"/>
+      <pinNumberSetting comment="2轴U相" pinNumber="C12"/>
+      <pinNumberSetting comment="1轴NTC" pinNumber="C13"/>
+      <pinNumberSetting comment="键盘显示时钟信号" pinNumber="C15"/>
+      <pinNumberSetting comment="EtherCAT同步信号" pinNumber="D1"/>
+      <pinNumberSetting comment="ETherCAT数据指示0(连接PYH芯片)" pinNumber="D2"/>
+      <pinNumberSetting comment="1轴PWM信号UN" pinNumber="D3"/>
+      <pinNumberSetting comment="1轴PWM信号VP" pinNumber="D4"/>
+      <pinNumberSetting comment="2轴编码器RX信号" pinNumber="D5"/>
+      <pinNumberSetting comment="1轴V相电流采样时钟信号" pinNumber="D6"/>
+      <pinNumberSetting comment="2轴PWM信号WP" pinNumber="D7"/>
+      <pinNumberSetting comment="ETherCAT运行指示" pinNumber="D8"/>
+      <pinNumberSetting comment="ETherCAT故障指示" pinNumber="D9"/>
+      <pinNumberSetting comment="CAN通讯接收信号" pinNumber="D13"/>
+      <pinNumberSetting comment="MCU外部flash片选信号" pinNumber="D14"/>
+      <pinNumberSetting comment="通用DI4" pinNumber="D15"/>
+      <pinNumberSetting comment="风扇控制信号" pinNumber="E1"/>
+      <pinNumberSetting comment="芯片间通讯信号5" pinNumber="E3"/>
+      <pinNumberSetting comment="1轴IPM过流信号" pinNumber="E4"/>
+      <pinNumberSetting comment="2轴PWM信号UN" pinNumber="E7"/>
+      <pinNumberSetting comment="RS485总线TX信号" pinNumber="E12"/>
+      <pinNumberSetting comment="2轴增量编码器Z信号" pinNumber="E13"/>
+      <pinNumberSetting comment="1轴编码器TX信号" pinNumber="E14"/>
+      <pinNumberSetting comment="MCU外部flash时钟信号" pinNumber="E15"/>
+      <pinNumberSetting comment="JTAG调试口SWCLK" pinNumber="F1"/>
+      <pinNumberSetting comment="JTAG调试口TDI" pinNumber="F2"/>
+      <pinNumberSetting comment="CAN通讯发送信号" pinNumber="F3"/>
+      <pinNumberSetting comment="JTAG调试口TDO" pinNumber="F4"/>
+      <pinNumberSetting comment="JTAG调试口SWDIO" pinNumber="F5"/>
+      <pinNumberSetting comment="MCU外部flash数据信号1" pinNumber="F12"/>
+      <pinNumberSetting comment="MCU外部flash数据信号3" pinNumber="F13"/>
+      <pinNumberSetting comment="MCU外部flash数据信号2" pinNumber="F14"/>
+      <pinNumberSetting comment="芯片间通信信号3" pinNumber="F15"/>
+      <pinNumberSetting comment="STO2输入信号" pinNumber="G1"/>
+      <pinNumberSetting comment="通用DI1" pinNumber="G3"/>
+      <pinNumberSetting comment="通用DI2" pinNumber="G4"/>
+      <pinNumberSetting comment="通用DI3" pinNumber="G5"/>
+      <pinNumberSetting comment="调试485接收信号" pinNumber="G11"/>
+      <pinNumberSetting comment="1轴Biss_C(SPI)片选信号" pinNumber="G12"/>
+      <pinNumberSetting comment="1轴Biss_C(SPI)数据输出信号" pinNumber="G13"/>
+      <pinNumberSetting comment="MCU外部flash数据信号0" pinNumber="G14"/>
+      <pinNumberSetting comment="芯片间通信信号4" pinNumber="G15"/>
+      <pinNumberSetting comment="1轴编码器RX信号" pinNumber="H1"/>
+      <pinNumberSetting comment="键盘显示数据信号" pinNumber="H2"/>
+      <pinNumberSetting comment="BOOT模式选择与1轴编码器DE信号" pinNumber="H3"/>
+      <pinNumberSetting comment="2轴Biss_C(SPI)时钟信号" pinNumber="H4"/>
+      <pinNumberSetting comment="BOOT模式选择MD1" pinNumber="H5"/>
+      <pinNumberSetting comment="1轴Biss_C(SPI)数据输入信号" pinNumber="H11"/>
+      <pinNumberSetting comment="RS485总线控制信号DE" pinNumber="H12"/>
+      <pinNumberSetting comment="2轴U相电流采样数据信号" pinNumber="H13"/>
+      <pinNumberSetting comment="1轴Biss_C(SPI)时钟信号" pinNumber="H14"/>
+      <pinNumberSetting comment="调试485发送信号" pinNumber="H15"/>
+      <pinNumberSetting comment="BOOT模式选择MD2" pinNumber="J1"/>
+      <pinNumberSetting comment="通用DO2" pinNumber="J2"/>
+      <pinNumberSetting comment="MCU_EEPROM数据信号" pinNumber="J3"/>
+      <pinNumberSetting comment="1轴PWM使能信号" pinNumber="J4"/>
+      <pinNumberSetting comment="交流输入缺相检测" pinNumber="J5"/>
+      <pinNumberSetting comment="母线过流" pinNumber="J12"/>
+      <pinNumberSetting comment="EtherCAT中断信号" pinNumber="J13"/>
+      <pinNumberSetting comment="软启动" pinNumber="J14"/>
+      <pinNumberSetting comment="调试485控制信号" pinNumber="J15"/>
+      <pinNumberSetting comment="RS485总线RX信号" pinNumber="K1"/>
+      <pinNumberSetting comment="ETherCAT端口1连接信号" pinNumber="K2"/>
+      <pinNumberSetting comment="ETherCAT端口1接收错误信号" pinNumber="K3"/>
+      <pinNumberSetting comment="ETherCAT端口1发送数据信号0" pinNumber="K4"/>
+      <pinNumberSetting comment="2轴U相电流采样时钟信号" pinNumber="K11"/>
+      <pinNumberSetting comment="制动反馈信号" pinNumber="K12"/>
+      <pinNumberSetting comment="芯片间通讯信号1" pinNumber="K13"/>
+      <pinNumberSetting comment="芯片间通讯信号2" pinNumber="K14"/>
+      <pinNumberSetting comment="2轴动态制动信号" pinNumber="K15"/>
+      <pinNumberSetting comment="ETherCAT端口1发送数据信号3" pinNumber="L2"/>
+      <pinNumberSetting comment="ETherCAT端口1时钟信号(To PHY)" pinNumber="L3"/>
+      <pinNumberSetting comment="ETherCAT端口1接收数据信号0" pinNumber="L4"/>
+      <pinNumberSetting comment="ETherCAT端口0发送完成信号" pinNumber="L7"/>
+      <pinNumberSetting comment="ETherCAT端口0接收数据信号1" pinNumber="L8"/>
+      <pinNumberSetting comment="ETherCAT端口0接收数据信号2" pinNumber="L9"/>
+      <pinNumberSetting comment="ETherCAT_EEPROM 时钟信号" pinNumber="L10"/>
+      <pinNumberSetting comment="2轴Biss_C(SPI)数据输出信号" pinNumber="L11"/>
+      <pinNumberSetting comment="ETherCAT复位信号" pinNumber="L12"/>
+      <pinNumberSetting comment="1轴增量式编码器B信号" pinNumber="L13"/>
+      <pinNumberSetting comment="ETherCAT SYNC0检测(引出测试点)" pinNumber="L14"/>
+      <pinNumberSetting comment="ETherCAT端口1发送数据信号2" pinNumber="M1"/>
+      <pinNumberSetting comment="ETherCAT端口1发送数据信号1" pinNumber="M2"/>
+      <pinNumberSetting comment="ETherCAT端口1接收数据信号1" pinNumber="M3"/>
+      <pinNumberSetting comment="ETherCAT端口1接收数据完成" pinNumber="M4"/>
+      <pinNumberSetting comment="ETherCAT端口0接收数据完成" pinNumber="M5"/>
+      <pinNumberSetting comment="ETherCAT端口0发送数据信号2" pinNumber="M6"/>
+      <pinNumberSetting comment="ETherCAT端口0发送数据信号0" pinNumber="M7"/>
+      <pinNumberSetting comment="ETherCAT端口0接收数据信号0" pinNumber="M8"/>
+      <pinNumberSetting comment="ETherCAT端口0连接信号" pinNumber="M9"/>
+      <pinNumberSetting comment="1轴增量式编码器A信号" pinNumber="M11"/>
+      <pinNumberSetting comment="1轴脉冲信号(2轴增量式编码器A信号)" pinNumber="M12"/>
+      <pinNumberSetting comment="1轴方向信号(2轴增量式编码器B信号)" pinNumber="M13"/>
+      <pinNumberSetting comment="制动控制信号" pinNumber="M14"/>
+      <pinNumberSetting comment="2轴Biss_C(SPI)数据输入信号" pinNumber="M15"/>
+      <pinNumberSetting comment="ETherCAT端口1发送完成信号" pinNumber="N1"/>
+      <pinNumberSetting comment="ETherCAT端口1发送使能信号" pinNumber="N2"/>
+      <pinNumberSetting comment="ETherCAT端口1接收数据信号3" pinNumber="N3"/>
+      <pinNumberSetting comment="ETherCAT端口0接收数据信号3" pinNumber="N4"/>
+      <pinNumberSetting comment="ETherCAT PHY管理时钟" pinNumber="N5"/>
+      <pinNumberSetting comment="ETherCAT端口0接收错误" pinNumber="N6"/>
+      <pinNumberSetting comment="ETherCAT端口0发送数据信号1" pinNumber="N7"/>
+      <pinNumberSetting comment="ETherCAT端口0发送使能信号" pinNumber="N8"/>
+      <pinNumberSetting comment="1轴动态制动信号" pinNumber="N11"/>
+      <pinNumberSetting comment="ETherCAT_EEPROM数据信号" pinNumber="N12"/>
+      <pinNumberSetting comment="ETherCAT端口1接收数据信号2" pinNumber="P1"/>
+      <pinNumberSetting comment="ETherCAT端口1接收数据有效信号" pinNumber="P2"/>
+      <pinNumberSetting comment="ETherCAT端口0接收数据有效信号" pinNumber="P3"/>
+      <pinNumberSetting comment="ETherCAT PHY芯片管理数据" pinNumber="P4"/>
+      <pinNumberSetting comment="USB电源输入检测" pinNumber="R2"/>
+      <pinNumberSetting comment="ETherCAT端口0时钟信号(To PHY)" pinNumber="R3"/>
+      <pinNumberSetting comment="ETherCAT端口0发送数据信号3" pinNumber="R4"/>
     </pincfg>
   </raPinConfiguration>
 </raConfiguration>
