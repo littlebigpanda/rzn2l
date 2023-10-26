@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include "bsp_api.h"
 #include "common_data.h"
+#include "r_cmt.h"
+#include "r_timer_api.h"
 #include "r_dmac.h"
 #include "r_transfer_api.h"
 #include "r_dsmif.h"
@@ -14,6 +16,16 @@
 #include "r_usb_basic_api.h"
 #include "r_usb_pcdc_api.h"
 FSP_HEADER
+/** Timer on CMT Instance. */
+extern const timer_instance_t g_timer_free_run;
+
+/** Access the CMT instance using these structures when calling API functions directly (::p_api is not used). */
+extern cmt_instance_ctrl_t g_timer_free_run_ctrl;
+extern const timer_cfg_t g_timer_free_run_cfg;
+
+#ifndef NULL
+void NULL(timer_callback_args_t *p_args);
+#endif
 /* Transfer on DMAC Instance. */
 extern const transfer_instance_t g_sci_zx_tx_dma;
 

@@ -1,6 +1,25 @@
 /* generated HAL source file - do not edit */
 #include "hal_data.h"
 
+cmt_instance_ctrl_t g_timer_free_run_ctrl;
+const timer_cfg_t g_timer_free_run_cfg =
+{ .mode = TIMER_MODE_PERIODIC,
+  /* Actual period: 0.01048576 seconds. */.period_counts = (uint32_t) 0x10000,
+  .source_div = (timer_source_div_t) 3,
+  .channel = 2,
+  .p_callback = NULL,
+  .p_context = NULL,
+  .p_extend = NULL,
+  .cycle_end_ipl = (BSP_IRQ_DISABLED),
+#if defined(VECTOR_NUMBER_CMT2_CMI)
+    .cycle_end_irq       = VECTOR_NUMBER_CMT2_CMI,
+#else
+  .cycle_end_irq = FSP_INVALID_VECTOR,
+#endif
+        };
+/* Instance structure to use this module. */
+const timer_instance_t g_timer_free_run =
+{ .p_ctrl = &g_timer_free_run_ctrl, .p_cfg = &g_timer_free_run_cfg, .p_api = &g_timer_on_cmt };
 dmac_instance_ctrl_t g_sci_zx_tx_dma_ctrl;
 
 dmac_register_set_setting_t g_sci_zx_tx_dma_next1_register_setting =
@@ -33,7 +52,7 @@ const dmac_extended_cfg_t g_sci_zx_tx_dma_extend =
   .dmac_int_ipl = (12),
   .dmac_int_irq_detect_type = (0),
 
-  .activation_source = ELC_EVENT_SCI3_TXI,
+  .activation_source = ELC_EVENT_SCI4_TXI,
 
   .ack_mode = DMAC_ACK_MODE_LEVEL_MODE,
   .detection_mode = (dmac_detection_t) ((0) << 2 | (1) << 1 | (0) << 0), .activation_request_source_select =
@@ -45,7 +64,7 @@ const dmac_extended_cfg_t g_sci_zx_tx_dma_extend =
   .channel_scheduling = DMAC_CHANNEL_SCHEDULING_FIXED,
 
   .p_callback = sci_zx_tx_dma_transfer_end_isr,
-  .p_context = NULL,
+  .p_context = (void*) &g_sci_zx_tx_dma,
 
   .p_peripheral_module_handler = NULL, };
 const transfer_cfg_t g_sci_zx_tx_dma_cfg =
@@ -97,7 +116,7 @@ const dmac_extended_cfg_t g_sci_debug_tx_dma_extend =
   .channel_scheduling = DMAC_CHANNEL_SCHEDULING_FIXED,
 
   .p_callback = sci_debug_tx_dma_transfer_end_isr,
-  .p_context = NULL,
+  .p_context = (void*) &g_sci_debug_tx_dma,
 
   .p_peripheral_module_handler = NULL, };
 const transfer_cfg_t g_sci_debug_tx_dma_cfg =

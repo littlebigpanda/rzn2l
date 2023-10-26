@@ -834,7 +834,7 @@
       <property id="module.driver.transfer_on_dmac.level_detection" value="module.driver.transfer_on_dmac.level_detection.edge"/>
       <property id="module.driver.transfer_on_dmac.ack_mode" value="module.driver.transfer_on_dmac.ack_mode.level"/>
       <property id="module.driver.transfer.p_callback" value="sci_debug_tx_dma_transfer_end_isr"/>
-      <property id="module.driver.transfer.p_context" value="NULL"/>
+      <property id="module.driver.transfer.p_context" value="(void *)&amp;g_sci_debug_tx_dma"/>
       <property id="module.driver.transfer.irq_detect_type" value="module.driver.transfer.irq_detect_type.level"/>
       <property id="module.driver.transfer.ipl" value="board.icu.common.irq.priority12"/>
       <property id="module.driver.transfer_on_dmac.next1_enable" value="module.driver.transfer_on_dmac.next1_enable.disable"/>
@@ -856,14 +856,14 @@
       <property id="module.driver.transfer.p_dest" value="NULL"/>
       <property id="module.driver.transfer.p_src" value="NULL"/>
       <property id="module.driver.transfer.length" value="1"/>
-      <property id="module.driver.transfer.activation_event" value="module.driver.dmac.sci3_txi"/>
+      <property id="module.driver.transfer.activation_event" value="module.driver.dmac.sci4_txi"/>
       <property id="module.driver.transfer_on_dmac.request_source" value="module.driver.transfer_on_dmac.request_source.dest"/>
       <property id="module.driver.transfer_on_dmac.low_detection" value="module.driver.transfer_on_dmac.low_detection.disable"/>
       <property id="module.driver.transfer_on_dmac.high_detection" value="module.driver.transfer_on_dmac.high_detection.enable"/>
       <property id="module.driver.transfer_on_dmac.level_detection" value="module.driver.transfer_on_dmac.level_detection.edge"/>
       <property id="module.driver.transfer_on_dmac.ack_mode" value="module.driver.transfer_on_dmac.ack_mode.level"/>
       <property id="module.driver.transfer.p_callback" value="sci_zx_tx_dma_transfer_end_isr"/>
-      <property id="module.driver.transfer.p_context" value="NULL"/>
+      <property id="module.driver.transfer.p_context" value="(void *)&amp;g_sci_zx_tx_dma"/>
       <property id="module.driver.transfer.irq_detect_type" value="module.driver.transfer.irq_detect_type.level"/>
       <property id="module.driver.transfer.ipl" value="board.icu.common.irq.priority12"/>
       <property id="module.driver.transfer_on_dmac.next1_enable" value="module.driver.transfer_on_dmac.next1_enable.disable"/>
@@ -872,6 +872,15 @@
       <property id="module.driver.transfer_on_dmac.length_next1" value="1"/>
       <property id="module.driver.transfer_on_dmac.transfer_interval" value="0"/>
       <property id="module.driver.transfer_on_dmac.channel_priority" value="module.driver.transfer_on_dmac.channel_priority.fixed"/>
+    </module>
+    <module id="module.driver.timer_on_cmt.264082627">
+      <property id="module.driver.timer.name" value="g_timer_free_run"/>
+      <property id="module.driver.timer.channel" value="2"/>
+      <property id="module.driver.timer.mode" value="module.driver.timer.mode.mode_periodic"/>
+      <property id="module.driver.timer.period" value="0x10000"/>
+      <property id="module.driver.timer.unit" value="module.driver.timer.unit.unit_period_raw_counts"/>
+      <property id="module.driver.timer.p_callback" value="NULL"/>
+      <property id="module.driver.timer.ipl" value="_disabled"/>
     </module>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
@@ -899,6 +908,7 @@
       <stack module="module.driver.transfer_on_dmac.1824623753"/>
       <stack module="module.driver.transfer_on_dmac.845365931"/>
       <stack module="module.driver.transfer_on_dmac.314388905"/>
+      <stack module="module.driver.timer_on_cmt.264082627"/>
     </context>
     <config id="config.driver.ether_selector">
       <property id="config.driver.ether_selector.param_checking_enable" value="config.driver.ether_selector.param_checking_enable.bsp"/>

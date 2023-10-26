@@ -1902,7 +1902,7 @@ FSP Configuration
       Level Detection Enable: Edge
       DACK Output mode: Level mode
       Callback: sci_debug_tx_dma_transfer_end_isr
-      Context: NULL
+      Context: (void *)&g_sci_debug_tx_dma
       Transfer End Interrupt Detect Type: Level
       Transfer End Interrupt Priority: Priority 12
       Next 1 Register Set enable: Disable
@@ -1912,7 +1912,7 @@ FSP Configuration
       Transfer Interval: 0
       Channel Priority: Fixed
       
-    Instance "g_sci_zx_tx_dma Transfer Driver on r_dmac SCI3_TXI(SCI3 Transmit data empty)"
+    Instance "g_sci_zx_tx_dma Transfer Driver on r_dmac SCI4_TXI(SCI4 Transmit data empty)"
       Name: g_sci_zx_tx_dma
       unit: 0
       Channel: 1
@@ -1924,14 +1924,14 @@ FSP Configuration
       Destination Pointer: NULL
       Source Pointer: NULL
       Number of Transfers: 1
-      Activation Source: SCI3_TXI(SCI3 Transmit data empty)
+      Activation Source: SCI4_TXI(SCI4 Transmit data empty)
       DMA Activation Request Source Select: Requested by a transfer destination module
       Low Detection Enable: Disable
       High Detection Enable: Enable
       Level Detection Enable: Edge
       DACK Output mode: Level mode
       Callback: sci_zx_tx_dma_transfer_end_isr
-      Context: NULL
+      Context: (void *)&g_sci_zx_tx_dma
       Transfer End Interrupt Detect Type: Level
       Transfer End Interrupt Priority: Priority 12
       Next 1 Register Set enable: Disable
@@ -1940,4 +1940,13 @@ FSP Configuration
       Next 1 Register Set Number of Transfers: 1
       Transfer Interval: 0
       Channel Priority: Fixed
+      
+    Instance "g_timer_free_run Timer Driver on r_cmt"
+      General: Name: g_timer_free_run
+      General: Channel: 2
+      General: Mode: Periodic
+      General: Period: 0x10000
+      General: Period Unit: Raw Counts
+      Interrupts: Callback: NULL
+      Interrupts: Compare Match Interrupt Priority: Disabled
       

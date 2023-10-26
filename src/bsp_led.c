@@ -665,6 +665,10 @@ TCA6242A_RESTART_QUICK:
             {
                 tca6424a->HandleState = TCA6424A_HANDLE_I2C_ERR_LOW;
             }
+            else
+            {
+                tca6424a->HandleState = TCA6424A_HANDLE_I2C_ERR_FINISH;
+            }
         }
         break;
 
@@ -701,22 +705,27 @@ TCA6242A_RESTART_QUICK:
             {
                 sendCount = 0;
 
-                /* ICCR1默认值(I2C引脚处于非激活状态) */
-                regBase->ICCR1 = (uint8_t) 0x1FU;
-                /* 复位I2C模块 */
-                regBase->ICCR1 = (uint8_t) (0x1FU + 0x40U);
-                /* I2C处于内部复位，引脚处于激活状态 */
-                regBase->ICCR1 = (uint8_t) (0x1FU + 0x40U + 0x80U);
-                /* I2C复位释放 */
-                regBase->ICCR1 = (uint8_t) (0x80 | 0x1F);
-
-                tca6424a->HandleState = TCA6424A_HANDLE_STATE_FINISH_CHECK_EEPROM;
+                tca6424a->HandleState = TCA6424A_HANDLE_I2C_ERR_FINISH;
             }
             else
             {
                 tca6424a->HandleState = TCA6424A_HANDLE_I2C_ERR_LOW;
             }
         }
+        break;
+
+    case TCA6424A_HANDLE_I2C_ERR_FINISH:
+        /* ICCR1默认值(I2C引脚处于非激活状态) */
+        regBase->ICCR1 = (uint8_t) 0x1FU;
+        /* 复位I2C模块 */
+        regBase->ICCR1 = (uint8_t) (0x1FU + 0x40U);
+        /* I2C处于内部复位，引脚处于激活状态 */
+        regBase->ICCR1 = (uint8_t) (0x1FU + 0x40U + 0x80U);
+        /* I2C复位释放 */
+        regBase->ICCR1 = (uint8_t) (0x80 | 0x1F);
+
+        tca6424a->HandleState = TCA6424A_HANDLE_STATE_FINISH_CHECK_EEPROM;
+
         break;
 
     default:
