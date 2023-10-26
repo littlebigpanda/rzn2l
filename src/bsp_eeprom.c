@@ -989,7 +989,7 @@ uint8_t I2C_Mem_Read(uint16_t DevAddress, uint16_t MemAddress, uint16_t MemAddSi
 
         Eeprom_deal();
 
-        if (getTimeoutStatus(1))
+        if (getTimeoutStatus(0))
         {
             /* 函数处理超时 */
             return ACCESS_TIMEOUT;
@@ -1020,7 +1020,7 @@ uint8_t I2C_Mem_Write(uint16_t DevAddress, uint16_t MemAddress, uint16_t MemAddS
 
         Eeprom_deal();
 
-        if (getTimeoutStatus(1))
+        if (getTimeoutStatus(0))
         {
             /* 函数处理超时 */
             return ACCESS_TIMEOUT;
