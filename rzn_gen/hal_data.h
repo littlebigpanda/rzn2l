@@ -4,6 +4,9 @@
 #include <stdint.h>
 #include "bsp_api.h"
 #include "common_data.h"
+#include "r_usb_basic.h"
+#include "r_usb_basic_api.h"
+#include "r_usb_pcdc_api.h"
 #include "r_cmt.h"
 #include "r_timer_api.h"
 #include "r_dmac.h"
@@ -12,10 +15,18 @@
 #include "r_adc_api.h"
 #include "r_xspi_qspi.h"
 #include "r_spi_flash_api.h"
-#include "r_usb_basic.h"
-#include "r_usb_basic_api.h"
-#include "r_usb_pcdc_api.h"
 FSP_HEADER
+/* Basic on USB Instance. */
+extern const usb_instance_t g_basic0;
+
+/** Access the USB instance using these structures when calling API functions directly (::p_api is not used). */
+extern usb_instance_ctrl_t g_basic0_ctrl;
+extern const usb_cfg_t g_basic0_cfg;
+
+#ifndef NULL
+void NULL(usb_event_info_t*, usb_hdl_t, usb_onoff_t);
+#endif
+/** CDC Driver on USB Instance. */
 /** Timer on CMT Instance. */
 extern const timer_instance_t g_timer_free_run;
 
@@ -85,17 +96,6 @@ void NULL(adc_callback_args_t *p_args);
 extern const spi_flash_instance_t g_qspi_flash;
 extern xspi_qspi_instance_ctrl_t g_qspi_flash_ctrl;
 extern const spi_flash_cfg_t g_qspi_flash_cfg;
-/* Basic on USB Instance. */
-extern const usb_instance_t g_basic0;
-
-/** Access the USB instance using these structures when calling API functions directly (::p_api is not used). */
-extern usb_instance_ctrl_t g_basic0_ctrl;
-extern const usb_cfg_t g_basic0_cfg;
-
-#ifndef NULL
-void NULL(usb_event_info_t*, usb_hdl_t, usb_onoff_t);
-#endif
-/** CDC Driver on USB Instance. */
 void hal_entry(void);
 void g_hal_init(void);
 FSP_FOOTER

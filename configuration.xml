@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="7">
+<raConfiguration version="8">
   <generalSettings>
     <option key="#Board#" value="board.rzn2lrsk.xspi0_x1"/>
     <option key="CPU" value="RZN2L"/>
@@ -10,7 +10,7 @@
     <option key="#RTOS#" value="_none"/>
     <option key="#pinconfiguration#" value="R9A07G084M04GBG.pincfg"/>
     <option key="#FSPVersion#" value="1.2.0"/>
-    <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##rzn2l_rsk##xspi0_x1_boot"/>
+    <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##rzn2l_rsk##xspi0_x1_boot|Renesas##BSP##Board##rzn2l_rsk##ram_execution"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
     <option key="#ToolchainVersion#" value="9.3.1.20200408"/>
   </generalSettings>
@@ -377,6 +377,10 @@
       <description>Arm CMSIS Version 5 - Core (R)</description>
       <originalPack>Arm.CMSIS5.5.7.0+renesas.1.pack</originalPack>
     </component>
+    <component apiversion="" class="BSP" condition="" group="rzn2l" subgroup="device" variant="R9A07G084M04GBG" vendor="Renesas" version="1.2.0">
+      <description>Board support package for R9A07G084M04GBG</description>
+      <originalPack>Renesas.RZN_mcu_rzn2l.1.2.0.pack</originalPack>
+    </component>
     <component apiversion="" class="BSP" condition="" group="rzn2l" subgroup="device" variant="" vendor="Renesas" version="1.2.0">
       <description>Board support package for RZN2L</description>
       <originalPack>Renesas.RZN_mcu_rzn2l.1.2.0.pack</originalPack>
@@ -395,6 +399,10 @@
     </component>
     <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dmac" variant="" vendor="Renesas" version="1.2.0">
       <description>Direct Memory Access Controller</description>
+      <originalPack>Renesas.RZN.1.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dsmif" variant="" vendor="Renesas" version="1.2.0">
+      <description>Delta Sigma Interface</description>
       <originalPack>Renesas.RZN.1.2.0.pack</originalPack>
     </component>
     <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_ether_phy" variant="" vendor="Renesas" version="1.2.0">
@@ -417,25 +425,17 @@
       <description>USB Peripheral Communications Device Class</description>
       <originalPack>Renesas.RZN.1.2.0.pack</originalPack>
     </component>
-    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_ethercat_ssc_port" variant="" vendor="Renesas" version="1.2.0">
-      <description>EtherCAT Slave Stack Code port for RZ microprocessors</description>
-      <originalPack>Renesas.RZN.1.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="rzn2l" subgroup="device" variant="R9A07G084M04GBG" vendor="Renesas" version="1.2.0">
-      <description>Board support package for R9A07G084M04GBG</description>
-      <originalPack>Renesas.RZN_mcu_rzn2l.1.2.0.pack</originalPack>
-    </component>
-    <component apiversion="" class="BSP" condition="" group="Board" subgroup="rzn2l_rsk" variant="xspi0_x1_boot" vendor="Renesas" version="1.2.0">
-      <description>RSK+RZN2L Board Support Files (xSPI0 x1 boot mode)</description>
-      <originalPack>Renesas.RZN_board_rzn2l_rsk.1.2.0.pack</originalPack>
-    </component>
     <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_xspi_qspi" variant="" vendor="Renesas" version="1.2.0">
       <description>Quad Serial Peripheral Interface Flash on Expanded Serial Peripheral Interface</description>
       <originalPack>Renesas.RZN.1.2.0.pack</originalPack>
     </component>
-    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_dsmif" variant="" vendor="Renesas" version="1.2.0">
-      <description>Delta Sigma Interface</description>
+    <component apiversion="" class="Middleware" condition="" group="all" subgroup="rm_ethercat_ssc_port" variant="" vendor="Renesas" version="1.2.0">
+      <description>EtherCAT Slave Stack Code port for RZ microprocessors</description>
       <originalPack>Renesas.RZN.1.2.0.pack</originalPack>
+    </component>
+    <component apiversion="" class="BSP" condition="" group="Board" subgroup="rzn2l_rsk" variant="xspi0_x1_boot" vendor="Renesas" version="1.2.0">
+      <description>RSK+RZN2L Board Support Files (xSPI0 x1 boot mode)</description>
+      <originalPack>Renesas.RZN_board_rzn2l_rsk.1.2.0.pack</originalPack>
     </component>
   </raComponentSelection>
   <raElcConfiguration/>
@@ -460,9 +460,6 @@
     <interrupt event="event.iic.ch1.iic1_rxi" isr="null"/>
     <interrupt event="event.iic.ch1.iic1_txi" isr="null"/>
     <interrupt event="event.cmt.ch1.cmt1_cmi" isr="null"/>
-    <interrupt event="event.usb.uint0.usb_fi" isr="null"/>
-    <interrupt event="event.usb.uint0.usb_fdma0" isr="null"/>
-    <interrupt event="event.usb.uint0.usb_fdma1" isr="null"/>
     <interrupt event="event.dsmif.unit0.dsmif0_cdrui" isr="null"/>
     <interrupt event="event.dsmif.unit1.dsmif1_cdrui" isr="null"/>
     <interrupt event="event.gpt.ch13.gpt13_ovf" isr="null"/>
@@ -488,6 +485,9 @@
     <interrupt event="event.mtu3.ch0.tgid0" isr="null"/>
     <interrupt event="event.mtu3.ch0.tciv0" isr="null"/>
     <interrupt event="event.mtu3.ch0.tgif0" isr="null"/>
+    <interrupt event="event.poe3.oei1" isr="null"/>
+    <interrupt event="event.poe3.oei2" isr="null"/>
+    <interrupt event="event.poe3.oei3" isr="null"/>
   </raIcuConfiguration>
   <raModuleConfiguration>
     <module id="module.driver.ioport_on_ioport.0">
@@ -546,23 +546,6 @@
       <property id="module.driver.ioport.elc_trigger_single_output_port3" value="_disabled"/>
       <property id="module.driver.ioport.operation_single_output_port3" value="Low output"/>
       <property id="module.driver.ioport.edge_detect_single_output_port3" value="Rising edge"/>
-    </module>
-    <module id="module.driver.basic_on_usb.1818228404">
-      <property id="module.driver.basic.name" value="g_basic0"/>
-      <property id="module.driver.usb_basic.usb_mode" value="module.driver.usb_basic.usb_mode.host"/>
-      <property id="module.driver.usb_basic.usb_speed" value="module.driver.usb_basic.usb_speed.hs"/>
-      <property id="module.driver.usb_basic.usb_classtype" value="module.driver.usb_basic.usb_classtype.pcdc"/>
-      <property id="module.driver.usb_basic.p_usb_reg" value="g_usb_descriptor"/>
-      <property id="module.driver.usb_basic.complience_cb" value="NULL"/>
-      <property id="module.driver.usb_basic.ipl" value="board.icu.common.irq.priority30"/>
-      <property id="module.driver.usb_basic.ipl_r" value="board.icu.common.irq.priority30"/>
-      <property id="module.driver.usb_basic.ipl_d0" value="board.icu.common.irq.priority30"/>
-      <property id="module.driver.usb_basic.ipl_d1" value="board.icu.common.irq.priority30"/>
-      <property id="module.driver.usb_basic.rtos_callback" value="NULL"/>
-      <property id="module.driver.usb_basic.other_context" value="NULL"/>
-    </module>
-    <module id="module.driver.pcdc_on_usb.26736013">
-      <property id="module.driver.pcdc.name" value="g_pcdc0"/>
     </module>
     <module id="module.driver.ether_selector_on_ether_selector.1393782342">
       <property id="module.driver.ether_selector.name" value="g_ether_selector1"/>
@@ -798,7 +781,7 @@
       <property id="module.driver.transfer.p_dest" value="NULL"/>
       <property id="module.driver.transfer.p_src" value="NULL"/>
       <property id="module.driver.transfer.length" value="1"/>
-      <property id="module.driver.transfer.activation_event" value="module.driver.dmac.iic0_txi"/>
+      <property id="module.driver.transfer.activation_event" value="module.driver.dmac.iic1_txi"/>
       <property id="module.driver.transfer_on_dmac.request_source" value="module.driver.transfer_on_dmac.request_source.dest"/>
       <property id="module.driver.transfer_on_dmac.low_detection" value="module.driver.transfer_on_dmac.low_detection.disable"/>
       <property id="module.driver.transfer_on_dmac.high_detection" value="module.driver.transfer_on_dmac.high_detection.enable"/>
@@ -882,11 +865,25 @@
       <property id="module.driver.timer.p_callback" value="NULL"/>
       <property id="module.driver.timer.ipl" value="_disabled"/>
     </module>
+    <module id="module.driver.pcdc_on_usb.455784751">
+      <property id="module.driver.pcdc.name" value="g_pcdc0"/>
+    </module>
+    <module id="module.driver.basic_on_usb.1541252894">
+      <property id="module.driver.basic.name" value="g_basic0"/>
+      <property id="module.driver.usb_basic.usb_mode" value="module.driver.usb_basic.usb_mode.host"/>
+      <property id="module.driver.usb_basic.usb_speed" value="module.driver.usb_basic.usb_speed.hs"/>
+      <property id="module.driver.usb_basic.usb_classtype" value="module.driver.usb_basic.usb_classtype.pcdc"/>
+      <property id="module.driver.usb_basic.p_usb_reg" value="g_usb_descriptor"/>
+      <property id="module.driver.usb_basic.complience_cb" value="NULL"/>
+      <property id="module.driver.usb_basic.ipl" value="board.icu.common.irq.priority12"/>
+      <property id="module.driver.usb_basic.ipl_r" value="board.icu.common.irq.priority12"/>
+      <property id="module.driver.usb_basic.ipl_d0" value="board.icu.common.irq.priority12"/>
+      <property id="module.driver.usb_basic.ipl_d1" value="board.icu.common.irq.priority12"/>
+      <property id="module.driver.usb_basic.rtos_callback" value="NULL"/>
+      <property id="module.driver.usb_basic.other_context" value="NULL"/>
+    </module>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
-      <stack module="module.driver.pcdc_on_usb.26736013">
-        <stack module="module.driver.basic_on_usb.1818228404" requires="module.driver.basic_on_usb.requires.basic"/>
-      </stack>
       <stack module="module.middleware.ethercat_ssc_port_on_ethercat_ssc_port.488050280">
         <stack module="module.driver.ether_phy_on_ether_phy.306442829" requires="module.middleware.ethercat_ssc_port.requires.ether_phy0">
           <stack module="module.driver.ether_selector_on_ether_selector.1990378166" requires="module.driver.ether.requires.ether_selector"/>
@@ -909,6 +906,9 @@
       <stack module="module.driver.transfer_on_dmac.845365931"/>
       <stack module="module.driver.transfer_on_dmac.314388905"/>
       <stack module="module.driver.timer_on_cmt.264082627"/>
+      <stack module="module.driver.pcdc_on_usb.455784751">
+        <stack module="module.driver.basic_on_usb.1541252894" requires="module.driver.basic_on_usb.requires.basic"/>
+      </stack>
     </context>
     <config id="config.driver.ether_selector">
       <property id="config.driver.ether_selector.param_checking_enable" value="config.driver.ether_selector.param_checking_enable.bsp"/>
@@ -1281,6 +1281,8 @@
       <configSetting altId="iic1.iic_scl1.p21_1" configurationId="iic1.iic_scl1"/>
       <configSetting altId="iic1.iic_sda1.p21_2" configurationId="iic1.iic_sda1"/>
       <configSetting altId="iic1.mode.enabled.free" configurationId="iic1.mode"/>
+      <configSetting altId="iic2.iic_scl2.p18_6" configurationId="iic2.iic_scl2"/>
+      <configSetting altId="iic2.iic_sda2.p04_1" configurationId="iic2.iic_sda2"/>
       <configSetting altId="iic2.mode.custom.free" configurationId="iic2.mode"/>
       <configSetting altId="irq.irq0.p09_2" configurationId="irq.irq0"/>
       <configSetting altId="irq.irq1.p18_4" configurationId="irq.irq1"/>
@@ -1613,9 +1615,8 @@
       <configSetting altId="p22_0.dsmif3.mdat3" configurationId="p22_0"/>
       <configSetting altId="p22_0.gpio_speed.gpio_speed_middle" configurationId="p22_0.gpio_drivecapacity"/>
       <configSetting altId="p22_0.gpio_mode.gpio_mode_peripheral" configurationId="p22_0.gpio_mode"/>
-      <configSetting altId="p22_1.output.toinput.low" configurationId="p22_1"/>
-      <configSetting altId="p22_1.gpio_mode.gpio_mode_out.toinput.low" configurationId="p22_1.gpio_mode"/>
-      <configSetting altId="p22_1.gpio_region.region.nonsafety" configurationId="p22_1.gpio_region"/>
+      <configSetting altId="p22_1.output.toinput.high" configurationId="p22_1"/>
+      <configSetting altId="p22_1.gpio_mode.gpio_mode_out.toinput.high" configurationId="p22_1.gpio_mode"/>
       <configSetting altId="p22_2.input" configurationId="p22_2"/>
       <configSetting altId="p22_2.gpio_mode.gpio_mode_in" configurationId="p22_2.gpio_mode"/>
       <configSetting altId="p22_3.output.toinput.low" configurationId="p22_3"/>
@@ -2168,7 +2169,6 @@
       <configSetting altId="mtu34.mtioc4c.p01_0" configurationId="mtu34.mtioc4c"/>
       <configSetting altId="mtu34.mtioc4d.p01_3" configurationId="mtu34.mtioc4d"/>
       <configSetting altId="mtu36.mode.custom.free" configurationId="mtu36.mode"/>
-      <configSetting altId="mtu36.mtioc6b.p21_2" configurationId="mtu36.mtioc6b"/>
       <configSetting altId="mtu36.mtioc6d.p21_4" configurationId="mtu36.mtioc6d"/>
       <configSetting altId="mtu37.mode.custom.free" configurationId="mtu37.mode"/>
       <configSetting altId="mtu37.mtioc7a.p21_5" configurationId="mtu37.mtioc7a"/>
@@ -2179,7 +2179,6 @@
       <configSetting altId="mtu38.mtioc8a.p14_1" configurationId="mtu38.mtioc8a"/>
       <configSetting altId="mtu_poe3.mode.custom.free" configurationId="mtu_poe3.mode"/>
       <configSetting altId="mtu_poe3.poe0_hash.p01_4" configurationId="mtu_poe3.poe0_hash"/>
-      <configSetting altId="mtu_poe3.poe4_hash.p22_1" configurationId="mtu_poe3.poe4_hash"/>
       <configSetting altId="mtu_poe3.poe8_hash.p14_5" configurationId="mtu_poe3.poe8_hash"/>
       <configSetting altId="p00_0.sci2.de2" configurationId="p00_0"/>
       <configSetting altId="p00_0.gpio_speed.gpio_speed_high" configurationId="p00_0.gpio_drivecapacity"/>
@@ -2520,13 +2519,8 @@
       <configSetting altId="p20_4.ether_esc.esc_linkact1" configurationId="p20_4"/>
       <configSetting altId="p20_4.gpio_mode.gpio_mode_peripheral" configurationId="p20_4.gpio_mode"/>
       <configSetting altId="p21_1.iic1.iic_scl1" configurationId="p21_1"/>
-      <configSetting altId="p21_1.gpio_speed.gpio_speed_high" configurationId="p21_1.gpio_drivecapacity"/>
+      <configSetting altId="p21_1.gpio_speed.gpio_speed_middle" configurationId="p21_1.gpio_drivecapacity"/>
       <configSetting altId="p21_1.gpio_mode.gpio_mode_peripheral" configurationId="p21_1.gpio_mode"/>
-      <configSetting altId="p21_1.sr.sr.fast" configurationId="p21_1.sr"/>
-      <configSetting altId="p21_2.mtu36.mtioc6b" configurationId="p21_2"/>
-      <configSetting altId="p21_2.gpio_speed.gpio_speed_middle" configurationId="p21_2.gpio_drivecapacity"/>
-      <configSetting altId="p21_2.gpio_mode.gpio_mode_peripheral" configurationId="p21_2.gpio_mode"/>
-      <configSetting altId="p21_2.sr.sr.fast" configurationId="p21_2.sr"/>
       <configSetting altId="p21_3.output.toinput.high" configurationId="p21_3"/>
       <configSetting altId="p21_3.gpio_mode.gpio_mode_out.toinput.high" configurationId="p21_3.gpio_mode"/>
       <configSetting altId="p21_4.mtu36.mtioc6d" configurationId="p21_4"/>
@@ -2544,8 +2538,8 @@
       <configSetting altId="p22_0.mtu37.mtioc7d" configurationId="p22_0"/>
       <configSetting altId="p22_0.gpio_speed.gpio_speed_middle" configurationId="p22_0.gpio_drivecapacity"/>
       <configSetting altId="p22_0.gpio_mode.gpio_mode_peripheral" configurationId="p22_0.gpio_mode"/>
-      <configSetting altId="p22_1.mtu_poe3.poe4_hash" configurationId="p22_1"/>
-      <configSetting altId="p22_1.gpio_mode.gpio_mode_peripheral" configurationId="p22_1.gpio_mode"/>
+      <configSetting altId="p22_1.output.high" configurationId="p22_1"/>
+      <configSetting altId="p22_1.gpio_mode.gpio_mode_out.high" configurationId="p22_1.gpio_mode"/>
       <configSetting altId="p22_2.input" configurationId="p22_2"/>
       <configSetting altId="p22_2.gpio_mode.gpio_mode_in" configurationId="p22_2.gpio_mode"/>
       <configSetting altId="p22_3.output.toinput.high" configurationId="p22_3"/>
@@ -2626,6 +2620,10 @@
       <lockSetting id="ether_eth1.eth1_txd2" lock="true"/>
       <lockSetting id="ether_eth1.eth1_txd3" lock="true"/>
       <lockSetting id="ether_eth1.eth1_txen_txctl" lock="true"/>
+      <lockSetting id="iic1.iic_scl1" lock="true"/>
+      <lockSetting id="iic1.iic_sda1" lock="true"/>
+      <lockSetting id="iic2.iic_scl2" lock="true"/>
+      <lockSetting id="iic2.iic_sda2" lock="true"/>
       <lockSetting id="mtu3.mtclka" lock="true"/>
       <lockSetting id="mtu3.mtclkb" lock="true"/>
       <lockSetting id="mtu3.mtclkc" lock="true"/>

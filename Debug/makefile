@@ -99,11 +99,16 @@ rzn2l_test.siz \
 
 
 # All Target
-all: rzn2l_test.elf secondary-outputs
+all:
+	$(MAKE) --no-print-directory main-build
+	$(MAKE) --no-print-directory post-build
+
+# Main-build Target
+main-build: rzn2l_test.elf secondary-outputs
 
 # Tool invocations
 rzn2l_test.elf: $(OBJS) $(USER_OBJS) $(LIBRARY_GENERATOR_OUTPUTTYPE_OUTPUTS) $(LINKER_SCRIPT)
-	$(file > rzn2l_test.elf.in,-mcpu=cortex-r52 -mthumb -mfloat-abi=hard -mfpu=neon-fp-armv8 -fdiagnostics-parseable-fixits -Og -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -Wunused -Wuninitialized -Wall -Wextra -Wmissing-declarations -Wconversion -Wpointer-arith -Wshadow -Wlogical-op -Waggregate-return -Wfloat-equal -Wnull-dereference -g -gdwarf-4 -o "rzn2l_test.elf" -Wl,--start-group $(OBJS) $(USER_OBJS) -Wl,--end-group -T "E:\\workspace\\e2 studio\\rzn2l_test\\script\\fsp_xspi0_boot_user.ld" -L"E:\\workspace\\e2 studio\\rzn2l_test/script" -Wl,--start-group  -Wl,--end-group -nostartfiles -Xlinker --gc-sections -Wl,-Map,"rzn2l_test.map" --specs=nano.specs -Wl,-esystem_init --specs=rdimon.specs)
+	$(file > rzn2l_test.elf.in,-mcpu=cortex-r52 -mthumb -mfloat-abi=hard -mfpu=neon-fp-armv8 -fdiagnostics-parseable-fixits -Og -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -Wunused -Wuninitialized -Wall -Wextra -Wmissing-declarations -Wconversion -Wpointer-arith -Wshadow -Wlogical-op -Waggregate-return -Wfloat-equal -Wnull-dereference -g -gdwarf-4 -o "rzn2l_test.elf" -Wl,--start-group $(OBJS) $(USER_OBJS) -Wl,--end-group -T "E:\\workspace\\e2 studio 202310\\rzn2l_test\\script\\main.ld" -L"E:\\workspace\\e2 studio 202310\\rzn2l_test/script" -Wl,--start-group  -Wl,--end-group -nostartfiles -Xlinker --gc-sections -Wl,-Map,"rzn2l_test.map" --specs=nano.specs -Wl,-esystem_init --specs=rdimon.specs)
 	@echo Building target: $@ && arm-none-eabi-gcc @"rzn2l_test.elf.in"
 rzn2l_test.bin: rzn2l_test.elf
 	arm-none-eabi-objcopy -O binary --gap-fill 0xff "rzn2l_test.elf"  "rzn2l_test.bin"
@@ -117,8 +122,12 @@ clean:
 	-$(RM)  rzn2l_test.elf
 	-@echo ' '
 
+post-build:
+	-appGen.bat
+	-@echo ' '
+
 secondary-outputs: $(SECONDARY_FLASH) $(SECONDARY_SIZE)
 
-.PHONY: all clean dependents 
+.PHONY: all clean dependents  post-build
 
 -include ../makefile.targets

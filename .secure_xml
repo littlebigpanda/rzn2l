@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<raConfiguration version="7">
+<raConfiguration version="8">
   <generalSettings>
     <option key="#Board#" value="board.rzn2lrsk.xspi0_x1"/>
     <option key="CPU" value="RZN2L"/>
@@ -10,7 +10,7 @@
     <option key="#RTOS#" value="_none"/>
     <option key="#pinconfiguration#" value="R9A07G084M04GBG.pincfg"/>
     <option key="#FSPVersion#" value="1.2.0"/>
-    <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##rzn2l_rsk##xspi0_x1_boot"/>
+    <option key="#ConfigurationFragments#" value="Renesas##BSP##Board##rzn2l_rsk##xspi0_x1_boot|Renesas##BSP##Board##rzn2l_rsk##ram_execution"/>
     <option key="#SELECTED_TOOLCHAIN#" value="gcc-arm-embedded"/>
     <option key="#ToolchainVersion#" value="9.3.1.20200408"/>
   </generalSettings>
@@ -72,12 +72,12 @@
       <configSetting altId="canfd0.cantx0.p02_2" configurationId="canfd0.cantx0"/>
       <configSetting altId="dsmif0.mclk0.p00_4" configurationId="dsmif0.mclk0" isUsedByDriver="true"/>
       <configSetting altId="dsmif0.mdat0.p00_5" configurationId="dsmif0.mdat0" isUsedByDriver="true"/>
-      <configSetting altId="dsmif1.mclk1.p15_3" configurationId="dsmif1.mclk1" isUsedByDriver="true"/>
-      <configSetting altId="dsmif1.mdat1.p15_4" configurationId="dsmif1.mdat1" isUsedByDriver="true"/>
-      <configSetting altId="dsmif4.mclk4.p23_7" configurationId="dsmif4.mclk4" isUsedByDriver="true"/>
-      <configSetting altId="dsmif4.mdat4.p24_0" configurationId="dsmif4.mdat4" isUsedByDriver="true"/>
-      <configSetting altId="dsmif5.mclk5.p24_1" configurationId="dsmif5.mclk5" isUsedByDriver="true"/>
-      <configSetting altId="dsmif5.mdat5.p24_2" configurationId="dsmif5.mdat5" isUsedByDriver="true"/>
+      <configSetting altId="dsmif1.mclk1.p15_3" configurationId="dsmif1.mclk1"/>
+      <configSetting altId="dsmif1.mdat1.p15_4" configurationId="dsmif1.mdat1"/>
+      <configSetting altId="dsmif4.mclk4.p23_7" configurationId="dsmif4.mclk4"/>
+      <configSetting altId="dsmif4.mdat4.p24_0" configurationId="dsmif4.mdat4"/>
+      <configSetting altId="dsmif5.mclk5.p24_1" configurationId="dsmif5.mclk5"/>
+      <configSetting altId="dsmif5.mdat5.p24_2" configurationId="dsmif5.mdat5"/>
       <configSetting altId="ether_esc.esc_i2cclk.p13_2" configurationId="ether_esc.esc_i2cclk"/>
       <configSetting altId="ether_esc.esc_i2cdata.p13_3" configurationId="ether_esc.esc_i2cdata"/>
       <configSetting altId="ether_esc.esc_irq.p14_4" configurationId="ether_esc.esc_irq"/>
@@ -136,7 +136,6 @@
       <configSetting altId="mtu34.mtioc4b.p01_2" configurationId="mtu34.mtioc4b"/>
       <configSetting altId="mtu34.mtioc4c.p01_0" configurationId="mtu34.mtioc4c"/>
       <configSetting altId="mtu34.mtioc4d.p01_3" configurationId="mtu34.mtioc4d"/>
-      <configSetting altId="mtu36.mtioc6b.p21_2" configurationId="mtu36.mtioc6b"/>
       <configSetting altId="mtu36.mtioc6d.p21_4" configurationId="mtu36.mtioc6d"/>
       <configSetting altId="mtu37.mtioc7a.p21_5" configurationId="mtu37.mtioc7a"/>
       <configSetting altId="mtu37.mtioc7b.p21_6" configurationId="mtu37.mtioc7b"/>
@@ -144,7 +143,6 @@
       <configSetting altId="mtu37.mtioc7d.p22_0" configurationId="mtu37.mtioc7d"/>
       <configSetting altId="mtu38.mtioc8a.p14_1" configurationId="mtu38.mtioc8a"/>
       <configSetting altId="mtu_poe3.poe0_hash.p01_4" configurationId="mtu_poe3.poe0_hash"/>
-      <configSetting altId="mtu_poe3.poe4_hash.p22_1" configurationId="mtu_poe3.poe4_hash"/>
       <configSetting altId="mtu_poe3.poe8_hash.p14_5" configurationId="mtu_poe3.poe8_hash"/>
       <configSetting altId="p00_3.input" configurationId="p00_3"/>
       <configSetting altId="p01_5.output.toinput.high" configurationId="p01_5"/>
@@ -175,6 +173,7 @@
       <configSetting altId="p18_3.input" configurationId="p18_3"/>
       <configSetting altId="p19_0.input" configurationId="p19_0"/>
       <configSetting altId="p21_3.output.toinput.high" configurationId="p21_3"/>
+      <configSetting altId="p22_1.output.high" configurationId="p22_1"/>
       <configSetting altId="p22_2.input" configurationId="p22_2"/>
       <configSetting altId="p22_3.output.toinput.high" configurationId="p22_3"/>
       <configSetting altId="sci0.rxd_miso0.p16_6" configurationId="sci0.rxd_miso0"/>

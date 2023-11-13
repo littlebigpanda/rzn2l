@@ -491,6 +491,22 @@ void bsp_copy_to_atcm (void)
         "copy_FVECTOR_end:                         \n"
         "    dsb                                   \n" /* Ensuring data-changing */
 
+        "    ldr  r0, =_mramcode_text              \n"
+        "    ldr  r1, =_ram_code_start             \n"
+        "    ldr  r2, =_ram_code_end               \n"
+        "    cmp  r2, r1                           \n"
+        "    beq  copy_RAMCODE_TEXT_end            \n"
+
+        "copy_to_RAMCODE_TEXT:                     \n"
+        "    ldrb  r3, [r0], #0                    \n"
+        "    strb  r3, [r1], #0                    \n"
+        "    add   r0, r0, #1                      \n"
+        "    add   r1, r1, #1                      \n"
+        "    cmp   r2, r1                          \n"
+        "    bne   copy_to_RAMCODE_TEXT            \n"
+        "copy_RAMCODE_TEXT_end:                    \n"
+        "    dsb                                   \n" /* Ensuring data-changing */
+
         "    ldr  r0, =_mtext                      \n"
         "    ldr  r1, =_text_start                 \n"
         "    ldr  r2, =_text_end                   \n"
@@ -523,6 +539,194 @@ void bsp_copy_to_atcm (void)
         "copy_APP_DATA_end:                        \n"
         "    dsb                                   \n" /* Ensuring data-changing */
         );
+
+
+    #if(CFG_CALC_COPY_TO_TCM_CODE_CRC)
+
+    /* 0x1013FC00 - 存储在app中复制flash中的代码到loader_text段的crc值 */
+    /* 0x1013FC04 - 存储在app中复制flash中的代码到loader_data段的crc值 */
+    /* 0x1013FC08 - 存储在app中复制flash中的代码到fvector段的crc值 */
+    /* 0x1013FC0C - 存储在app中复制flash中的代码到ramcode段的crc值 */
+    /* 0x1013FC10 - 存储在app中复制flash中的代码到text段的crc值 */
+    /* 0x1013FC14 - 存储在app中复制flash中的代码到data段的crc值 */
+
+    /* 0x1013FC50 - 存储在app中复制boot中的代码到loader_text段的crc值 */
+    /* 0x1013FC54 - 存储在app中复制boot中的代码到loader_data段的crc值 */
+    /* 0x1013FC58 - 存储在app中复制boot中的代码到fvector段的crc值 */
+    /* 0x1013FC5C - 存储在app中复制boot中的代码到ramcode段的crc值 */
+    /* 0x1013FC60 - 存储在app中复制boot中的代码到text段的crc值 */
+    /* 0x1013FC64 - 存储在app中复制boot中的代码到data段的crc值 */
+
+    /* 0x1013FC4C - 存储app复制代码到app出现crc错误的记录     */
+
+    __asm volatile (
+            "   dsb                                     \n"
+            "   dmb                                     \n"
+            "   isb                                     \n"
+
+            /* 将r6,r7寄存器压栈，在该函数中，r6寄存器用于计算crc的section的个数计数 */
+            /* r7寄存器crc存储的内存地址 */
+            "   push    {r6, r7}                        \n"
+            "   mov     r6, #0                          \n"
+
+            /* crc存储地址计算 */
+            "   ldr     r7, =0x1013FC08                 \n"
+
+            /* 计算fvector段的crc校验值，并存储到0x1013FC00这个地址 */
+            "fvector_crc_calc_init:                     \n"
+            "   ldr     r0, =_fvector_start             \n"
+            "   ldr     r1, =_fvector_end               \n"
+            "   sub     r1, r1, r0                      \n"
+            "   ldr     r2, =4294967295                 \n"
+            "   b       ethernet_crc_calc_start         \n"
+            "fvector_crc_calc_end:                      \n"
+            "   mov     r1, r7                          \n"
+            "   str     r0, [r1], #0                    \n"
+
+            /* crc存储地址计算 */
+            "   add     r7, r7, #4                      \n"
+
+            /* 计算ramcode段的crc校验值，并存储到0x1013FC04这个地址 */
+            "ramcode_crc_calc_init:                     \n"
+            "   ldr     r0, =_ram_code_start            \n"
+            "   ldr     r1, =_ram_code_end              \n"
+            "   sub     r1, r1, r0                      \n"
+            "   ldr     r2, =4294967295                 \n"
+            "   b       ethernet_crc_calc_start         \n"
+            "ramcode_crc_calc_end:                      \n"
+            "   mov     r1, r7                          \n"
+            "   str     r0, [r1], #0                    \n"
+
+            /* crc存储地址计算 */
+            "   add     r7, r7, #4                      \n"
+
+            /* 计算text段的crc校验值，并存储到0x1013FC08这个地址 */
+            "text_crc_calc_init:                        \n"
+            "   ldr     r0, =_text_start                \n"
+            "   ldr     r1, =_text_end                  \n"
+            "   sub     r1, r1, r0                      \n"
+            "   ldr     r2, =4294967295                 \n"
+            "   b       ethernet_crc_calc_start         \n"
+            "text_crc_calc_end:                         \n"
+            "   mov     r1, r7                          \n"
+            "   str     r0, [r1], #0                    \n"
+
+            /* crc存储地址计算 */
+            "   add     r7, r7, #4                      \n"
+
+            /* 计算data段的crc校验值，并存储到0x1013FC0C这个地址 */
+            "data_crc_calc_init:                        \n"
+            "   ldr     r0, =_data_start                \n"
+            "   ldr     r1, =_data_end                  \n"
+            "   sub     r1, r1, r0                      \n"
+            "   ldr     r2, =4294967295                 \n"
+            "   b       ethernet_crc_calc_start         \n"
+            "data_crc_calc_end:                         \n"
+            "   mov     r1, r7                          \n"
+            "   str     r0, [r1], #0                    \n"
+
+            /* 各个section的crc计算结束，退出汇编，恢复r6寄存器 */
+            "   b       tcm_code_crc_exit               \n"
+
+            /* Ethernet crc-32计算 */
+            "ethernet_crc_calc_start:                   \n"
+            "   push    {r4, r5}                        \n"
+            "   mov     r5, r0                          \n"
+            "   mov     r0, r2                          \n"
+            "   movs    r4, #0                          \n"
+            "   b       ethernet_crc_length_loop_cmp    \n"
+            "ethernet_crc_eor_loop_inc:                 \n"
+            "   adds    r3, #1                          \n"
+            "ethernet_crc_eor_loop_cmp:                 \n"
+            "   cmp     r3, #7                          \n"
+            "   bhi     ethernet_crc_length_loop_inc    \n"
+            "   and.w   r2, r0, #1                      \n"
+            "   lsrs    r0, r0, #1                      \n"
+            "   cmp     r2, #0                          \n"
+            "   beq     ethernet_crc_eor_loop_inc       \n"
+            "   eor.w   r0, r0, #3976200192             \n"
+            "   eor.w   r0, r0, #12058624               \n"
+            "   eor.w   r0, r0, #33536                  \n"
+            "   eor.w   r0, r0, #32                     \n"
+            "   b       ethernet_crc_eor_loop_inc       \n"
+            "ethernet_crc_length_loop_inc:              \n"
+            "   adds   r4, #1                          \n"
+            "ethernet_crc_length_loop_cmp:              \n"
+            "   cmp     r4, r1                          \n"
+            "   bcs     ethernet_crc_length_loop_exit   \n"
+            "   ldrb    r3, [r5, r4]                    \n"
+            "   eors    r0, r3                          \n"
+            "   movs    r3, #0                          \n"
+            "   b       ethernet_crc_eor_loop_cmp       \n"
+            "ethernet_crc_length_loop_exit:             \n"
+            "   pop     {r4, r5}                        \n"
+
+            /* 计数器自增 */
+            "   add     r6, r6, #1                      \n"
+
+            "   cmp     r6, #1                          \n"
+            "   beq     fvector_crc_calc_end            \n"
+
+            "   cmp     r6, #2                          \n"
+            "   beq     ramcode_crc_calc_end            \n"
+
+            "   cmp     r6, #3                          \n"
+            "   beq     text_crc_calc_end               \n"
+
+            "   cmp     r6, #4                          \n"
+            "   beq     data_crc_calc_end               \n"
+
+            /* 各个section的crc计算完成，从堆栈中恢复r6,r7寄存器的数值 */
+            "tcm_code_crc_exit:                         \n"
+            "   pop     {r6, r7}                        \n"
+
+
+            "   mov     r3, #0                          \n"
+
+            "fvector_crc_cmp_start:                     \n"
+            "   ldr     r0, =0x1013FC08                 \n"
+            "   ldr     r1, [r0], #0                    \n"
+            "   ldr     r0, =0x1013FC58                 \n"
+            "   ldr     r2, [r0], #0                    \n"
+            "   cmp     r1, r2                          \n"
+            "   beq     ramcode_crc_cmp_start           \n"
+            "   orr     r3, #1                          \n"
+
+            "ramcode_crc_cmp_start:                     \n"
+            "   ldr     r0, =0x1013FC0C                 \n"
+            "   ldr     r1, [r0], #0                    \n"
+            "   ldr     r0, =0x1013FC5C                 \n"
+            "   ldr     r2, [r0], #0                    \n"
+            "   cmp     r1, r2                          \n"
+            "   beq     text_crc_cmp_start              \n"
+            "   orr     r3, #2                          \n"
+
+            "text_crc_cmp_start:                        \n"
+            "   ldr     r0, =0x1013FC10                 \n"
+            "   ldr     r1, [r0], #0                    \n"
+            "   ldr     r0, =0x1013FC60                 \n"
+            "   ldr     r2, [r0], #0                    \n"
+            "   cmp     r1, r2                          \n"
+            "   beq     data_crc_cmp_start              \n"
+            "   orr     r3, #4                          \n"
+
+            "data_crc_cmp_start:                        \n"
+            "   ldr     r0, =0x1013FC14                 \n"
+            "   ldr     r1, [r0], #0                    \n"
+            "   ldr     r0, =0x1013FC64                 \n"
+            "   ldr     r2, [r0], #0                    \n"
+            "   cmp     r1, r2                          \n"
+            "   beq     crc_cmp_end                     \n"
+            "   orr     r3, #8                          \n"
+
+            "crc_cmp_end:                               \n"
+            "   ldr     r1, =0x1013FC4C                 \n"
+            /* 可以用于测试(将结果值修改)*/
+            "   add     r3, #0                          \n"
+            "   str     r3, [r1], #0                    \n"
+            );
+    #endif
+
  #endif
 }
 

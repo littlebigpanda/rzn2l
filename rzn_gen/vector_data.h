@@ -4,11 +4,14 @@
 #include "bsp_api.h"
 /* Number of interrupts allocated */
 #ifndef VECTOR_DATA_IRQ_COUNT
-#define VECTOR_DATA_IRQ_COUNT    (50)
+#define VECTOR_DATA_IRQ_COUNT    (53)
 #endif
 /* ISR prototypes */
 void dmac_int_isr(void);
 void null(void);
+void usbfs_interrupt_handler(void);
+void r_usb_dmaca_intDMAC0I_isr(void);
+void r_usb_dmaca_intDMAC1I_isr(void);
 
 /* Vector table allocations */
 #define VECTOR_NUMBER_DMAC0_INT0 ((IRQn_Type) 21) /* DMAC0_INT0 (DMAC0 transfer completion 0) */
@@ -24,6 +27,9 @@ void null(void);
 #define VECTOR_NUMBER_TGIF0 ((IRQn_Type) 75) /* TGIF0 (MTU0.TGRF compare match) */
 #define VECTOR_NUMBER_TGIA3 ((IRQn_Type) 84) /* TGIA3 (MTU3.TGRA input capture/compare match) */
 #define VECTOR_NUMBER_TCIV4 ((IRQn_Type) 93) /* TCIV4 (MTU4.TCNT overflow/underflow) */
+#define VECTOR_NUMBER_OEI1 ((IRQn_Type) 112) /* OEI1 (Output enable interrupt 1) */
+#define VECTOR_NUMBER_OEI2 ((IRQn_Type) 113) /* OEI2 (Output enable interrupt 2) */
+#define VECTOR_NUMBER_OEI3 ((IRQn_Type) 114) /* OEI3 (Output enable interrupt 3) */
 #define VECTOR_NUMBER_GPT13_OVF ((IRQn_Type) 239) /* GPT13_OVF (GPT13 GTCNT overflow (GTPR compare match)) */
 #define VECTOR_NUMBER_ESC_SYNC0 ((IRQn_Type) 277) /* ESC_SYNC0 (EtherCAT Sync0 interrupt) */
 #define VECTOR_NUMBER_ESC_SYNC1 ((IRQn_Type) 278) /* ESC_SYNC1 (EtherCAT Sync1 interrupt) */
@@ -99,6 +105,9 @@ typedef enum IRQn
     TGIF0_IRQn = 75, /* TGIF0 (MTU0.TGRF compare match) */
     TGIA3_IRQn = 84, /* TGIA3 (MTU3.TGRA input capture/compare match) */
     TCIV4_IRQn = 93, /* TCIV4 (MTU4.TCNT overflow/underflow) */
+    OEI1_IRQn = 112, /* OEI1 (Output enable interrupt 1) */
+    OEI2_IRQn = 113, /* OEI2 (Output enable interrupt 2) */
+    OEI3_IRQn = 114, /* OEI3 (Output enable interrupt 3) */
     GPT13_OVF_IRQn = 239, /* GPT13_OVF (GPT13 GTCNT overflow (GTPR compare match)) */
     ESC_SYNC0_IRQn = 277, /* ESC_SYNC0 (EtherCAT Sync0 interrupt) */
     ESC_SYNC1_IRQn = 278, /* ESC_SYNC1 (EtherCAT Sync1 interrupt) */

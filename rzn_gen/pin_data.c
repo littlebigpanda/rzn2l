@@ -237,10 +237,8 @@ const ioport_pin_cfg_t g_bsp_pin_cfg_data[] =
                   | (uint32_t) IOPORT_PIN_P203_PFC_01_ESC_LEDERR) },
           { .pin = BSP_IO_PORT_20_PIN_4, .pin_cfg = ((uint32_t) IOPORT_CFG_PORT_PERI
                   | (uint32_t) IOPORT_PIN_P204_PFC_01_ESC_LINKACT1) },
-          { .pin = BSP_IO_PORT_21_PIN_1, .pin_cfg = ((uint32_t) IOPORT_CFG_DRIVE_HIGH | (uint32_t) IOPORT_CFG_PORT_PERI
-                  | (uint32_t) IOPORT_CFG_SLEW_RATE_FAST | (uint32_t) IOPORT_PIN_P211_PFC_07_IIC_SCL1) },
-          { .pin = BSP_IO_PORT_21_PIN_2, .pin_cfg = ((uint32_t) IOPORT_CFG_DRIVE_MID | (uint32_t) IOPORT_CFG_PORT_PERI
-                  | (uint32_t) IOPORT_CFG_SLEW_RATE_FAST | (uint32_t) IOPORT_PIN_P212_PFC_02_MTIOC6B) },
+          { .pin = BSP_IO_PORT_21_PIN_1, .pin_cfg = ((uint32_t) IOPORT_CFG_DRIVE_MID | (uint32_t) IOPORT_CFG_PORT_PERI
+                  | (uint32_t) IOPORT_PIN_P211_PFC_07_IIC_SCL1) },
           { .pin = BSP_IO_PORT_21_PIN_3, .pin_cfg = ((uint32_t) IOPORT_CFG_PORT_DIRECTION_OUTPUT_INPUT
                   | (uint32_t) IOPORT_CFG_PORT_OUTPUT_HIGH) },
           { .pin = BSP_IO_PORT_21_PIN_4, .pin_cfg = ((uint32_t) IOPORT_CFG_DRIVE_MID | (uint32_t) IOPORT_CFG_PORT_PERI
@@ -253,8 +251,8 @@ const ioport_pin_cfg_t g_bsp_pin_cfg_data[] =
                   | (uint32_t) IOPORT_PIN_P217_PFC_03_MTIOC7C) },
           { .pin = BSP_IO_PORT_22_PIN_0, .pin_cfg = ((uint32_t) IOPORT_CFG_DRIVE_MID | (uint32_t) IOPORT_CFG_PORT_PERI
                   | (uint32_t) IOPORT_PIN_P220_PFC_03_MTIOC7D) },
-          { .pin = BSP_IO_PORT_22_PIN_1, .pin_cfg = ((uint32_t) IOPORT_CFG_PORT_PERI
-                  | (uint32_t) IOPORT_PIN_P221_PFC_03_POE4) },
+          { .pin = BSP_IO_PORT_22_PIN_1, .pin_cfg = ((uint32_t) IOPORT_CFG_PORT_DIRECTION_OUTPUT
+                  | (uint32_t) IOPORT_CFG_PORT_OUTPUT_HIGH) },
           { .pin = BSP_IO_PORT_22_PIN_2, .pin_cfg = ((uint32_t) IOPORT_CFG_PORT_DIRECTION_INPUT) },
           { .pin = BSP_IO_PORT_22_PIN_3, .pin_cfg = ((uint32_t) IOPORT_CFG_PORT_DIRECTION_OUTPUT_INPUT
                   | (uint32_t) IOPORT_CFG_PORT_OUTPUT_HIGH) },

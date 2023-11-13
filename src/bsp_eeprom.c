@@ -47,6 +47,12 @@
 
 #define CFG_FREE_RUN_TIMER_CHANNEL          2   // 自由运行用定时器CMT通道(注：修改时需要同步修改配置头文件中的)
 
+#define CFG_TIMER_CHANNEL_FUNC              0   // 用于Eeprom读写函数的超时的通道号
+#define CFG_TIMER_CHANNEL_STEP              1   // 用于Eeprom读写函数内部操作使用的超时通道号
+#define CFG_TIMER_CHANNEL_PROGRAM           2   // 用于Eeprom数据编程的超时通道号
+
+#define CFG_EEPROM_WRITE_WAIT_TIME_US       5000UL // 数据传输到Eeprom芯片后，等待Eeprom保存完成的等待时间 [us]
+
 typedef enum
 {
     I2C_RW_OK = 0,
@@ -97,12 +103,16 @@ typedef struct
     uint32_t funcTimeoutSet;
     uint8_t stepTimeoutFlag;
     uint32_t stepTimeoutSet;
+    uint8_t programTimeoutFlag;   /* 写Eeprom编程等待操作完成 */
+    uint32_t programTimeoutSet;
     uint32_t usToTimerTickQ10;
     ENU_I2C_RW_STATE I2cRwState;
     ENU_I2C_RW_STATE I2cDealState;
 } STR_EEPROM;
 
 static STR_EEPROM strEeprom;
+
+static void bsp_eeprom_reconfig(R_IIC0_Type * regBase);
 
 /**********************************************************
  * 获取MCU定时器的计数值
@@ -122,6 +132,8 @@ static inline void timeoutHandle(void)
     static uint32_t funcTimeoutLatch = 0;
     static uint32_t stepTimeoutElapse = 0;
     static uint32_t stepTimeoutLatch = 0;
+    static uint32_t programTimeoutElapse = 0;
+    static uint32_t programTimeoutLatch = 0;
 
     uint16_t currTimeCnt;
 
@@ -162,6 +174,25 @@ static inline void timeoutHandle(void)
             strEeprom.stepTimeoutFlag = 2;
         }
     }
+
+    /* 数据已经传输到Eeprom芯片，等待Eeprom写入完成等待超时处理 */
+    if (strEeprom.programTimeoutFlag == 0)
+    {
+        programTimeoutElapse = 0;
+        programTimeoutLatch = getTimerCnt();
+        strEeprom.programTimeoutFlag = 1;
+    }
+    else if (strEeprom.programTimeoutFlag == 1)
+    {
+        currTimeCnt = getTimerCnt();
+        programTimeoutElapse += (((uint16_t)(currTimeCnt - programTimeoutLatch)) & 0xFFFF);
+        programTimeoutLatch = currTimeCnt;
+
+        if (programTimeoutElapse >= strEeprom.programTimeoutSet)
+        {
+            strEeprom.programTimeoutFlag = 2;
+        }
+    }
 }
 
 /**********************************************************
@@ -175,10 +206,15 @@ static void timeoutSet(uint8_t channel, uint32_t timeout_us)
 
     tmp = (uint32_t)(((uint64_t)strEeprom.usToTimerTickQ10 * (uint64_t)timeout_us) >> 10);
 
-    if (channel == 1)
+    if (channel == CFG_TIMER_CHANNEL_STEP)
     {
         strEeprom.stepTimeoutFlag = 0;
         strEeprom.stepTimeoutSet = tmp;
+    }
+    else if (channel == CFG_TIMER_CHANNEL_PROGRAM)
+    {
+        strEeprom.programTimeoutFlag = 0;
+        strEeprom.programTimeoutSet = tmp;
     }
     else
     {
@@ -194,9 +230,13 @@ static void timeoutSet(uint8_t channel, uint32_t timeout_us)
  *********************************************************/
 static uint8_t getTimeoutStatus(uint8_t channel)
 {
-    if (channel == 1)
+    if (channel == CFG_TIMER_CHANNEL_STEP)
     {
         return ( (strEeprom.stepTimeoutFlag == 2) ? 1 : 0);
+    }
+    else if (channel == CFG_TIMER_CHANNEL_PROGRAM)
+    {
+        return ( (strEeprom.programTimeoutFlag == 2) ? 1 : 0);
     }
     else
     {
@@ -275,7 +315,7 @@ static void Eeprom_deal(void)
             Eeprom_disableProtect();
 
             /* 下一个状态的超时时间 */
-            timeoutSet(1, 300UL);
+            timeoutSet(CFG_TIMER_CHANNEL_STEP, 300UL);
 
             strEeprom.I2cDealState = I2C_RW_DELAY_BEFORE_START;
         }
@@ -287,7 +327,7 @@ static void Eeprom_deal(void)
         if (regBase->ICCR2_b.BBSY)
         {
             /* 处于繁忙状态，进行等待 */
-            if (getTimeoutStatus(1))
+            if (getTimeoutStatus(CFG_TIMER_CHANNEL_STEP))
             {
                 /* 一直处于繁忙状态，跳转到错误处理状态，重新初始化I2C总线 */
                 strEeprom.I2cDealState = I2C_RW_WRONG_REPEAT;
@@ -331,7 +371,7 @@ static void Eeprom_deal(void)
         regBase->ICCR2 = (uint8_t) 0x02;
 
         /* 下一个状态的超时时间 */
-        timeoutSet(1, 3000UL);
+        timeoutSet(CFG_TIMER_CHANNEL_STEP, 3000UL);
 
         u16index = 0;
 
@@ -345,7 +385,7 @@ static void Eeprom_deal(void)
             /* 超时，仲裁丢失，停止位接收，无应答接收错误 */
             strEeprom.I2cDealState = I2C_RW_WRONG_REPEAT;
         }
-        else if (getTimeoutStatus(1))
+        else if (getTimeoutStatus(CFG_TIMER_CHANNEL_STEP))
         {
             /* 一直处于繁忙状态，跳转到错误处理状态，重新初始化I2C总线 */
             strEeprom.I2cDealState = I2C_RW_WRONG_REPEAT;
@@ -359,15 +399,16 @@ static void Eeprom_deal(void)
                 /* 还存在数据未发送，tmpBuf[]存储的是设备地址，Eeprom字节地址 */
                 regBase->ICDRT = (uint8_t)(tmpBuf[u16index++]);
             }
-            else
+            else if ((regBase->ICSR2 & 0x44) == 0x44 )
             {
+                /* 等待发送完成后再进行下一步操作 */
                 if (strEeprom.bIsRead)
                 {
                     /* 请求发送起始位 */
                     regBase->ICCR2 = (uint8_t) 0x04;
 
                     /* 下一个状态的超时时间 */
-                    timeoutSet(1, 500UL);
+                    timeoutSet(CFG_TIMER_CHANNEL_STEP, 500UL);
 
                     strEeprom.I2cDealState = I2C_RW_MASTER_MODE_SELECT;
                 }
@@ -378,7 +419,7 @@ static void Eeprom_deal(void)
                     /* 先手动进行一次写入才可以启动DMA传输 */
 
                     /* 下一个状态的超时时间 */
-                    timeoutSet(1, 50000UL);
+                    timeoutSet(CFG_TIMER_CHANNEL_STEP, 50000UL);
 
                     strEeprom.I2cDealState = I2C_WRITE_DMA_END;
                 }
@@ -391,7 +432,7 @@ static void Eeprom_deal(void)
 
     case I2C_RW_MASTER_MODE_SELECT:     /* 等待重复起始位发送完成后，发送设备地址 */
 
-        if (getTimeoutStatus(1))
+        if (getTimeoutStatus(CFG_TIMER_CHANNEL_STEP))
         {
             /* 一直处于繁忙状态，跳转到错误处理状态，重新初始化I2C总线 */
             strEeprom.I2cDealState = I2C_RW_WRONG_REPEAT;
@@ -407,7 +448,7 @@ static void Eeprom_deal(void)
             regBase->ICDRT = (uint8_t)(tmpBuf[0]) | 0x01;
 
             /* 下一个状态的超时时间 */
-            timeoutSet(1, 50000UL);
+            timeoutSet(CFG_TIMER_CHANNEL_STEP, 50000UL);
 
             strEeprom.I2cDealState = I2C_RW_MASTER_TRANSMITTER_MODE_SELECTED;
         }
@@ -417,7 +458,7 @@ static void Eeprom_deal(void)
     case I2C_RW_MASTER_TRANSMITTED_ADDRESS_HIGH:    /* 读取的字节个数小于4或者DMA传输完成后处理 */
     case I2C_RW_MASTER_TRANSMITTED_ADDRESS_LOW:     /* DMA传输等待完成 */
 
-        if (getTimeoutStatus(1))
+        if (getTimeoutStatus(CFG_TIMER_CHANNEL_STEP))
         {
             /* 超时 */
             strEeprom.I2cDealState = I2C_RW_WRONG_REPEAT;
@@ -519,7 +560,7 @@ static void Eeprom_deal(void)
                     regBase->ICMR3_b.WAIT = 0;
 
                     /* 下一个状态的超时时间 */
-                    timeoutSet(1, 500UL);
+                    timeoutSet(CFG_TIMER_CHANNEL_STEP, 500UL);
 
                     /* 没有检测到错误，没有超时，并且DMA的EN位被清零时，表明数据接收完成 */
                     strEeprom.I2cDealState = I2C_WRITE_WAIT_DMA_END;
@@ -559,7 +600,7 @@ static void Eeprom_deal(void)
 
             Eeprom_enableProtect();
         }
-        else if (getTimeoutStatus(1))
+        else if (getTimeoutStatus(CFG_TIMER_CHANNEL_STEP))
         {
             /* 一直处于繁忙状态，跳转到错误处理状态，重新初始化I2C总线 */
             strEeprom.I2cDealState = I2C_RW_WRONG_REPEAT;
@@ -573,7 +614,7 @@ static void Eeprom_deal(void)
             /* 超时，仲裁丢失，停止位接收，无应答接收错误 */
             strEeprom.I2cDealState = I2C_RW_WRONG_REPEAT;
         }
-        else if (getTimeoutStatus(1))
+        else if (getTimeoutStatus(CFG_TIMER_CHANNEL_STEP))
         {
             /* 一直处于繁忙状态，跳转到错误处理状态，重新初始化I2C总线 */
             strEeprom.I2cDealState = I2C_RW_WRONG_REPEAT;
@@ -585,7 +626,7 @@ static void Eeprom_deal(void)
                 /* 还存在数据未发送，tmpBuf[]存储的是设备地址，Eeprom字节地址 */
                 regBase->ICDRT = (uint8_t)(strEeprom.pDataBuf[u16index++]);
             }
-            else
+            else if ( (regBase->ICSR2 & 0x44) == 0x44 )
             {
                 /* 发送完成, 发送停止位 */
                 regBase->ICSR2_b.STOP = 0;
@@ -603,7 +644,10 @@ static void Eeprom_deal(void)
                 regBase->ICCR2_b.SP = 1;
 
                 /* 下一个状态的超时时间 */
-                timeoutSet(1, 1000UL);
+                timeoutSet(CFG_TIMER_CHANNEL_STEP, 1000UL);
+
+                /* 等待Eeprom芯片写入完成超时时间 */
+                timeoutSet(CFG_TIMER_CHANNEL_PROGRAM, CFG_EEPROM_WRITE_WAIT_TIME_US);
 
                 strEeprom.I2cDealState = I2C_WRITE_WAIT_END;
             }
@@ -620,7 +664,7 @@ static void Eeprom_deal(void)
             regBase->ICFER_b.TMOE = 0U;
 
             /* 一定次数后直接返回正确，用于Eeprom写入后的保存延时操作 */
-            if (++u16index > 200)
+            if (getTimeoutStatus(CFG_TIMER_CHANNEL_PROGRAM))
             {
                 strEeprom.bStart = 0;
                 strEeprom.bFinish = 1;
@@ -632,12 +676,12 @@ static void Eeprom_deal(void)
             else
             {
                 /* 下一个状态的超时时间 */
-                timeoutSet(1, 300UL);
+                timeoutSet(CFG_TIMER_CHANNEL_STEP, 300UL);
 
                 strEeprom.I2cDealState = I2C_WRITE_WAIT_END_STEP1;
             }
         }
-        else if (getTimeoutStatus(1))
+        else if (getTimeoutStatus(CFG_TIMER_CHANNEL_STEP))
         {
             /* 一直处于繁忙状态，跳转到错误处理状态，重新初始化I2C总线 */
             strEeprom.I2cDealState = I2C_RW_WRONG_REPEAT;
@@ -651,7 +695,7 @@ static void Eeprom_deal(void)
         if (regBase->ICCR2_b.BBSY)
         {
             /* 一直处于繁忙状态，跳转到错误处理状态，重新初始化I2C总线 */
-            if (getTimeoutStatus(1))
+            if (getTimeoutStatus(CFG_TIMER_CHANNEL_STEP))
             {
                 strEeprom.I2cDealState = I2C_RW_WRONG_REPEAT;
             }
@@ -672,7 +716,7 @@ static void Eeprom_deal(void)
         regBase->ICCR2 = (uint8_t) 0x02;
 
         /* 下一个状态的超时时间 */
-        timeoutSet(1, 200UL);
+        timeoutSet(CFG_TIMER_CHANNEL_STEP, 200UL);
 
         strEeprom.I2cDealState = I2C_WRITE_WAIT_END_STEP2_DELAY_BEFORE;
 
@@ -681,7 +725,7 @@ static void Eeprom_deal(void)
     case I2C_WRITE_WAIT_END_STEP2_DELAY_BEFORE:     /* 发送设备地址  */
     case I2C_WRITE_WAIT_END_STEP2:                  /* 查询是否有设备应答 */
 
-        if ( (regBase->ICSR2 & 0x1B) || (getTimeoutStatus(1)) )
+        if ( (regBase->ICSR2 & 0x1B) || (getTimeoutStatus(CFG_TIMER_CHANNEL_STEP)) )
         {
             /* 超时，仲裁丢失，停止位接收，无应答接收错误 */
             regBase->ICSR2_b.STOP = 0;
@@ -702,6 +746,20 @@ static void Eeprom_deal(void)
         }
         else if ( ((regBase->ICSR2 & 0x50) == 0x40) && (strEeprom.I2cDealState == I2C_WRITE_WAIT_END_STEP2) )
         {
+            regBase->ICSR2_b.STOP = 0;
+
+            rx_index = 8;
+            while (rx_index)
+            {
+                if (regBase->ICSR2_b.STOP == 0)
+                {
+                    break;
+                }
+                rx_index --;
+            }
+
+            regBase->ICCR2_b.SP = 1;
+
             /* 数据发送完成且应答接收正常 */
             strEeprom.bStart = 0;
             strEeprom.bFinish = 1;
@@ -751,14 +809,14 @@ static void Eeprom_deal(void)
         regBase->ICCR1 = (uint8_t) (0x1FU + 0x40U + 0x80U);
 
         /* 下一个状态的超时时间 */
-        timeoutSet(1, 100UL);
+        timeoutSet(CFG_TIMER_CHANNEL_STEP, 100UL);
 
         strEeprom.I2cDealState = I2C_RW_ERR_INIT_1;
         break;
 
         /* 检测IIC引脚是否正常 */
     case I2C_RW_ERR_INIT_1:
-        if (getTimeoutStatus(1))
+        if (getTimeoutStatus(CFG_TIMER_CHANNEL_STEP))
         {
             u16index = 0;
             rx_index = 0;
@@ -766,7 +824,7 @@ static void Eeprom_deal(void)
             if ((regBase->ICCR1 & 0x01) == 0)
             {
                 /* 下一个状态的超时时间 */
-                timeoutSet(1, 50UL);
+                timeoutSet(CFG_TIMER_CHANNEL_STEP, 50UL);
 
                 strEeprom.I2cDealState = I2C_RW_ERR_INIT_2;
             }
@@ -785,10 +843,10 @@ static void Eeprom_deal(void)
 
             regBase->ICCR1 = 0x84;
         }
-        else if (getTimeoutStatus(1))
+        else if (getTimeoutStatus(CFG_TIMER_CHANNEL_STEP))
         {
             /* 下一个状态的超时时间 */
-            timeoutSet(1, 50UL);
+            timeoutSet(CFG_TIMER_CHANNEL_STEP, 50UL);
 
             rx_index = 0;
 
@@ -804,7 +862,7 @@ static void Eeprom_deal(void)
 
             regBase->ICCR1 = 0x8C;
         }
-        else if (getTimeoutStatus(1))
+        else if (getTimeoutStatus(CFG_TIMER_CHANNEL_STEP))
         {
             u16index ++;
 
@@ -822,14 +880,8 @@ static void Eeprom_deal(void)
         break;
 
     case I2C_RW_ERR_INIT_4:
-        /* ICCR1默认值(I2C引脚处于非激活状态) */
-        regBase->ICCR1 = (uint8_t) 0x1FU;
-        /* 复位I2C模块 */
-        regBase->ICCR1 = (uint8_t) (0x1FU + 0x40U);
-        /* I2C处于内部复位，引脚处于激活状态 */
-        regBase->ICCR1 = (uint8_t) (0x1FU + 0x40U + 0x80U);
-        /* I2C复位释放 */
-        regBase->ICCR1 = (uint8_t) (0x80 | 0x1F);
+
+        bsp_eeprom_reconfig(regBase);
 
         strEeprom.I2cDealState = I2C_RW_OK;
         break;
@@ -838,6 +890,54 @@ static void Eeprom_deal(void)
         strEeprom.I2cDealState = I2C_RW_WRONG_REPEAT;
         break;
     }
+}
+
+static void bsp_eeprom_reconfig(R_IIC0_Type * regBase)
+{
+    /* ICCR1默认值(I2C引脚处于非激活状态) */
+    regBase->ICCR1 = (uint8_t) 0x1FU;
+
+    /* 复位I2C模块 */
+    regBase->ICCR1 = (uint8_t) (0x1FU + 0x40U);
+
+    /* I2C处于内部复位，引脚处于激活状态 */
+    regBase->ICCR1 = (uint8_t) (0x1FU + 0x40U + 0x80U);
+
+    /* 20 - 大概是133KHz， 28 - 大概是100KHz， 9 - 大概是250KHz, 在8分频设定模式下 */
+    /* 14 - 大概是350KHz, 在4分频设定模式下 */
+    /* 14 - 大概是390KHz, 在4分频设定模式下 */
+    /* 14 - 大概是367KHz, 在4分频设定模式下 */
+    /* 低电平时间(波特率)，0xE0是保留位设定值 */
+    regBase->ICBRL = (uint8_t) (0xE0 | 28);
+    /* 高电平时间(波特率)，0xE0是保留位设定值 */
+    regBase->ICBRH = (uint8_t) (0xE0 | 28);
+
+    /* 选择I2C时钟分频系数，3-8分频(PCLKL/8，PCLKL=50MHz)， 2-4分频(PCLKL/4，PCLKL=50MHz) */
+    regBase->ICMR1 = (uint8_t) (0x08 | ((0x03 & 0x07U) << 4U));
+
+    /* 使能SCL L和H超时检测，短检测模式，禁止SDA输出延时 */
+    regBase->ICMR2 = (0x06 | 0x00);
+
+    /* 使能数字滤波，滤波为1级，I2C工作模式 */
+    regBase->ICMR3 = 0x00;
+
+    /* 使能超时检测功能，使能仲裁丢失检测及发送NACK，使能NACK接收暂停发送，使能滤波，禁止同步电路，禁止从机仲裁检测 */
+    regBase->ICFER = 0x77;
+
+    /* 禁止所有的设备地址(I2C模块完全工作在主机模式) */
+    regBase->ICSER = 0x00;
+
+    /* I2C模块中断使能(注：要使能外设级中断才可以使用DMA，否则DMA无法触发启动) */
+    regBase->ICIER = 0xA0;  /* 使能接收满和发送空中断 */
+
+    /* 使能GIC级中断 */
+    //R_BSP_IrqEnable(((IRQn_Type) VECTOR_NUMBER_IIC1_EEI));
+    //R_BSP_IrqEnable(((IRQn_Type) VECTOR_NUMBER_IIC1_RXI));
+    //R_BSP_IrqEnable(((IRQn_Type) VECTOR_NUMBER_IIC1_TXI));
+    //R_BSP_IrqEnable(((IRQn_Type) VECTOR_NUMBER_IIC1_TEI));
+
+    /* I2C复位释放 */
+    regBase->ICCR1 = (uint8_t) (0x80 | 0x1F);
 }
 
 static void bsp_eeprom_iic_init(void)
@@ -867,50 +967,7 @@ static void bsp_eeprom_iic_init(void)
 
     R_BSP_SoftwareDelay(1000, BSP_DELAY_UNITS_MICROSECONDS);
 
-    /* ICCR1默认值(I2C引脚处于非激活状态) */
-    regBase->ICCR1 = (uint8_t) 0x1FU;
-
-    /* 复位I2C模块 */
-    regBase->ICCR1 = (uint8_t) (0x1FU + 0x40U);
-
-    /* I2C处于内部复位，引脚处于激活状态 */
-    regBase->ICCR1 = (uint8_t) (0x1FU + 0x40U + 0x80U);
-
-    /* 20 - 大概是133KHz， 28 - 大概是100KHz， 9 - 大概是250KHz, 在8分频设定模式下 */
-    /* 14 - 大概是350KHz, 在4分频设定模式下 */
-    /* 14 - 大概是390KHz, 在4分频设定模式下 */
-    /* 14 - 大概是367KHz, 在4分频设定模式下 */
-    /* 低电平时间(波特率)，0xE0是保留位设定值 */
-    regBase->ICBRL = (uint8_t) (0xE0 | 28);
-    /* 高电平时间(波特率)，0xE0是保留位设定值 */
-    regBase->ICBRH = (uint8_t) (0xE0 | 28);
-
-    /* 选择I2C时钟分频系数，3-8分频(PCLKL/8，PCLKL=50MHz)， 2-4分频(PCLKL/4，PCLKL=50MHz) */
-    regBase->ICMR1 = (uint8_t) (0x08 | ((0x02 & 0x07U) << 4U));
-
-    /* 使能SCL L和H超时检测，短检测模式，禁止SDA输出延时 */
-    regBase->ICMR2 = (0x06 | 0x00);
-
-    /* 使能数字滤波，滤波为1级，I2C工作模式 */
-    regBase->ICMR3 = 0x00;
-
-    /* 使能超时检测功能，使能仲裁丢失检测及发送NACK，使能NACK接收暂停发送，使能滤波，禁止同步电路，禁止从机仲裁检测 */
-    regBase->ICFER = 0x77;
-
-    /* 禁止所有的设备地址(I2C模块完全工作在主机模式) */
-    regBase->ICSER = 0x00;
-
-    /* I2C模块中断使能(注：要使能外设级中断才可以使用DMA，否则DMA无法触发启动) */
-    regBase->ICIER = 0xA0;  /* 使能接收满和发送空中断 */
-
-    /* 使能GIC级中断 */
-    //R_BSP_IrqEnable(((IRQn_Type) VECTOR_NUMBER_IIC1_EEI));
-    //R_BSP_IrqEnable(((IRQn_Type) VECTOR_NUMBER_IIC1_RXI));
-    //R_BSP_IrqEnable(((IRQn_Type) VECTOR_NUMBER_IIC1_TXI));
-    //R_BSP_IrqEnable(((IRQn_Type) VECTOR_NUMBER_IIC1_TEI));
-
-    /* I2C复位释放 */
-    regBase->ICCR1 = (uint8_t) (0x80 | 0x1F);
+    bsp_eeprom_reconfig(regBase);
 }
 
 static void bsp_eeprom_timer_init(void)
@@ -970,6 +1027,8 @@ void bsp_eeprom_init(void)
 uint8_t I2C_Mem_Read(uint16_t DevAddress, uint16_t MemAddress, uint16_t MemAddSize,
         uint8_t * pData, uint16_t Size, uint32_t Timeout)
 {
+    R_IIC0_Type * regBase = ((R_IIC0_Type *) CFG_IIC_EEPROM_BASE);
+
     (void) MemAddSize;
 
     /* 读写变量设置 */
@@ -977,7 +1036,7 @@ uint8_t I2C_Mem_Read(uint16_t DevAddress, uint16_t MemAddress, uint16_t MemAddSi
     strEeprom.I2cDealState = I2C_RW_OK;
 
     /* 函数处理超时时间设置 */
-    timeoutSet(0, (Timeout * 1000UL));
+    timeoutSet(CFG_TIMER_CHANNEL_FUNC, (Timeout * 1000UL));
 
     while(1)
     {
@@ -989,9 +1048,17 @@ uint8_t I2C_Mem_Read(uint16_t DevAddress, uint16_t MemAddress, uint16_t MemAddSi
 
         Eeprom_deal();
 
-        if (getTimeoutStatus(0))
+        if (getTimeoutStatus(CFG_TIMER_CHANNEL_FUNC))
         {
             /* 函数处理超时 */
+            regBase->ICSR2_b.STOP = 0;
+            __NOP();
+            __NOP();
+            __NOP();
+            __NOP();
+            __NOP();
+            regBase->ICCR2_b.SP = 1;
+
             return ACCESS_TIMEOUT;
         }
     }
@@ -1001,6 +1068,8 @@ uint8_t I2C_Mem_Write(uint16_t DevAddress, uint16_t MemAddress, uint16_t MemAddS
         uint8_t * pData, uint16_t Size, uint32_t Timeout)
 {
 
+    R_IIC0_Type * regBase = ((R_IIC0_Type *) CFG_IIC_EEPROM_BASE);
+
     (void) MemAddSize;
 
     /* 读写变量设置 */
@@ -1008,7 +1077,7 @@ uint8_t I2C_Mem_Write(uint16_t DevAddress, uint16_t MemAddress, uint16_t MemAddS
     strEeprom.I2cDealState = I2C_RW_OK;
 
     /* 函数处理超时时间设置 */
-    timeoutSet(0, (Timeout * 1000UL));
+    timeoutSet(CFG_TIMER_CHANNEL_FUNC, (Timeout * 1000UL));
 
     while(1)
     {
@@ -1020,9 +1089,17 @@ uint8_t I2C_Mem_Write(uint16_t DevAddress, uint16_t MemAddress, uint16_t MemAddS
 
         Eeprom_deal();
 
-        if (getTimeoutStatus(0))
+        if (getTimeoutStatus(CFG_TIMER_CHANNEL_FUNC))
         {
             /* 函数处理超时 */
+            regBase->ICSR2_b.STOP = 0;
+            __NOP();
+            __NOP();
+            __NOP();
+            __NOP();
+            __NOP();
+            regBase->ICCR2_b.SP = 1;
+
             return ACCESS_TIMEOUT;
         }
     }

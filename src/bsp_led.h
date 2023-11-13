@@ -16,7 +16,7 @@
 #define CFG_TCA6424A_READ_INPUT_INTERVAL    20  /* 读取按键输入信息的间隔周期 */
 #endif
 
-#define CFG_LED_IIC_USE_DMAC                1   /* 使能DMA传输 */
+
 
 enum TCA6424A_CMD_t
 {
@@ -140,7 +140,8 @@ extern struct TCA6424A_t TCA6424A[1];
 
 
 /* 用户接口 */
-extern unsigned char led_buffer[5]; /* 5位LED数码管的显示字符 */
+extern uint8_t led_buffer[5];       /* 5位LED数码管的显示字符, 【0】为高位，按顺序排列，【4】为最低位 */
+extern uint8_t keyVal;              /* 按键状态，1-有效按下，0-无效 [bit4-M键] [bit3-移位] [bit2-上/加] [bit1-下/减] [bit0-确认]*/
 void bsp_led_init(void);            /* 按键LED面板初始化 */
 void bsp_led_handle(void);          /* 使用定时器，比如100us定时调用该函数，内部没有堵塞或者长延时操作 */
 

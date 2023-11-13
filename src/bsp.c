@@ -773,12 +773,12 @@ static void bsp_pwm_mtu67_init(uint32_t period, uint32_t dead)
 static void bsp_pwm_mtu0_init(uint32_t mtu0_prd, uint32_t mtu0_cmp_init, uint32_t mtu0_cmp_cap)
 {
     /*
-     * TGRE的值为周期值、计数清零源
-     * TGRF作为TGRE的缓存值，在周期比较时进行映射传输
+     * TGRA的值为周期值、计数清零源
+     * TGRC作为TGRA的缓存值，在周期比较时进行映射传输
      *
-     * TRGA作为触发delta-sigma采样计数器清零
+     * TRGB作为触发delta-sigma采样计数器清零
      *
-     * TGRC作为触发delta-sigma采样结果捕获
+     * TGRD作为触发delta-sigma采样结果捕获
      *
      * TGRB和TGRD暂时保留
      *
@@ -804,14 +804,14 @@ static void bsp_pwm_mtu0_init(uint32_t mtu0_prd, uint32_t mtu0_cmp_init, uint32_
     /* 定时器通用寄存器(用于设定通道比较值) */
 
     /* 周期设定值 */
-    R_MTU0->TGRE = (uint16_t)(mtu0_prd - 1);
-    R_MTU0->TGRF = (uint16_t)(mtu0_prd - 1);
+    R_MTU0->TGRA = (uint16_t)(mtu0_prd - 1);
+    R_MTU0->TGRC = (uint16_t)(mtu0_prd - 1);
 
     /* 触发对delta-sigma采样计数器进行清零 */
-    R_MTU0->TGRA = (uint16_t)(mtu0_cmp_init);
+    R_MTU0->TGRB = (uint16_t)(mtu0_cmp_init);
 
     /* 触发对delta-sigma采样结果值进行捕获，同时产生中断 */
-    R_MTU0->TGRC = (uint16_t)(mtu0_cmp_cap);
+    R_MTU0->TGRD = (uint16_t)(mtu0_cmp_cap);
 
     /* 0x02: PWM模式1 */
     R_MTU0->TMDR1_b.MD = 0x2;
@@ -823,7 +823,7 @@ static void bsp_pwm_mtu0_init(uint32_t mtu0_prd, uint32_t mtu0_cmp_init, uint32_
     R_MTU0->TMDR1_b.BFE = 1;
 
     /* 计数值和TGB匹配时产生中断 */
-    R_MTU0->TIER_b.TGIEB = 1;
+    R_MTU0->TIER_b.TGIED = 1;
 }
 
 static void bsp_pwm_mtu8_init(void)
@@ -1213,11 +1213,11 @@ void bsp_pwm_init(uint32_t mtu0_prd, uint32_t mtu0_cmp_init, uint32_t mtu0_cmp_c
     bsp_dsmif_init();
 
     /* 配置事件连接器用于同步触发电流采样 */
-    R_ELC->ELC_SSEL_b[7].ELC_SEL0 = ELC_EVENT_TGIA0;    /* ADC1 A */
-    R_ELC->ELC_SSEL_b[7].ELC_SEL2 = ELC_EVENT_TGIC0;    /* DSMIF0 CAP_TRG0(结果值捕获事件) */
-    R_ELC->ELC_SSEL_b[9].ELC_SEL2 = ELC_EVENT_TGIA0;    /* DSMIF0 CDCNT_INT_TRG0(计数值清零事件) */
-    R_ELC->ELC_SSEL_b[10].ELC_SEL2 = ELC_EVENT_TGIC0;   /* DSMIF1 CAP_TRG0(结果值捕获事件) */
-    R_ELC->ELC_SSEL_b[12].ELC_SEL2 = ELC_EVENT_TGIA0;   /* DSMIF1 CDCNT_INT_TRG0(计数值清零事件) */
+    R_ELC->ELC_SSEL_b[7].ELC_SEL0 = ELC_EVENT_TGIB0;    /* ADC1 A */
+    R_ELC->ELC_SSEL_b[7].ELC_SEL2 = ELC_EVENT_TGID0;    /* DSMIF0 CAP_TRG0(结果值捕获事件) */
+    R_ELC->ELC_SSEL_b[9].ELC_SEL2 = ELC_EVENT_TGIB0;    /* DSMIF0 CDCNT_INT_TRG0(计数值清零事件) */
+    R_ELC->ELC_SSEL_b[10].ELC_SEL2 = ELC_EVENT_TGID0;   /* DSMIF1 CAP_TRG0(结果值捕获事件) */
+    R_ELC->ELC_SSEL_b[12].ELC_SEL2 = ELC_EVENT_TGIB0;   /* DSMIF1 CDCNT_INT_TRG0(计数值清零事件) */
 
     /* GIC级中断配置 - MTU0产生中断(目前禁止了MTU3/MTU4中断生成) */
 
@@ -1232,9 +1232,9 @@ void bsp_pwm_init(uint32_t mtu0_prd, uint32_t mtu0_cmp_init, uint32_t mtu0_cmp_c
     //R_BSP_IrqEnable(VECTOR_NUMBER_TCIV4);
 
     /* MTU0.TGRC产生中断 */
-    R_BSP_IrqDisable(VECTOR_NUMBER_TGIC0);
-    R_BSP_IrqCfg(VECTOR_NUMBER_TGIC0, 5UL, (NULL));
-    R_BSP_IrqEnable(VECTOR_NUMBER_TGIC0);
+    R_BSP_IrqDisable(VECTOR_NUMBER_TGID0);
+    R_BSP_IrqCfg(VECTOR_NUMBER_TGID0, 5UL, (NULL));
+    R_BSP_IrqEnable(VECTOR_NUMBER_TGID0);
 }
 
 void bsp_pwm_output_enable(void)

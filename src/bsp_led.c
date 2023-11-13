@@ -9,9 +9,18 @@
 #include "hal_data.h"
 #include "bsp_led.h"
 
+
+#define CFG_IIC_LED_BASE        R_IIC2_BASE
+#define CFG_IIC_LED_CHANNEL     2
+
+#define CFG_LED_IIC_USE_DMAC    0   /* 1-启用DMA功能(IIC2外设无法启用DMA) */
+
+
 struct TCA6424A_t TCA6424A[1];
-unsigned char led_buffer[5] = {0xFD,0xFD,0xFD,0xFD,0xFD};
-unsigned char DisplayCommStatus = 0;
+uint8_t led_buffer[5] = {0xFD,0xFD,0xFD,0xFD,0xFD};
+uint8_t DisplayCommStatus = 0;
+uint8_t keyVal;              /* 按键状态，1-有效按下，0-无效 */
+
 
 const unsigned char TCA6424_Command_Output[3] = {TCA6424A_CMD_OUT0_AI, PCA9535_CMD_OUT0, PCA9535_CMD_OUT0};
 const unsigned char TCA6424_Command_Input[3] = {TCA6424A_CMD_IN0_AI, PCA9535_CMD_IN0, PCA9535_CMD_IN0};
@@ -38,34 +47,8 @@ static uint8_t SendDataBuf[10];
 //************************************************
 const unsigned char Segment[3][5] = { {0xEF,0xFE,0xF7,0xFD,0xFB}, {0x80,0x00,0x60,0x20,0x40}, {0x80,0x00,0x60,0x20,0x40} };
 
-
-static void bsp_led_iic_init(void)
+static void bsp_led_reconfig(R_IIC0_Type * regBase)
 {
-    /* 按键及数码管显示使用的是IIC2外设 */
-    R_IIC0_Type * regBase = ((R_IIC0_Type *) R_IIC2_BASE);
-    uint8_t channel = 2;
-
-    R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_LPC_RESET);
-    R_BSP_MODULE_START(FSP_IP_IIC, channel);
-    R_BSP_RegisterProtectEnable(BSP_REG_PROTECT_LPC_RESET);
-
-    /* 禁止GIC级中断 */
-    R_BSP_IrqDisable(((IRQn_Type) VECTOR_NUMBER_IIC2_EEI));
-    R_BSP_IrqDisable(((IRQn_Type) VECTOR_NUMBER_IIC2_RXI));
-    R_BSP_IrqDisable(((IRQn_Type) VECTOR_NUMBER_IIC2_TXI));
-    R_BSP_IrqDisable(((IRQn_Type) VECTOR_NUMBER_IIC2_TEI));
-
-    /* ICCR1默认值(I2C引脚处于非激活状态) */
-    regBase->ICCR1 = (uint8_t) 0x1FU;
-
-    /* 复位I2C模块 */
-    regBase->ICCR1 = (uint8_t) (0x1FU + 0x40U);
-
-    /* I2C处于内部复位，引脚处于激活状态 */
-    regBase->ICCR1 = (uint8_t) (0x1FU + 0x40U + 0x80U);
-
-    R_BSP_SoftwareDelay(1000, BSP_DELAY_UNITS_MICROSECONDS);
-
     /* ICCR1默认值(I2C引脚处于非激活状态) */
     regBase->ICCR1 = (uint8_t) 0x1FU;
 
@@ -80,9 +63,9 @@ static void bsp_led_iic_init(void)
     /* 14 - 大概是390KHz, 在4分频设定模式下 */
     /* 14 - 大概是367KHz, 在4分频设定模式下 */
     /* 低电平时间(波特率)，0xE0是保留位设定值 */
-    regBase->ICBRL = (uint8_t) (0xE0 | 28);
+    regBase->ICBRL = (uint8_t) (0xE0 | 14);
     /* 高电平时间(波特率)，0xE0是保留位设定值 */
-    regBase->ICBRH = (uint8_t) (0xE0 | 28);
+    regBase->ICBRH = (uint8_t) (0xE0 | 14);
 
     /* 选择I2C时钟分频系数，3-8分频(PCLKL/8，PCLKL=50MHz)， 2-4分频(PCLKL/4，PCLKL=50MHz) */
     regBase->ICMR1 = (uint8_t) (0x08 | ((0x02 & 0x07U) << 4U));
@@ -110,13 +93,46 @@ static void bsp_led_iic_init(void)
 
     /* I2C复位释放 */
     regBase->ICCR1 = (uint8_t) (0x80 | 0x1F);
+}
 
+static void bsp_led_iic_init(void)
+{
+    /* 按键及数码管显示使用的是IIC2外设 */
+    R_IIC0_Type * regBase = ((R_IIC0_Type *) CFG_IIC_LED_BASE);
+    uint8_t channel = CFG_IIC_LED_CHANNEL;
+
+    R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_LPC_RESET);
+    R_BSP_MODULE_START(FSP_IP_IIC, channel);
+    R_BSP_RegisterProtectEnable(BSP_REG_PROTECT_LPC_RESET);
+
+    /* 禁止GIC级中断 */
+    R_BSP_IrqDisable(((IRQn_Type) VECTOR_NUMBER_IIC2_EEI));
+    R_BSP_IrqDisable(((IRQn_Type) VECTOR_NUMBER_IIC2_RXI));
+    R_BSP_IrqDisable(((IRQn_Type) VECTOR_NUMBER_IIC2_TXI));
+    R_BSP_IrqDisable(((IRQn_Type) VECTOR_NUMBER_IIC2_TEI));
+
+    /* ICCR1默认值(I2C引脚处于非激活状态) */
+    regBase->ICCR1 = (uint8_t) 0x1FU;
+
+    /* 复位I2C模块 */
+    regBase->ICCR1 = (uint8_t) (0x1FU + 0x40U);
+
+    /* I2C处于内部复位，引脚处于激活状态 */
+    regBase->ICCR1 = (uint8_t) (0x1FU + 0x40U + 0x80U);
+
+    R_BSP_SoftwareDelay(1000, BSP_DELAY_UNITS_MICROSECONDS);
+
+    bsp_led_reconfig(regBase);
+
+    #if(CFG_LED_IIC_USE_DMAC)
     /* 按键及LED需要DMA传输时的目的寄存器 */
     g_iic_led_tx_dma.p_cfg->p_info->p_dest = (void *)(&regBase->ICDRT);
     /* 按键及LED需要DMA传输时的源寄存器 */
     g_iic_led_tx_dma.p_cfg->p_info->p_src = (void *)(&SendDataBuf[0]);
+    #endif
 }
 
+#if(CFG_LED_IIC_USE_DMAC)
 static void bsp_led_reconfig_dma(uint32_t length)
 {
     dmac_instance_ctrl_t * p_ctrl = (dmac_instance_ctrl_t *)g_iic_led_tx_dma.p_ctrl;
@@ -160,6 +176,7 @@ static uint8_t bsp_led_get_dma_status(void)
     /* 注：只有使能中断后才可以有TEND中断标志位 */
     return ((regBase->GRP[0].DSTAT_END & (0x01UL << channel)) ? 1 : 0);
 }
+#endif
 
 void bsp_led_init(void)
 {
@@ -170,8 +187,15 @@ void bsp_led_init(void)
     /* 初始化按键及LED所用的IIC外设，同时配置使用的DMA的目的地址，源地址 */
     bsp_led_iic_init();
 
+    #if(CFG_LED_IIC_USE_DMAC)
     /* 初始化IIC2发送DMA */
     g_iic_led_tx_dma.p_api->open(g_iic_led_tx_dma.p_ctrl, g_iic_led_tx_dma.p_cfg);
+    #endif
+
+    /* 初始的按键输入状态设置无效状态 */
+    TCA6424A[0].key_val = 0xFF;
+
+    keyVal = 0x00;
 }
 
 void bsp_led_handle(void)
@@ -182,9 +206,11 @@ void bsp_led_handle(void)
     static uint8_t testAddrCnt = 0;
 
     struct TCA6424A_t *tca6424a = &TCA6424A[0];
-    R_IIC0_Type * regBase = ((R_IIC0_Type *) R_IIC2_BASE);
+    R_IIC0_Type * regBase = ((R_IIC0_Type *) CFG_IIC_LED_BASE);
 
 TCA6242A_RESTART_QUICK:
+
+    //R_BSP_PinSet(BSP_IO_REGION_SAFE, (bsp_io_port_pin_t) BSP_IO_PORT_22_PIN_1);
 
     switch(tca6424a->HandleState)
     {
@@ -610,6 +636,9 @@ TCA6242A_RESTART_QUICK:
             {
                 tca6424a->key_val = SendDataBuf[TCA6424_Input_Position[tca6424a->ChipType]];
 
+                /* 按键按下反馈为低电平，这里做取反操作 */
+                keyVal = (uint8_t)(tca6424a->key_val ^ 0xFF);
+
                 tca6424a->timeCnt = 0;
                 tca6424a->HandleState = TCA6424A_HANDLE_STATE_FINISH_CHECK_EEPROM;
             }
@@ -651,6 +680,8 @@ TCA6242A_RESTART_QUICK:
         regBase->ICCR1 = (uint8_t) (0x1FU + 0x40U + 0x80U);
 
         tca6424a->timeCnt = 0;
+
+        tca6424a->HandleState = TCA6424A_HANDLE_I2C_ERR_START;
         break;
 
     case TCA6424A_HANDLE_I2C_ERR_START:
@@ -715,14 +746,9 @@ TCA6242A_RESTART_QUICK:
         break;
 
     case TCA6424A_HANDLE_I2C_ERR_FINISH:
-        /* ICCR1默认值(I2C引脚处于非激活状态) */
-        regBase->ICCR1 = (uint8_t) 0x1FU;
-        /* 复位I2C模块 */
-        regBase->ICCR1 = (uint8_t) (0x1FU + 0x40U);
-        /* I2C处于内部复位，引脚处于激活状态 */
-        regBase->ICCR1 = (uint8_t) (0x1FU + 0x40U + 0x80U);
-        /* I2C复位释放 */
-        regBase->ICCR1 = (uint8_t) (0x80 | 0x1F);
+
+        /* 测试出现如果不重新初始化波特率设定寄存器，将会出现IIC的时钟信号波特率变为其他异常的数值 */
+        bsp_led_reconfig(regBase);
 
         tca6424a->HandleState = TCA6424A_HANDLE_STATE_FINISH_CHECK_EEPROM;
 
@@ -732,5 +758,7 @@ TCA6242A_RESTART_QUICK:
         tca6424a->HandleState = TCA6424A_HANDLE_I2C_ERR;
         break;
     }
+
+    //R_BSP_PinClear(BSP_IO_REGION_SAFE, (bsp_io_port_pin_t) BSP_IO_PORT_22_PIN_1);
 }
 

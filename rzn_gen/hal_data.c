@@ -1,6 +1,64 @@
 /* generated HAL source file - do not edit */
 #include "hal_data.h"
 
+usb_instance_ctrl_t g_basic0_ctrl;
+
+#if !defined(g_usb_descriptor)
+extern usb_descriptor_t g_usb_descriptor;
+#endif
+#define FSP_NOT_DEFINED (1)
+const usb_cfg_t g_basic0_cfg =
+{ .usb_mode = USB_MODE_PERI, .usb_speed = USB_SPEED_HS, .module_number = 0, .type = USB_CLASS_PCDC,
+#if defined(g_usb_descriptor)
+                .p_usb_reg = g_usb_descriptor,
+#else
+  .p_usb_reg = &g_usb_descriptor,
+#endif
+  .usb_complience_cb = NULL,
+#if defined(VECTOR_NUMBER_USB_FI)
+                .irq       = VECTOR_NUMBER_USB_FI,
+#elif defined(VECTOR_NUMBER_USB_HI)
+                .irq       = VECTOR_NUMBER_USB_HI,
+#else
+  .irq = FSP_INVALID_VECTOR,
+#endif
+#if defined(VECTOR_NUMBER_USBFS_RESUME)
+                .irq_r     = VECTOR_NUMBER_USBFS_RESUME,
+#else
+  .irq_r = FSP_INVALID_VECTOR,
+#endif
+#if defined(VECTOR_NUMBER_USB_FDMA0)
+                .irq_d0    = VECTOR_NUMBER_USB_FDMA0,
+#else
+  .irq_d0 = FSP_INVALID_VECTOR,
+#endif
+#if defined(VECTOR_NUMBER_USB_FDMA1)
+                .irq_d1    = VECTOR_NUMBER_USB_FDMA1,
+#else
+  .irq_d1 = FSP_INVALID_VECTOR,
+#endif
+  .hsirq = FSP_INVALID_VECTOR,
+  .hsirq_d0 = FSP_INVALID_VECTOR, .hsirq_d1 = FSP_INVALID_VECTOR, .ipl = (12), .ipl_r = (12), .ipl_d0 = (12), .ipl_d1 =
+          (12),
+  .hsipl = (12), .hsipl_d0 = (12), .hsipl_d1 = (12),
+#if (BSP_CFG_RTOS == 2)
+                .p_usb_apl_callback = NULL,
+#else
+  .p_usb_apl_callback = NULL,
+#endif
+#if defined(NULL)
+                .p_context = NULL,
+#else
+  .p_context = &NULL,
+#endif
+  .p_transfer_tx = NULL,
+  .p_transfer_rx = NULL, };
+#undef FSP_NOT_DEFINED
+
+/* Instance structure to use this module. */
+const usb_instance_t g_basic0 =
+{ .p_ctrl = &g_basic0_ctrl, .p_cfg = &g_basic0_cfg, .p_api = &g_usb_on_usb, };
+
 cmt_instance_ctrl_t g_timer_free_run_ctrl;
 const timer_cfg_t g_timer_free_run_cfg =
 { .mode = TIMER_MODE_PERIODIC,
@@ -156,7 +214,7 @@ const dmac_extended_cfg_t g_iic_led_tx_dma_extend =
   .dmac_int_ipl = (BSP_IRQ_DISABLED),
   .dmac_int_irq_detect_type = (0),
 
-  .activation_source = ELC_EVENT_IIC0_TXI,
+  .activation_source = ELC_EVENT_IIC1_TXI,
 
   .ack_mode = DMAC_ACK_MODE_LEVEL_MODE,
   .detection_mode = (dmac_detection_t) ((0) << 2 | (1) << 1 | (0) << 0), .activation_request_source_select =
@@ -408,64 +466,6 @@ const spi_flash_cfg_t g_qspi_flash_cfg =
 /** This structure encompasses everything that is needed to use an instance of this interface. */
 const spi_flash_instance_t g_qspi_flash =
 { .p_ctrl = &g_qspi_flash_ctrl, .p_cfg = &g_qspi_flash_cfg, .p_api = &g_spi_flash_on_xspi_qspi, };
-usb_instance_ctrl_t g_basic0_ctrl;
-
-#if !defined(g_usb_descriptor)
-extern usb_descriptor_t g_usb_descriptor;
-#endif
-#define FSP_NOT_DEFINED (1)
-const usb_cfg_t g_basic0_cfg =
-{ .usb_mode = USB_MODE_PERI, .usb_speed = USB_SPEED_HS, .module_number = 0, .type = USB_CLASS_PCDC,
-#if defined(g_usb_descriptor)
-                .p_usb_reg = g_usb_descriptor,
-#else
-  .p_usb_reg = &g_usb_descriptor,
-#endif
-  .usb_complience_cb = NULL,
-#if defined(VECTOR_NUMBER_USB_FI)
-                .irq       = VECTOR_NUMBER_USB_FI,
-#elif defined(VECTOR_NUMBER_USB_HI)
-                .irq       = VECTOR_NUMBER_USB_HI,
-#else
-  .irq = FSP_INVALID_VECTOR,
-#endif
-#if defined(VECTOR_NUMBER_USBFS_RESUME)
-                .irq_r     = VECTOR_NUMBER_USBFS_RESUME,
-#else
-  .irq_r = FSP_INVALID_VECTOR,
-#endif
-#if defined(VECTOR_NUMBER_USB_FDMA0)
-                .irq_d0    = VECTOR_NUMBER_USB_FDMA0,
-#else
-  .irq_d0 = FSP_INVALID_VECTOR,
-#endif
-#if defined(VECTOR_NUMBER_USB_FDMA1)
-                .irq_d1    = VECTOR_NUMBER_USB_FDMA1,
-#else
-  .irq_d1 = FSP_INVALID_VECTOR,
-#endif
-  .hsirq = FSP_INVALID_VECTOR,
-  .hsirq_d0 = FSP_INVALID_VECTOR, .hsirq_d1 = FSP_INVALID_VECTOR, .ipl = (30), .ipl_r = (30), .ipl_d0 = (30), .ipl_d1 =
-          (30),
-  .hsipl = (12), .hsipl_d0 = (12), .hsipl_d1 = (12),
-#if (BSP_CFG_RTOS == 2)
-                .p_usb_apl_callback = NULL,
-#else
-  .p_usb_apl_callback = NULL,
-#endif
-#if defined(NULL)
-                .p_context = NULL,
-#else
-  .p_context = &NULL,
-#endif
-  .p_transfer_tx = NULL,
-  .p_transfer_rx = NULL, };
-#undef FSP_NOT_DEFINED
-
-/* Instance structure to use this module. */
-const usb_instance_t g_basic0 =
-{ .p_ctrl = &g_basic0_ctrl, .p_cfg = &g_basic0_cfg, .p_api = &g_usb_on_usb, };
-
 void g_hal_init(void)
 {
     g_common_init ();

@@ -88,7 +88,7 @@
 /* region 2 (System RAM) */
 #define EL1_MPU_REGION02_BASE_L     (0x0000 & 0xFFC0) + NON_SHAREABLE + EL1RW_EL0RW + EXECUTE_ENABLE
 #define EL1_MPU_REGION02_BASE_H     (0x1000 & 0xFFFF)
-#define EL1_MPU_REGION02_LIMIT_L    (0xFFFF & 0xFFC0) + ATTRINDEX1 + REGION_ENABLE
+#define EL1_MPU_REGION02_LIMIT_L    (0xFFFF & 0xFFC0) + ATTRINDEX3 + REGION_ENABLE
 #define EL1_MPU_REGION02_LIMIT_H    (0x1017 & 0xFFFF)
 
 /* region 3 (System RAM mirror) */
@@ -266,10 +266,21 @@ BSP_DONT_REMOVE static uint8_t g_heap[BSP_CFG_HEAP_BYTES] BSP_ALIGN_VARIABLE(BSP
     BSP_PLACE_IN_SECTION(BSP_SECTION_HEAP);
 #endif
 
+/* 1-用于SSBL装载，即具备SSBL时的APP固件，0-由系统BOOT装载的APP程序 */
+#if !(BSP_CFG_RAM_EXECUTION)
+#define CFG_SSBL_LOADER_MODE            1
+#else
+#define CFG_SSBL_LOADER_MODE            0
+#endif
+
 BSP_TARGET_ARM BSP_ATTRIBUTE_STACKLESS void __Vectors (void)
 {
     __asm volatile (
+#if(CFG_SSBL_LOADER_MODE==0)
         "    ldr pc,=Reset_Handler            \n"
+#else
+        "    ldr pc,=system_init              \n"
+#endif
         "    ldr pc,=Undefined_Handler        \n"
         "    ldr pc,=SVC_Handler              \n"
         "    ldr pc,=Prefetch_Handler         \n"
@@ -290,6 +301,7 @@ BSP_TARGET_ARM BSP_ATTRIBUTE_STACKLESS void __Vectors (void)
  **********************************************************************************************************************/
 BSP_TARGET_ARM void system_init (void)
 {
+    #if(CFG_SSBL_LOADER_MODE==0)
     __asm volatile (
         "set_hactlr:                              \n"
         "   MOVW  r0, %[bsp_hactlr_bit_l]         \n" /* Set HACTLR bits(L) */
@@ -336,6 +348,20 @@ BSP_TARGET_ARM void system_init (void)
         "    MSR   ELR_hyp, r1                   \n"
         "    ERET                                \n" /* Branch to stack_init and enter EL1 */
         ::: "memory");
+    #else
+    /* Set exception vector offset for application program. */
+    __asm volatile (
+        "set_vbar:                           \n"
+        "    LDR   r0, =__Vectors            \n"
+        "    MCR   p15, #0, r0, c12, c0, #0  \n" /* Write r0 to VBAR */
+        ::: "memory");
+
+    __asm volatile (
+        "jump_stack_init:                      \n"
+        "    ldr r0, =stack_init               \n"
+        "    blx r0                            \n" /* Jump to stack_init */
+        );
+    #endif
 }
 
 /** @} (end addtogroup BSP_MCU) */
@@ -408,6 +434,7 @@ BSP_TARGET_ARM BSP_ATTRIBUTE_STACKLESS void stack_init (void)
  **********************************************************************************************************************/
 BSP_TARGET_ARM void mpu_cache_init (void)
 {
+#if(CFG_SSBL_LOADER_MODE==0)
 #if __FPU_USED
     __asm volatile (
         "FPU_AdvancedSIMD_init:                         \n"
@@ -424,6 +451,7 @@ BSP_TARGET_ARM void mpu_cache_init (void)
         "    isb                                        \n" /* Ensuring Context-changing */
         ::: "memory");
 #endif
+#endif  // #if(CFG_SSBL_LOADER_MODE==0)
 
 #if BSP_CFG_EARLY_INIT
 
